@@ -1,31 +1,61 @@
-image: barichello/godot-ci:latest
+image: barichello/godot-ci:mono-4.3
+#image: ponders/godot-cpp-ci:latest
+
 
 # Cache imported assets between runs
 cache:
-  key: import-assets
+  key: import-cache
   paths:
     - .godot/imported/
 
 stages:
-  - import-assets
+  - import
   - export
   - test
   - deploy
 
 variables:
-   EXPORT_NAME: export
+  EXPORT_NAME: export
 
+before_script:
+    - dotnet --list-sdks || {
+        apt-get update &&
+        apt-get install -y wget apt-transport-https software-properties-common gpg &&
+        source /etc/os-release &&
+        wget https://packages.microsoft.com/config/$ID/$VERSION_ID/packages-microsoft-prod.deb -O packages-microsoft-prod.deb &&
+        dpkg -i packages-microsoft-prod.deb &&
+        rm packages-microsoft-prod.deb &&
+        apt update &&
+        apt install -y dotnet-sdk-8.0 &&
+        echo "export DOTNET_ROOT=\"/usr/share/dotnet\"
+        export DOTNET_CLI_TELEMETRY_OPTOUT=1
+        export DOTNET_ROLL_FORWARD_TO_PRERELEASE=1
+        export PATH=\"$DOTNET_ROOT:$PATH\"
+        export PATH=\"$DOTNET_ROOT/sdk:$PATH\"
+        export PATH=\"$HOME/.dotnet/tools:$PATH\" " >> ./~bashrc &&
+        source ~/.bashrc;
+      }
+    - echo "Set up .NET SDK"
+
+import-dotnet:
+  stage: import
+  script:
+    - which dotnet
+
+    
 # Open the editor to import assets in case the cache was empty or outdated
-import-assets:
-  stage: import-assets
+import-godot:
+  stage: import
   script:
     - godot --headless --verbose --editor --quit
+  needs: ["import-dotnet"]
 
 linux:
   stage: export
   script:
     - mkdir -v -p build/linux
-    - godot --headless --verbose --export-release "Linux" build/linux/$EXPORT_NAME.x86_64
+    - godot --headless --verbose --export-release "Linux/X11" build/linux/$EXPORT_NAME.x86_64
+  needs: ["import-dotnet", "import-godot"]
   artifacts:
     name: $EXPORT_NAME-$CI_JOB_NAME
     paths:
@@ -36,6 +66,7 @@ windows:
   script:
     - mkdir -v -p build/windows
     - godot --headless --verbose --export-release "Windows Desktop" build/windows/$EXPORT_NAME.exe
+  needs: ["import-dotnet", "import-godot"]
   artifacts:
     name: $EXPORT_NAME-$CI_JOB_NAME
     paths:
@@ -45,7 +76,8 @@ mac:
   stage: export
   script:
     - mkdir -v -p build/mac
-    - godot --headless --verbose --export-release "macOS" build/mac/$EXPORT_NAME.zip
+    #- godot --headless --verbose --export-release "macOS" build/mac/$EXPORT_NAME.zip
+  needs: ["import-dotnet", "import-godot"]
   artifacts:
     name: $EXPORT_NAME-$CI_JOB_NAME
     paths:
@@ -56,10 +88,13 @@ web:
   script:
     - mkdir -v -p build/web
     - godot --headless --verbose --export-release "Web" build/web/index.html
+  needs: ["import-dotnet", "import-godot"]
   artifacts:
     name: $EXPORT_NAME-$CI_JOB_NAME
     paths:
       - build/web
+  allow_failure: true
+  # TODO Godot4 Mono C#
 
 unit_tests:
   stage: test
