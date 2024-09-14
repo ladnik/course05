@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="GutTests" failures="3" tests="5" >
-  <testsuite name="test/unit/test_example.gd" tests="5" failures="3" skipped="0" time="0.001021" >
-      <testcase name="test_assert_eq_number_not_equal" assertions="1" status="fail" classname="test/unit/test_example.gd" time="0.000285" >
-      <failure message="failed">[1] expected to equal [2]:  Should fail.  1 != 2
-            at line -1</failure></testcase>
-      <testcase name="test_assert_eq_number_equal" assertions="1" status="pass" classname="test/unit/test_example.gd" time="0.000213" >
+<testsuites name="GutTests" failures="0" tests="3" >
+  <testsuite name="test/unit/test_example.gd" tests="3" failures="0" skipped="0" time="0.000353" >
+      <testcase name="test_assert_eq_number_equal" assertions="1" status="pass" classname="test/unit/test_example.gd" time="0.00016" >
       </testcase>
-      <testcase name="test_assert_true_with_true" assertions="1" status="pass" classname="test/unit/test_example.gd" time="0.000157" >
+      <testcase name="test_assert_eq_string_equal" assertions="1" status="pass" classname="test/unit/test_example.gd" time="0.000123" >
       </testcase>
-      <testcase name="test_assert_true_with_false" assertions="1" status="fail" classname="test/unit/test_example.gd" time="0.000183" >
-      <failure message="failed">Should fail
-            at line -1</failure></testcase>
-      <testcase name="test_something_else" assertions="1" status="fail" classname="test/unit/test_example.gd" time="0.000183" >
-      <failure message="failed">didn't work
-            at line -1</failure></testcase>
+      <testcase name="test_assert_true_with_true" assertions="1" status="pass" classname="test/unit/test_example.gd" time="0.00007" >
+      </testcase>
       </testsuite>
   </testsuites>
