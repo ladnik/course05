@@ -1,0 +1,10 @@
+{
+  "double_strategy":"partial",
+  "ignore_pause":false,
+  "include_subdirs":true,
+  "log_level":3,
+  "prefix":"test_",
+  "should_exit":true,
+  "junit_xml_file":"reports/resutls.xml",
+  "junit_xml_timestamp":false
+}
