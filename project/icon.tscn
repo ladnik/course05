@@ -5,3 +5,7 @@
 [node name="Icon" type="Sprite2D"]
 position = Vector2(67, 65)
 texture = ExtResource("1_6j85t")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+position = Vector2(85, -37)
+polygon = PackedVector2Array(18, 95, 161, 1, 161, 191)
