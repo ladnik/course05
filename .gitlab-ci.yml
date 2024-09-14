@@ -118,6 +118,7 @@ unit_tests:
   needs: ["linux"]
   artifacts:
     name: report_$CI_JOB_NAME
+    when: 'always'
     paths:
       - $PROJECT_PATH/$REPORT_PATH/*
     
@@ -136,5 +137,6 @@ integration_tests:
   needs: ["linux"]
   artifacts:
     name: report_$CI_JOB_NAME
+    when: 'always'
     paths:
       - $PROJECT_PATH/$REPORT_PATH/*
