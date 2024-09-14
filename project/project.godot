@@ -14,9 +14,9 @@ config/name="course05"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
 
-[dotnet]
+[editor_plugins]
 
-project/assembly_name="course05"
+enabled=PackedStringArray("res://addons/gdUnit4/plugin.cfg")
 
 [rendering]
 

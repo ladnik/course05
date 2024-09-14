@@ -1,12 +1,14 @@
-image: barichello/godot-ci:mono-4.3
-#image: ponders/godot-cpp-ci:latest
+# Godot 4.3 image
+#image: barichello/godot-ci:latest
 
+# Godot 4.3 image with C/C++ support and precompiled bindings
+image: ladnikj/godot-cpp-ci:latest
 
-# Cache imported assets between runs
+# Cache all modified files between runs
 cache:
-  key: import-cache
-  paths:
-    - .godot/imported/
+  key: "compiled-bindings"
+  untracked: true
+  when: 'always'
 
 stages:
   - import
@@ -15,94 +17,121 @@ stages:
   - deploy
 
 variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+  PROJECT_PATH: project
   EXPORT_NAME: export
+  # [editor, template_debug, template_release]
+  TEMPLATE: template_debug
 
 before_script:
-    - dotnet --list-sdks || {
-        apt-get update &&
-        apt-get install -y wget apt-transport-https software-properties-common gpg &&
-        source /etc/os-release &&
-        wget https://packages.microsoft.com/config/$ID/$VERSION_ID/packages-microsoft-prod.deb -O packages-microsoft-prod.deb &&
-        dpkg -i packages-microsoft-prod.deb &&
-        rm packages-microsoft-prod.deb &&
-        apt update &&
-        apt install -y dotnet-sdk-8.0 &&
-        echo "export DOTNET_ROOT=\"/usr/share/dotnet\"
-        export DOTNET_CLI_TELEMETRY_OPTOUT=1
-        export DOTNET_ROLL_FORWARD_TO_PRERELEASE=1
-        export PATH=\"$DOTNET_ROOT:$PATH\"
-        export PATH=\"$DOTNET_ROOT/sdk:$PATH\"
-        export PATH=\"$HOME/.dotnet/tools:$PATH\" " >> ./~bashrc &&
-        source ~/.bashrc;
-      }
-    - echo "Set up .NET SDK"
+    - export SCONS_CACHE="./cache"
+    - source gitlab_functions.sh
 
-import-dotnet:
-  stage: import
-  script:
-    - which dotnet
 
     
-# Open the editor to import assets in case the cache was empty or outdated
-import-godot:
+import-assets:
   stage: import
   script:
-    - godot --headless --verbose --editor --quit
-  needs: ["import-dotnet"]
+    #- cd $PROJECT_PATH
+    #- godot --headless --verbose --editor --quit
+    #- cd ..
+    - scons -v
 
+  needs: []
+
+# Compile bindings, build custom libraries and export to platforms  
 linux:
   stage: export
+  variables:
+    EXPORT_PATH: build/$CI_JOB_NAME
   script:
-    - mkdir -v -p build/linux
-    - godot --headless --verbose --export-release "Linux/X11" build/linux/$EXPORT_NAME.x86_64
-  needs: ["import-dotnet", "import-godot"]
+    - section_start "SCONS_COMPILE_LIBS" "Build C++ libraries"
+    - scons platform=linux target=$TEMPLATE
+    - section_end "SCONS_COMPILE_LIBS"
+
+    - cd $PROJECT_PATH
+    - mkdir -v -p $EXPORT_PATH
+
+    - section_start "GODOT_EXPORT" "Export Godot project with $TEMPLATE"
+    - export_godot "Linux/X11" $EXPORT_PATH/$EXPORT_NAME.x86_64
+    - section_end "GODOT_EXPORT"
+  needs: ["import-assets"]
   artifacts:
     name: $EXPORT_NAME-$CI_JOB_NAME
     paths:
-      - build/linux
+      - $PROJECT_PATH/$EXPORT_PATH/*
 
 windows:
   stage: export
+  variables:
+    EXPORT_PATH: build/$CI_JOB_NAME
   script:
-    - mkdir -v -p build/windows
-    - godot --headless --verbose --export-release "Windows Desktop" build/windows/$EXPORT_NAME.exe
-  needs: ["import-dotnet", "import-godot"]
+    - section_start "SCONS_COMPILE_LIBS" "Compile C++ libraries"
+    - scons platform=windows target=$TEMPLATE
+    - section_end "SCONS_COMPILE_LIBS" 
+
+    - cd $PROJECT_PATH
+    - mkdir -v -p $EXPORT_PATH
+
+    - section_start "GODOT_EXPORT" "Export Godot project with $TEMPLATE"
+    - export_godot "Windows Desktop" $EXPORT_PATH/$EXPORT_NAME.exe
+    - section_end "GODOT_EXPORT"
+  needs: ["import-assets"]
   artifacts:
     name: $EXPORT_NAME-$CI_JOB_NAME
     paths:
-      - build/windows
+      - $PROJECT_PATH/$EXPORT_PATH/*
 
-mac:
-  stage: export
-  script:
-    - mkdir -v -p build/mac
-    #- godot --headless --verbose --export-release "macOS" build/mac/$EXPORT_NAME.zip
-  needs: ["import-dotnet", "import-godot"]
-  artifacts:
-    name: $EXPORT_NAME-$CI_JOB_NAME
-    paths:
-      - build/mac
-
+# Would fail for Godot4.2 Mono
 web:
   stage: export
+  variables:
+    EXPORT_PATH: build/$CI_JOB_NAME
   script:
-    - mkdir -v -p build/web
-    - godot --headless --verbose --export-release "Web" build/web/index.html
-  needs: ["import-dotnet", "import-godot"]
+    - section_start "SCONS_COMPILE_LIBS" "Compile C++ libraries"
+    - scons platform=web target=$TEMPLATE
+    - section_end "SCONS_COMPILE_LIBS" 
+
+    - cd $PROJECT_PATH
+    - mkdir -v -p $EXPORT_PATH
+
+    - section_start "GODOT_EXPORT" "Export Godot project with $TEMPLATE"
+    - export_godot "Web" $EXPORT_PATH/$index.html
+    - section_end "GODOT_EXPORT"
+  needs: ["import-assets"]
   artifacts:
-    name: $EXPORT_NAME-$CI_JOB_NAME
+    name: $EXPORT_NAME-$CI_JOB_NAMEl
     paths:
-      - build/web
-  allow_failure: true
-  # TODO Godot4 Mono C#
+      - $PROJECT_PATH/$EXPORT_PATH/*
 
 unit_tests:
   stage: test
+  variables:
+    TEST_SCRIPT: ./addons/gdUnit4/runtest.sh
+    TEST_PATH: test
+    REPORT_PATH: $TEST_PATH/reports
   script:
-    - echo "Here you could run unit tests" 
+    - cd $PROJECT_PATH
+    - mkdir -v -p $TEST_PATH
+    - export GODOT_BIN=$(which godot)
+    - $TEST_SCRIPT -a $TEST_PATH -rd $REPORT_PATH
+  needs: ["linux"]
+  artifacts:
+    name: report_$CI_JOB_NAME
+    paths:
+      - $PROJECT_PATH/$REPORT_PATH/*
     
 
 integration_tests:
   stage: test
+  variables:
+    TEST_SCRIPT: ./addons/gdUnit4/runtest.sh
+    TEST_PATH: test
+    REPORT_PATH: $TEST_PATH/reports
   script:
     - echo "Here you could run integration tests"
+  needs: ["linux"]
+  artifacts:
+    name: report_$CI_JOB_NAME
+    paths:
+      - $PROJECT_PATH/$REPORT_PATH/*
