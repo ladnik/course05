@@ -12,8 +12,8 @@ cache:
 
 stages:
   - import
-  - export
   - test
+  - export
   - deploy
 
 variables:
@@ -32,12 +32,49 @@ before_script:
 import-assets:
   stage: import
   script:
-    #- cd $PROJECT_PATH
-    #- godot --headless --verbose --editor --quit
-    #- cd ..
+    - cd $PROJECT_PATH
+    - godot --headless --verbose --editor --quit
+    - cd ..
     - scons -v
 
   needs: []
+
+unit-test:
+  stage: test
+  variables:
+    TEST_SCRIPT: addons/gut/gut_cmdln.gd
+    TEST_PATH: test/unit
+    REPORT_PATH: reports
+  script:
+    - cd $PROJECT_PATH
+    - mkdir -v -p $TEST_PATH
+    - mkdir -v -p $REPORT_PATH
+    - godot --headless -s $TEST_SCRIPT -gdir=$TEST_PATH 
+  needs: ["import-assets"]
+  artifacts:
+    name: report_$CI_JOB_NAME
+    when: 'always'
+    paths:
+      - $PROJECT_PATH/$REPORT_PATH/*
+    
+
+integration-test:
+  stage: test
+  variables:
+    TEST_SCRIPT: addons/gut/gut_cmdln.gd
+    TEST_PATH: test/integration
+    REPORT_PATH: reports
+  script:
+    - cd $PROJECT_PATH
+    - mkdir -v -p $TEST_PATH
+    - mkdir -v -p $REPORT_PATH
+    - godot --headless -s $TEST_SCRIPT -gdir=$TEST_PATH 
+  needs: ["import-assets"]
+  artifacts:
+    name: report_$CI_JOB_NAME
+    when: 'always'
+    paths:
+      - $PROJECT_PATH/$REPORT_PATH/*
 
 # Compile bindings, build custom libraries and export to platforms  
 linux:
@@ -55,7 +92,7 @@ linux:
     - section_start "GODOT_EXPORT" "Export Godot project with $TEMPLATE"
     - export_godot "Linux/X11" $EXPORT_PATH/$EXPORT_NAME.x86_64
     - section_end "GODOT_EXPORT"
-  needs: ["import-assets"]
+  needs: ["unit-test", "integration-test"]
   artifacts:
     name: $EXPORT_NAME-$CI_JOB_NAME
     paths:
@@ -76,13 +113,14 @@ windows:
     - section_start "GODOT_EXPORT" "Export Godot project with $TEMPLATE"
     - export_godot "Windows Desktop" $EXPORT_PATH/$EXPORT_NAME.exe
     - section_end "GODOT_EXPORT"
-  needs: ["import-assets"]
+  needs: ["unit-test", "integration-test"]
+  allow_failure: true
   artifacts:
     name: $EXPORT_NAME-$CI_JOB_NAME
     paths:
       - $PROJECT_PATH/$EXPORT_PATH/*
 
-# Would fail for Godot4.2 Mono
+# Would fail for Godot 4.2 Mono
 web:
   stage: export
   variables:
@@ -98,45 +136,10 @@ web:
     - section_start "GODOT_EXPORT" "Export Godot project with $TEMPLATE"
     - export_godot "Web" $EXPORT_PATH/$index.html
     - section_end "GODOT_EXPORT"
-  needs: ["import-assets"]
+  needs: ["unit-test", "integration-test"]
+  allow_failure: true
   artifacts:
     name: $EXPORT_NAME-$CI_JOB_NAMEl
     paths:
       - $PROJECT_PATH/$EXPORT_PATH/*
 
-unit_tests:
-  stage: test
-  variables:
-    TEST_SCRIPT: addons/gut/gut_cmdln.gd
-    TEST_PATH: test/unit
-    REPORT_PATH: reports
-  script:
-    - cd $PROJECT_PATH
-    - mkdir -v -p $TEST_PATH
-    - mkdir -v -p $REPORT_PATH
-    - godot --headless -s $TEST_SCRIPT -gdir=$TEST_PATH 
-  needs: ["linux"]
-  artifacts:
-    name: report_$CI_JOB_NAME
-    when: 'always'
-    paths:
-      - $PROJECT_PATH/$REPORT_PATH/*
-    
-
-integration_tests:
-  stage: test
-  variables:
-    TEST_SCRIPT: addons/gut/gut_cmdln.gd
-    TEST_PATH: test/integration
-    REPORT_PATH: reports
-  script:
-    - cd $PROJECT_PATH
-    - mkdir -v -p $TEST_PATH
-    - mkdir -v -p $REPORT_PATH
-    - godot --headless -s $TEST_SCRIPT -gdir=$TEST_PATH 
-  needs: ["linux"]
-  artifacts:
-    name: report_$CI_JOB_NAME
-    when: 'always'
-    paths:
-      - $PROJECT_PATH/$REPORT_PATH/*
