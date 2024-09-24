@@ -1,12 +1,12 @@
 [gd_scene load_steps=3 format=3 uid="uid://dnl58hkj3wo1d"]
 
-[ext_resource type="Script" path="res://menu.gd" id="1_jblo8"]
+[ext_resource type="Script" path="res://scripts/menu.gd" id="1_tvu83"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_blv0q"]
 font_size = 51
 
 [node name="Menu" type="CanvasLayer"]
-script = ExtResource("1_jblo8")
+script = ExtResource("1_tvu83")
 
 [node name="Title" type="Label" parent="."]
 anchors_preset = 8
