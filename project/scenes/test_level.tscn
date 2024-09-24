@@ -1,3 +1,13 @@
-[gd_scene format=3 uid="uid://bgdinkr1b6x80"]
+[gd_scene load_steps=2 format=3 uid="uid://bgdinkr1b6x80"]
+
+[ext_resource type="Script" path="res://scripts/timer.gd" id="1_716wp"]
 
 [node name="TestLevel" type="Node2D"]
+
+[node name="Label" type="Label" parent="."]
+offset_left = 192.0
+offset_top = 64.0
+offset_right = 567.0
+offset_bottom = 148.0
+text = "0:0"
+script = ExtResource("1_716wp")
