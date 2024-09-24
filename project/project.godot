@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="course05"
-run/main_scene="res://terrain_manager.tscn"
+run/main_scene="res://scenes/terrain_manager.tscn"
 config/features=PackedStringArray("4.3")
 config/icon="res://icon.svg"
 
