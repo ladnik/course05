@@ -26,17 +26,27 @@ label_settings = SubResource("LabelSettings_blv0q")
 horizontal_alignment = 1
 
 [node name="StartButton" type="Button" parent="."]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -71.5
-offset_top = 47.0
-offset_right = 71.5
-offset_bottom = 113.0
+anchors_preset = -1
+anchor_left = 0.437934
+anchor_top = 0.572531
+anchor_right = 0.562066
+anchor_bottom = 0.674383
+offset_bottom = 3.05176e-05
 grow_horizontal = 2
 grow_vertical = 2
 text = "Start"
+metadata/_edit_use_anchors_ = true
+
+[node name="LevelOverview" type="Button" parent="."]
+anchors_preset = -1
+anchor_left = 0.438368
+anchor_top = 0.714506
+anchor_right = 0.5625
+anchor_bottom = 0.816358
+grow_horizontal = 2
+grow_vertical = 2
+text = "Levels"
+metadata/_edit_use_anchors_ = true
 
 [connection signal="button_up" from="StartButton" to="." method="start_game"]
+[connection signal="pressed" from="LevelOverview" to="." method="_on_level_overview_pressed"]

@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://dar6jel2agbyj"]
+
+[ext_resource type="Script" path="res://scripts/level_menu.gd" id="1_2eyd3"]
+
+[node name="LevelMenu" type="CanvasLayer"]
+script = ExtResource("1_2eyd3")
+
+[node name="Level1" type="Button" parent="."]
+anchors_preset = -1
+anchor_left = 0.463542
+anchor_top = 0.37037
+anchor_right = 0.569444
+anchor_bottom = 0.564815
+offset_top = 1.52588e-05
+text = "1"
+metadata/_edit_use_anchors_ = true
+
+[connection signal="pressed" from="Level1" to="." method="_on_level_1_pressed"]
