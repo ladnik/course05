@@ -1,8 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://bgdinkr1b6x80"]
+[gd_scene load_steps=3 format=3 uid="uid://dklgk8beu3lob"]
 
 [ext_resource type="Script" path="res://scripts/timer.gd" id="1_716wp"]
+[ext_resource type="PackedScene" uid="uid://dm55nq68nldsl" path="res://scenes/pause_menu.tscn" id="2_11xq2"]
 
 [node name="TestLevel" type="Node2D"]
+process_mode = 1
 
 [node name="Label" type="Label" parent="."]
 offset_left = 192.0
@@ -11,3 +13,6 @@ offset_right = 567.0
 offset_bottom = 148.0
 text = "0:0"
 script = ExtResource("1_716wp")
+
+[node name="PauseMenu" parent="." instance=ExtResource("2_11xq2")]
+visible = false
