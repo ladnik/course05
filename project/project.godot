@@ -25,6 +25,10 @@ window/stretch/aspect="expand"
 
 enabled=PackedStringArray("res://addons/gut/plugin.cfg")
 
+[physics]
+
+common/physics_ticks_per_second=80
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"
