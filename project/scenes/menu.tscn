@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://dnl58hkj3wo1d"]
+[gd_scene load_steps=6 format=3 uid="uid://dnl58hkj3wo1d"]
 
 [ext_resource type="Script" path="res://scripts/menu.gd" id="1_tvu83"]
 [ext_resource type="Script" path="res://scripts/menu_item.gd" id="2_81w3j"]
+[ext_resource type="Texture2D" uid="uid://b2nanxuajo0mq" path="res://assets/background_menu.png" id="2_mtjmp"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_blv0q"]
 font_size = 51
@@ -23,27 +24,36 @@ shadow_offset = Vector2(4, 1)
 process_mode = 3
 script = ExtResource("1_tvu83")
 
+[node name="TextureRect" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_mtjmp")
+
 [node name="Title" type="Label" parent="."]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -447.0
-offset_top = -129.0
-offset_right = 442.0
-offset_bottom = 14.0
+offset_left = -461.0
+offset_top = -219.0
+offset_right = 428.0
+offset_bottom = -76.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Sarntal Super Swirl
 Prototype"
 label_settings = SubResource("LabelSettings_blv0q")
+horizontal_alignment = 1
 
 [node name="Start" type="Label" parent="."]
-offset_left = 129.0
-offset_top = 358.0
-offset_right = 241.0
-offset_bottom = 400.0
+offset_left = 57.0
+offset_top = 457.0
+offset_right = 169.0
+offset_bottom = 502.0
 pivot_offset = Vector2(0, 21)
 mouse_filter = 0
 text = "Start"
@@ -52,10 +62,10 @@ vertical_alignment = 1
 script = ExtResource("2_81w3j")
 
 [node name="Exit" type="Label" parent="."]
-offset_left = 129.0
-offset_top = 463.0
-offset_right = 241.0
-offset_bottom = 505.0
+offset_left = 57.0
+offset_top = 562.0
+offset_right = 169.0
+offset_bottom = 607.0
 pivot_offset = Vector2(0, 21)
 mouse_filter = 0
 text = "Exit
@@ -65,10 +75,10 @@ vertical_alignment = 1
 script = ExtResource("2_81w3j")
 
 [node name="Level" type="Label" parent="."]
-offset_left = 129.0
-offset_top = 411.0
-offset_right = 241.0
-offset_bottom = 453.0
+offset_left = 57.0
+offset_top = 510.0
+offset_right = 169.0
+offset_bottom = 555.0
 pivot_offset = Vector2(0, 21)
 mouse_filter = 0
 text = "Level
