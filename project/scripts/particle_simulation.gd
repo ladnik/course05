@@ -47,9 +47,10 @@ func update(delta):
 
 func integration_step(delta):
 	for i in range(Constants.NUMBER_PARTICLES):
-		particles[i].velocity += delta * gravity_vector
+		particles[i].force = gravity_vector + particles[i].force
 		particles[i].velocity += delta * particles[i].force
 		particles[i].position += delta * particles[i].velocity
+		particles[i].last_force = particles[i].force
 		particles[i].force = Vector2(0,0)
 		
 
