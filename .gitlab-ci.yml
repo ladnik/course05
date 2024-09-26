@@ -1,6 +1,3 @@
-# Godot 4.3 image
-#image: barichello/godot-ci:latest
-
 # Godot 4.3 image with C/C++ support and precompiled bindings
 image: ladnikj/godot-cpp-ci:latest
 
@@ -18,6 +15,7 @@ stages:
 
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
+  GIT_CLEAN_FLAGS: -ffd
   PROJECT_PATH: project
   EXPORT_NAME: export
   # [editor, template_debug, template_release]
@@ -49,6 +47,7 @@ unit-test:
     - cd $PROJECT_PATH
     - mkdir -v -p $TEST_PATH
     - mkdir -v -p $REPORT_PATH
+    - godot --headless --verbose --editor --quit  || true 
     - godot --headless -s $TEST_SCRIPT -gdir=$TEST_PATH 
   needs: ["import-assets"]
   artifacts:
@@ -68,6 +67,7 @@ integration-test:
     - cd $PROJECT_PATH
     - mkdir -v -p $TEST_PATH
     - mkdir -v -p $REPORT_PATH
+    - godot --headless --verbose --editor --quit  || true 
     - godot --headless -s $TEST_SCRIPT -gdir=$TEST_PATH
   needs: ["import-assets"]
   artifacts:
