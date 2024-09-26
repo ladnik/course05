@@ -56,79 +56,127 @@ grow_vertical = 2
 texture = ExtResource("2_5pr8o")
 
 [node name="Title" type="Label" parent="."]
-anchors_preset = 8
+anchors_preset = 5
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -461.0
-offset_top = -219.0
-offset_right = 428.0
-offset_bottom = -76.0
+offset_left = -444.5
+offset_top = 105.0
+offset_right = 444.5
+offset_bottom = 248.0
 grow_horizontal = 2
-grow_vertical = 2
 text = "Levels"
 label_settings = SubResource("LabelSettings_ovxh0")
 horizontal_alignment = 1
 
-[node name="Level1" type="Label" parent="."]
+[node name="Level1box" type="ColorRect" parent="."]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -15.0
-offset_top = -85.5
-offset_right = 15.0
-offset_bottom = -40.5
+offset_left = -154.0
+offset_top = -38.0
+offset_right = -74.0
+offset_bottom = 42.0
 grow_horizontal = 2
 grow_vertical = 2
-pivot_offset = Vector2(0, 21)
+pivot_offset = Vector2(40, 40)
+color = Color(1, 1, 1, 0.784314)
+
+[node name="Level1" type="Label" parent="." node_paths=PackedStringArray("box")]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -154.0
+offset_top = -38.0
+offset_right = -74.0
+offset_bottom = 42.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(40, 40)
 mouse_filter = 0
 text = "1
 "
 label_settings = SubResource("LabelSettings_43jmp")
+horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("2_f0v4j")
+box = NodePath("../Level1box")
 
-[node name="Level2" type="Label" parent="."]
+[node name="Level2box" type="ColorRect" parent="."]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -15.0
-offset_top = -23.5
-offset_right = 15.0
-offset_bottom = 21.5
+offset_left = -43.0
+offset_top = -38.0
+offset_right = 37.0
+offset_bottom = 42.0
 grow_horizontal = 2
 grow_vertical = 2
-pivot_offset = Vector2(0, 21)
+pivot_offset = Vector2(40, 40)
+color = Color(1, 1, 1, 0.784314)
+
+[node name="Level2" type="Label" parent="." node_paths=PackedStringArray("box")]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -43.0
+offset_top = -38.5
+offset_right = 37.0
+offset_bottom = 41.5
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(40, 40)
 mouse_filter = 0
 text = "2
 "
 label_settings = SubResource("LabelSettings_vaccj")
+horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("2_f0v4j")
+box = NodePath("../Level2box")
 
-[node name="Level3" type="Label" parent="."]
+[node name="Level3box" type="ColorRect" parent="."]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -15.0
-offset_top = 39.5
-offset_right = 15.0
-offset_bottom = 84.5
+offset_left = 69.0
+offset_top = -38.0
+offset_right = 149.0
+offset_bottom = 42.0
 grow_horizontal = 2
 grow_vertical = 2
-pivot_offset = Vector2(0, 21)
+pivot_offset = Vector2(40, 40)
+color = Color(1, 1, 1, 0.784314)
+
+[node name="Level3" type="Label" parent="." node_paths=PackedStringArray("box")]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 69.0
+offset_top = -37.5
+offset_right = 149.0
+offset_bottom = 42.5
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(40, 40)
 mouse_filter = 0
 text = "3"
 label_settings = SubResource("LabelSettings_770dv")
+horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("2_f0v4j")
+box = NodePath("../Level3box")
 
 [node name="backtomainmenu" type="Label" parent="."]
 anchors_preset = 7
@@ -137,9 +185,9 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -148.0
-offset_top = -125.0
+offset_top = -165.0
 offset_right = 152.0
-offset_bottom = -79.0
+offset_bottom = -119.0
 grow_horizontal = 2
 grow_vertical = 0
 pivot_offset = Vector2(150, 23)
