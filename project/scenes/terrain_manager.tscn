@@ -1,6 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://c6r0fsu41iq0a"]
+[gd_scene load_steps=4 format=3 uid="uid://c6r0fsu41iq0a"]
 
 [ext_resource type="Script" path="res://scripts/terrain_manager.gd" id="1_thinb"]
+[ext_resource type="Script" path="res://scripts/terrain_renderer.gd" id="2_4xkgq"]
+[ext_resource type="Script" path="res://scripts/terrain_editor.gd" id="3_5hetr"]
 
 [node name="TerrainManager" type="Node2D"]
 script = ExtResource("1_thinb")
+
+[node name="TerrainRenderer" type="Node2D" parent="."]
+script = ExtResource("2_4xkgq")
+
+[node name="TerrainEditor" type="Node2D" parent="."]
+script = ExtResource("3_5hetr")
