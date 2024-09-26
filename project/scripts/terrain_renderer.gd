@@ -1,11 +1,11 @@
 extends Node2D
 
-static var gridImage
-static var gridTexture
-static var gridSprite = Sprite2D.new()
+var gridImage
+var gridTexture
+var gridSprite = Sprite2D.new()
 
-static var _width = -1
-static var _height = -1
+var _width = -1
+var _height = -1
 
 # Basic functions
 
@@ -39,12 +39,13 @@ func initialize(grid):
 
 	update_grid(grid)
 
+	updateWindowSize()
+
 
 # Godot functions
 
-func _draw() -> void:
+func _ready() -> void:
 	get_tree().root.size_changed.connect(updateWindowSize)
-	updateWindowSize()
 
 	add_child(gridSprite)
 

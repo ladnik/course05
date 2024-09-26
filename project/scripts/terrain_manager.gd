@@ -1,17 +1,11 @@
 extends Node2D
 
-const Editor = preload("res://scripts/terrain_editor.gd")
-const Renderer = preload("res://scripts/terrain_renderer.gd")
- 
-var editor
-var renderer
+@onready var editor = $TerrainEditor
+@onready var renderer = $TerrainRenderer
 
 # Godot functions
 
 func _ready():
-	editor = Editor.new()
-	renderer = Renderer.new()
-	
 	editor.generateGrid()	
 	renderer.initialize(editor.grid)
 
