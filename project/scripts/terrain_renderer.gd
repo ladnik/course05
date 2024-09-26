@@ -16,10 +16,11 @@ func to_grid_pos(pixel_pos):
 # Renderer functions
 
 func update_grid(grid):
-	for y in range(_height):
-		for x in range(_width):
-			gridImage.set_pixel(x, y, Color(grid[y][x], grid[y][x], grid[y][x]))
-	gridTexture.update(gridImage)
+	#for y in range(_height):
+	#	for x in range(_width):
+	#		gridImage.set_pixel(x, y, Color(grid[y][x], grid[y][x], grid[y][x]))
+	#gridTexture.update(gridImage)
+	pass
 
 func updateWindowSize(): 
 	var windowSize = get_viewport_rect().size
