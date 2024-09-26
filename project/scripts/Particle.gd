@@ -2,6 +2,7 @@ extends RefCounted
 var Constants = load('res://scripts/simulation_constants.gd')
 
 var position = Vector2()
+var pre_position = Vector2()
 var velocity = Vector2()
 var force = Vector2()
 var last_force = Vector2()

@@ -1,7 +1,7 @@
 extends RefCounted
 
 # import terrrain manager script to access the terrain data
-#const TERRAIN_MANAGER = preload("res://scripts/terrain_manager.gd")
+#var TERRAIN_MANAGER = load("res://scripts/terrain_manager.gd")
 var Constants = load('res://scripts/simulation_constants.gd')
 var Particle = load('res://scripts/Particle.gd')
 
@@ -9,6 +9,7 @@ var Particle = load('res://scripts/Particle.gd')
 
 var particles : Array = []
 var gravity_vector: Vector2 = Vector2(0, Constants.GRAVITY)
+
 
 
 # Called when the node enters the scene tree for the first time.
@@ -34,7 +35,11 @@ func update(delta):
 	#calculate_force_density(draw_mode)
 	calculate_interaction_forces()
 	integration_step(delta)
+	calculate_next_velocity(delta)
+	
 	clipToBorder()
+	
+	
 	#collision_handling()
 	
 	#breakpoint
@@ -47,13 +52,21 @@ func update(delta):
 
 func integration_step(delta):
 	for i in range(Constants.NUMBER_PARTICLES):
+		particles[i].pre_position = particles[i].position
 		particles[i].force = gravity_vector + particles[i].force
 		particles[i].velocity += delta * particles[i].force
 		particles[i].position += delta * particles[i].velocity
 		particles[i].last_force = particles[i].force
 		particles[i].force = Vector2(0,0)
-		
+	
 
+	
+func calculate_next_velocity(delta):
+	for i in range(Constants.NUMBER_PARTICLES):
+		#Calculate the new velocity from the previous and current position
+		var velocity : Vector2 = (particles[i].position - particles[i].pre_position)/delta
+		particles[i].velocity = velocity
+		print(velocity)
 func collsison_reflection(normal_vector: Vector2):
 	pass
 	
@@ -80,6 +93,23 @@ func calculate_interaction_forces() -> void:
 			var force = interaction_force(particles[i], particles[j])
 			particles[i].force += force
 			particles[j].force -= force
+
+#func collision_checker(boundary, pos):
+	#pass
+#func check_oneway_coupling():
+	#for i in range(particles.size()):
+		#var collision_object = collision_checker(particles[i].pre_position,particles[i].position)
+		#if collision_object.bool == True:
+			#handle_oneway_coupling(i:int,collision_object.normalvector, collision_object.intersection)
+#func handle_oneway_coupling(particle ,normal_vector:Vector2,new_position:Vector2):
+	#particles[i].position=new_position
+	#var v_x = particles[i].velocity.x
+	#var v_y = particles[i].velocity.y
+	#var n_x = normal_vector.x
+	#var n_y = normal_vector.y
+	##R=V−2⋅(V⋅N)⋅N
+	#particles[i].velocity = particles[i].velocity- 2*(v_x*n_x+v_y*n_y)*normal_vector
+	
 
 func clipToBorder():
 	for i in range(particles.size()):
