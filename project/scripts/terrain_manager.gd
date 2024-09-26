@@ -1,13 +1,14 @@
 extends Node2D
 
-const TILE_SIZE = 16  # Specify the tile side length here
-
 var _width = 400
 var _height = 100
 
 var grid : Array = []
-var tiles = []
+var gridImage = Image.create(_width, _height, false, Image.FORMAT_RGB8)
+var gridTexture = ImageTexture.create_from_image(gridImage)
+var gridSprite = Sprite2D.new()
 var gridNoise = FastNoiseLite.new()
+
 
 # Basic functions
 
@@ -34,13 +35,7 @@ func on_grid(grid_pos):
 	return 0 <= grid_pos.x and grid_pos.x < len(grid[0]) and 0 <= grid_pos.y and grid_pos.y < len(grid)
 
 func to_grid_pos(pixel_pos):
-	var pixel_x = pixel_pos[0]
-	var pixel_y = pixel_pos[1]
-	
-	var grid_x = pixel_x / TILE_SIZE
-	var grid_y = pixel_y / TILE_SIZE
-	
-	return Vector2(grid_x, grid_y)
+	return pixel_pos / gridSprite.scale
 
 
 # Logic functions
@@ -61,11 +56,16 @@ func apply_kernel(grid_pos, target_value):
 				
 				grid[grid_pos_kernel.y][grid_pos_kernel.x] = min(1.0, max(0, new_grid_value))
 
-func update_colors():
+func update_grid():
 	for y in range(_height):
 		for x in range(_width):
-			tiles[y][x].color = Color(grid[y][x], grid[y][x], grid[y][x])
+			gridImage.set_pixel(x, y, Color(grid[y][x], grid[y][x], grid[y][x]))
+	gridTexture.update(gridImage)
 
+func updateWindowSize(): 
+	var windowSize = get_viewport_rect().size
+	var scaleY = windowSize.y / _height
+	gridSprite.scale = Vector2(scaleY, scaleY)
 
 func generateGrid():
 	var returnBoundaries : Array[PackedVector2Array] = [] # all boundaries
@@ -133,63 +133,21 @@ func findBoundaries():
 					print(grid[y + 1][x])
 	return outerPoints
 
-
-func renderGrid(): 
-	var outerPoints = findBoundaries()
-
-	for y in range(_height):
-		for x in range(_width):
-			var tile = ColorRect.new()
-			tile.size = Vector2(TILE_SIZE, TILE_SIZE)
-			tile.position = Vector2(x * TILE_SIZE, y * TILE_SIZE)
-			if outerPoints[y][x] == 2:
-				tile.color = Color.RED  
-			elif outerPoints[y][x] == 1:
-				tile.color = Color.GRAY  
-			else:
-				tile.color = Color.SKY_BLUE
-			add_child(tile)
-
-func draw_grid_lines():
-	var width = _width * TILE_SIZE
-	var height = _height * TILE_SIZE
-	
-	# Draw vertical lines
-	for x in range(_width + 1):
-		var start = Vector2(x * TILE_SIZE, 0)
-		var end = Vector2(x * TILE_SIZE, height)
-		draw_line(start, end, Color.WEB_GRAY, 1.0)
-	
-	# Draw horizontal lines
-	for y in range(_height + 1):
-		var start = Vector2(0, y * TILE_SIZE)
-		var end = Vector2(width, y * TILE_SIZE)
-		draw_line(start, end, Color.WEB_GRAY, 1.0)
-
 # Godot functions
 
 func _ready():
-	generateGrid()
+	generateGrid()	
 
-	# Display the grid
-	for y in range(_height):
-		
-		var tile_row = []
-		
-		for x in range(_width):
-			var tile = ColorRect.new()
-			tile.size = Vector2(TILE_SIZE, TILE_SIZE)
-			tile.position = Vector2(x * TILE_SIZE, y * TILE_SIZE)
-			tile_row.append(tile)
-			tile.z_index = -1
-			
-			add_child(tile)
-			
-		tiles.append(tile_row)
-		
-	update_colors()
+	add_child(gridSprite)
 
-	#renderGrid()
+	gridSprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	gridSprite.texture = gridTexture	
+	gridSprite.offset = Vector2(_width / 2.0, _height / 2.0)
+
+	update_grid()
+
+	updateWindowSize()
+	get_tree().root.size_changed.connect(updateWindowSize)
 			
 func _process(_delta):
 	var mouse_pos = get_global_mouse_position()
@@ -201,13 +159,11 @@ func _process(_delta):
 	
 	# place new terrain
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and on_grid(mouse_pos_grid):
-		
 		apply_kernel(mouse_pos_grid, 1.0)
 		
 		grid[y_idx][x_idx] = 1.0
 				
-		update_colors()
-		draw_grid_lines()
+		update_grid()
 		
 		
 	# remove terrain
@@ -216,5 +172,4 @@ func _process(_delta):
 		
 		apply_kernel(mouse_pos_grid, 0.0)
 		
-		update_colors()	
-		draw_grid_lines()
+		update_grid()	
