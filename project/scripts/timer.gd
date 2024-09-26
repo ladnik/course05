@@ -1,6 +1,6 @@
 extends Label
 
-var time_elapsed = 3000.0
+var time_elapsed = 0.0
 
 func _ready() -> void:
 	Engine.time_scale = 0
