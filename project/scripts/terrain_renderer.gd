@@ -1,16 +1,15 @@
 extends Node2D
 
-var gridImage
-var gridTexture
-var gridSprite = Sprite2D.new()
+static var gridImage
+static var gridTexture
+static var gridSprite = Sprite2D.new()
 
-var _width = -1
-var _height = -1
+static var _width = -1
+static var _height = -1
 
 # Basic functions
 
 func to_grid_pos(pixel_pos):
-	print(gridSprite.scale)
 	return pixel_pos / gridSprite.scale
 
 
@@ -22,17 +21,10 @@ func update_grid(grid):
 			gridImage.set_pixel(x, y, Color(grid[y][x], grid[y][x], grid[y][x]))
 	gridTexture.update(gridImage)
 
-	print("rendered")
-
 func updateWindowSize(): 
 	var windowSize = get_viewport_rect().size
 	var scaleY = windowSize.y / _height
-	print(scaleY)
 	gridSprite.scale = Vector2(scaleY, scaleY)
-	print(gridSprite.scale)
-
-func connectSizeChange(): 
-	get_tree().root.size_changed.connect(updateWindowSize)
 
 func initialize(grid):
 	_height = len(grid)
@@ -45,17 +37,16 @@ func initialize(grid):
 	gridSprite.texture = gridTexture	
 	gridSprite.offset = Vector2(_width / 2.0, _height / 2.0)
 
-	add_child(gridSprite)
-
 	update_grid(grid)
 
 
 # Godot functions
 
-func _ready() -> void:
-	#gridSprite
-	connectSizeChange()
-	pass 
+func _draw() -> void:
+	get_tree().root.size_changed.connect(updateWindowSize)
+	updateWindowSize()
+
+	add_child(gridSprite)
 
 func _process(delta: float) -> void:
 	pass

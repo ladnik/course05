@@ -1,15 +1,15 @@
 extends Node2D
 
-var _width = 400
-var _height = 100
+static var _width = 400
+static var _height = 100
 
-var grid : Array = []
-var gridNoise = FastNoiseLite.new()
+static var grid : Array = []
+static var gridNoise = FastNoiseLite.new()
 
 
 # Basic functions
 
-var kernel_radius = 5
+static var kernel_radius = 5
 func cubic_spline_kernel(x_origin: Vector2, x: Vector2) -> float:
 	var distance = x_origin.distance_to(x)
 	var q = distance / kernel_radius
