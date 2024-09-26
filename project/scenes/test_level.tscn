@@ -4,11 +4,11 @@
 [ext_resource type="Texture2D" uid="uid://cdectj0l54qer" path="res://assets/levelBackground_dummy.png" id="1_c3b2r"]
 [ext_resource type="PackedScene" uid="uid://dm55nq68nldsl" path="res://scenes/pause_menu.tscn" id="2_11xq2"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_1b45y"]
-font_size = 24
-outline_size = 6
+[sub_resource type="LabelSettings" id="LabelSettings_blv0q"]
+font_size = 51
+outline_size = 11
 outline_color = Color(0, 0, 0, 1)
-shadow_size = 10
+shadow_size = 12
 shadow_color = Color(0, 0, 0, 1)
 shadow_offset = Vector2(4, 1)
 
@@ -36,7 +36,7 @@ offset_top = -350.824
 offset_right = -286.808
 offset_bottom = -262.824
 text = "0:0:0"
-label_settings = SubResource("LabelSettings_1b45y")
+label_settings = SubResource("LabelSettings_blv0q")
 script = ExtResource("1_716wp")
 
 [node name="PauseMenu" parent="." instance=ExtResource("2_11xq2")]

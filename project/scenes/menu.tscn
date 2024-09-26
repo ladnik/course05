@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://dnl58hkj3wo1d"]
+[gd_scene load_steps=8 format=3 uid="uid://dnl58hkj3wo1d"]
 
 [ext_resource type="Script" path="res://scripts/menu.gd" id="1_tvu83"]
 [ext_resource type="Script" path="res://scripts/menu_item.gd" id="2_81w3j"]
@@ -12,7 +12,23 @@ shadow_size = 12
 shadow_color = Color(0, 0, 0, 1)
 shadow_offset = Vector2(4, 1)
 
-[sub_resource type="LabelSettings" id="LabelSettings_eclty"]
+[sub_resource type="LabelSettings" id="LabelSettings_p8nrb"]
+font_size = 32
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 10
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(4, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_a6ukw"]
+font_size = 32
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 10
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(4, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_03i3h"]
 font_size = 32
 outline_size = 3
 outline_color = Color(0, 0, 0, 1)
@@ -24,7 +40,7 @@ shadow_offset = Vector2(4, 1)
 process_mode = 3
 script = ExtResource("1_tvu83")
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="Background" type="TextureRect" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -57,7 +73,7 @@ offset_bottom = 502.0
 pivot_offset = Vector2(0, 21)
 mouse_filter = 0
 text = "Start"
-label_settings = SubResource("LabelSettings_eclty")
+label_settings = SubResource("LabelSettings_p8nrb")
 vertical_alignment = 1
 script = ExtResource("2_81w3j")
 
@@ -70,7 +86,7 @@ pivot_offset = Vector2(0, 21)
 mouse_filter = 0
 text = "Exit
 "
-label_settings = SubResource("LabelSettings_eclty")
+label_settings = SubResource("LabelSettings_a6ukw")
 vertical_alignment = 1
 script = ExtResource("2_81w3j")
 
@@ -83,7 +99,7 @@ pivot_offset = Vector2(0, 21)
 mouse_filter = 0
 text = "Level
 "
-label_settings = SubResource("LabelSettings_eclty")
+label_settings = SubResource("LabelSettings_03i3h")
 vertical_alignment = 1
 script = ExtResource("2_81w3j")
 
