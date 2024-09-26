@@ -3,20 +3,13 @@
 [ext_resource type="Script" path="res://scripts/menu.gd" id="1_tvu83"]
 [ext_resource type="Script" path="res://scripts/menu_item.gd" id="2_81w3j"]
 [ext_resource type="Texture2D" uid="uid://b2nanxuajo0mq" path="res://assets/background_dummy.png" id="2_mtjmp"]
+[ext_resource type="LabelSettings" uid="uid://conwdpenxmpc3" path="res://assets/label_settings/menu_item.tres" id="3_p483l"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_blv0q"]
 font_size = 51
 outline_size = 11
 outline_color = Color(0, 0, 0, 1)
 shadow_size = 12
-shadow_color = Color(0, 0, 0, 1)
-shadow_offset = Vector2(4, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_p8nrb"]
-font_size = 32
-outline_size = 3
-outline_color = Color(0, 0, 0, 1)
-shadow_size = 10
 shadow_color = Color(0, 0, 0, 1)
 shadow_offset = Vector2(4, 1)
 
@@ -73,7 +66,7 @@ offset_bottom = 502.0
 pivot_offset = Vector2(0, 21)
 mouse_filter = 0
 text = "Start"
-label_settings = SubResource("LabelSettings_p8nrb")
+label_settings = ExtResource("3_p483l")
 vertical_alignment = 1
 script = ExtResource("2_81w3j")
 
