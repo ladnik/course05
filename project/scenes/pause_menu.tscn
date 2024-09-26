@@ -1,7 +1,13 @@
-[gd_scene load_steps=7 format=3 uid="uid://dm55nq68nldsl"]
+[gd_scene load_steps=10 format=3 uid="uid://dm55nq68nldsl"]
 
 [ext_resource type="Script" path="res://scripts/pause_menu.gd" id="1_k46i6"]
+[ext_resource type="Shader" path="res://shaders/pause_menu.gdshader" id="2_f44fp"]
 [ext_resource type="Script" path="res://scripts/menu_item.gd" id="2_otmi0"]
+[ext_resource type="Texture2D" uid="uid://b2nanxuajo0mq" path="res://assets/background_dummy.png" id="3_q075l"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4xq72"]
+shader = ExtResource("2_f44fp")
+shader_parameter/lod = 0.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_qmjsm"]
 font_size = 51
@@ -39,7 +45,14 @@ shadow_offset = Vector2(4, 1)
 process_mode = 3
 script = ExtResource("1_k46i6")
 
+[node name="TextureRect" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_4xq72")
+offset_right = 1156.0
+offset_bottom = 643.0
+texture = ExtResource("3_q075l")
+
 [node name="ColorRect" type="ColorRect" parent="."]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
