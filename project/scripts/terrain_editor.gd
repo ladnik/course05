@@ -84,12 +84,3 @@ func generateGrid():
 	returnBoundaries.append(boundary)
 
 	return returnBoundaries
-
-
-# Godot functions 
-
-func _ready() -> void:
-	pass
-
-func _process(delta: float) -> void:
-	pass
