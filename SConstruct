@@ -1,66 +1,44 @@
 #!/usr/bin/env python
 import os
+import sys
 
-def normalize_path(val, env):
-    return val if os.path.isabs(val) else os.path.join(env.Dir("#").abspath, val)
+env = SConscript("godot-cpp/SConstruct")
 
-def validate_parent_dir(key, val, env):
-    if not os.path.isdir(normalize_path(os.path.dirname(val), env)):
-        raise ValueError("'%s' is not a directory: %s" % (key, os.path.dirname(val)))
+# For reference:
+# - CCFLAGS are compilation flags shared between C and C++
+# - CFLAGS are for C-specific compilation flags
+# - CXXFLAGS are for C++-specific compilation flags
+# - CPPFLAGS are for pre-processor flags
+# - CPPDEFINES are for pre-processor defines
+# - LINKFLAGS are for linking flags
 
-libname = "libgdexample"
-projectdir = "project"
-
-localEnv = Environment(tools=["default"], PLATFORM="")
-
-customs = ["custom.py"]
-customs = [os.path.abspath(path) for path in customs]
-
-opts = Variables(customs, ARGUMENTS)
-opts.Add(
-    BoolVariable(
-        key="compiledb",
-        help="Generate compilation DB (`compile_commands.json`) for external tools",
-        default=localEnv.get("compiledb", False),
-    )
-)
-opts.Add(
-    PathVariable(
-        key="compiledb_file",
-        help="Path to a custom `compile_commands.json` file",
-        default=localEnv.get("compiledb_file", "compile_commands.json"),
-        validator=validate_parent_dir,
-    )
-)
-opts.Update(localEnv)
-Help(opts.GenerateHelpText(localEnv))
-
-env = localEnv.Clone()
-env["compiledb"] = False
-
-env.Tool("compilation_db")
-compilation_db = env.CompilationDatabase(
-    normalize_path(localEnv["compiledb_file"], localEnv)
-)
-env.Alias("compiledb", compilation_db)
-
-env = SConscript("godot-cpp/SConstruct", {"env": env, "customs": customs})
-
-env.Append(CPPPATH=["src/"])
+# tweak this if you want to use different folders, or more folders, to store your source code in.
+env.Append(CPPPATH=["src/", "/usr/include/libusb-1.0"])
+env.Append(CPPFLAGS=["-fexceptions"])
 sources = Glob("src/*.cpp")
 
-targetPath = "{}/bin/".format(projectdir)
-file = "{}{}{}".format(libname, env["suffix"], env["SHLIBSUFFIX"])
+if env["platform"] == "macos":
+    library = env.SharedLibrary(
+        "project/bin/libgdkinect.{}.{}.framework/libgdkinect.{}.{}".format(
+            env["platform"], env["target"], env["platform"], env["target"]
+        ),
+        source=sources,
+    )
+elif env["platform"] == "ios":
+    if env["ios_simulator"]:
+        library = env.StaticLibrary(
+            "project/bin/libgdkinect.{}.{}.simulator.a".format(env["platform"], env["target"]),
+            source=sources,
+        )
+    else:
+        library = env.StaticLibrary(
+            "project/bin/libgdkinect.{}.{}.a".format(env["platform"], env["target"]),
+            source=sources,
+        )
+else:
+    library = env.SharedLibrary(
+        "project/bin/libgdkinect{}{}".format(env["suffix"], env["SHLIBSUFFIX"]),
+        source=sources,
+    )
 
-libraryfile = "{}/{}".format(targetPath, file)
-library = env.SharedLibrary(
-    libraryfile,
-    source=sources,
-)
-
-copy = env.InstallAs("{}/bin/lib{}".format(projectdir, file), library)
-
-default_args = [library, copy]
-if localEnv.get("compiledb", False):
-    default_args += [compilation_db]
-Default(*default_args)
+Default(library)
