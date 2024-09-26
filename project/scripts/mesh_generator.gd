@@ -1,6 +1,6 @@
 extends MeshInstance2D
 
-var cases : Array = [
+const var cases : Array = [
 	[],
 	[1, 2, 3],
 	[3, 4, 5],								# 2
@@ -18,8 +18,32 @@ var cases : Array = [
 	[0, 1, 6, 1, 3, 6, 3, 4, 6],			# 14
 	[0, 2, 4, 0, 4, 6]
 ]
+
+const var border_cases : Array = [
+	[],
+	[3, 1],
+	[5, 3],
+	[5, 1],
+	[7, 5],
+	[3, 5, 7, 1],
+	[7, 3],
+	[7, 1],
+	[1, 7],
+	[3, 7],
+	[1, 3, 5, 7],
+	[5, 7],
+	[1, 5],
+	[3, 5],
+	[1, 3],
+	[]
+]
+
+var line_vertices : PackedVector2Array = []
+var line_normals : PackedVector2Array = []
+var lines_in_cell : Array = []
+
 var triangleCoordinates : PackedVector3Array = []
-var caseLength : Array = [0, 1, 1, 2, 1, 4, 2, 3, 1, 2, 4, 3, 2, 3, 3, 2]
+const var caseLength : Array = [0, 1, 1, 2, 1, 4, 2, 3, 1, 2, 4, 3, 2, 3, 3, 2]
 var cellTriangleIndex : Array[int] = []
 
 func visualize(grid : Array):
