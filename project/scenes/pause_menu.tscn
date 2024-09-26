@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://dm55nq68nldsl"]
+[gd_scene load_steps=7 format=3 uid="uid://dm55nq68nldsl"]
 
 [ext_resource type="Script" path="res://scripts/pause_menu.gd" id="1_k46i6"]
 [ext_resource type="Script" path="res://scripts/menu_item.gd" id="2_otmi0"]
@@ -11,7 +11,23 @@ shadow_size = 10
 shadow_color = Color(0, 0, 0, 1)
 shadow_offset = Vector2(4, 1)
 
-[sub_resource type="LabelSettings" id="LabelSettings_hs18s"]
+[sub_resource type="LabelSettings" id="LabelSettings_5ib5w"]
+font_size = 32
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 10
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(4, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_xfkeo"]
+font_size = 32
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 10
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(4, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_rpwns"]
 font_size = 32
 outline_size = 3
 outline_color = Color(0, 0, 0, 1)
@@ -51,7 +67,7 @@ offset_bottom = 400.0
 pivot_offset = Vector2(0, 21)
 mouse_filter = 0
 text = "Resume"
-label_settings = SubResource("LabelSettings_hs18s")
+label_settings = SubResource("LabelSettings_5ib5w")
 vertical_alignment = 1
 script = ExtResource("2_otmi0")
 
@@ -64,7 +80,7 @@ pivot_offset = Vector2(0, 21)
 mouse_filter = 0
 text = "Exit Game
 "
-label_settings = SubResource("LabelSettings_hs18s")
+label_settings = SubResource("LabelSettings_xfkeo")
 vertical_alignment = 1
 script = ExtResource("2_otmi0")
 
@@ -77,7 +93,7 @@ pivot_offset = Vector2(0, 21)
 mouse_filter = 0
 text = "Return to Menu
 "
-label_settings = SubResource("LabelSettings_hs18s")
+label_settings = SubResource("LabelSettings_rpwns")
 vertical_alignment = 1
 script = ExtResource("2_otmi0")
 

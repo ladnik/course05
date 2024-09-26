@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://bgdinkr1b6x80"]
+[gd_scene load_steps=5 format=3 uid="uid://dklgk8beu3lob"]
 
 [ext_resource type="Script" path="res://scripts/timer.gd" id="1_716wp"]
 [ext_resource type="Texture2D" uid="uid://cdectj0l54qer" path="res://assets/levelBackground_dummy.png" id="1_c3b2r"]
