@@ -1,69 +1,92 @@
-[gd_scene load_steps=3 format=3 uid="uid://dm55nq68nldsl"]
+[gd_scene load_steps=5 format=3 uid="uid://dm55nq68nldsl"]
 
 [ext_resource type="Script" path="res://scripts/pause_menu.gd" id="1_k46i6"]
+[ext_resource type="Script" path="res://scripts/menu_item.gd" id="2_otmi0"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_qmjsm"]
 font_size = 51
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 10
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(4, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_hs18s"]
+font_size = 32
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 10
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(4, 1)
 
 [node name="Pause_Scene" type="CanvasLayer"]
 process_mode = 3
 script = ExtResource("1_k46i6")
 
-[node name="Pause Menu" type="Label" parent="."]
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -233.0
-offset_top = 40.0
-offset_right = 233.0
-offset_bottom = 183.0
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
-text = "Pause Menu"
+grow_vertical = 2
+color = Color(0, 0, 0, 0.431373)
+
+[node name="Pause" type="Label" parent="."]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 129.0
+offset_top = -129.0
+offset_right = 595.0
+offset_bottom = -31.0
+grow_vertical = 2
+text = "Pause"
 label_settings = SubResource("LabelSettings_qmjsm")
-horizontal_alignment = 1
 
-[node name="Resume" type="Button" parent="."]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -69.0
-offset_top = -93.0
-offset_right = 65.0
-offset_bottom = -27.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="Resume" type="Label" parent="."]
+offset_left = 129.0
+offset_top = 358.0
+offset_right = 241.0
+offset_bottom = 400.0
+pivot_offset = Vector2(0, 21)
+mouse_filter = 0
 text = "Resume"
+label_settings = SubResource("LabelSettings_hs18s")
+vertical_alignment = 1
+script = ExtResource("2_otmi0")
 
-[node name="Main Menu" type="Button" parent="."]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -66.0
-offset_top = -5.0
-offset_right = 68.0
-offset_bottom = 57.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "Main Menu"
+[node name="Exit" type="Label" parent="."]
+offset_left = 129.0
+offset_top = 463.0
+offset_right = 241.0
+offset_bottom = 505.0
+pivot_offset = Vector2(0, 21)
+mouse_filter = 0
+text = "Exit Game
+"
+label_settings = SubResource("LabelSettings_hs18s")
+vertical_alignment = 1
+script = ExtResource("2_otmi0")
 
-[node name="Exit" type="Button" parent="."]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -64.0
-offset_top = 80.0
-offset_right = 71.0
-offset_bottom = 136.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "Exit"
+[node name="Menu" type="Label" parent="."]
+offset_left = 129.0
+offset_top = 411.0
+offset_right = 241.0
+offset_bottom = 453.0
+pivot_offset = Vector2(0, 21)
+mouse_filter = 0
+text = "Return to Menu
+"
+label_settings = SubResource("LabelSettings_hs18s")
+vertical_alignment = 1
+script = ExtResource("2_otmi0")
 
-[connection signal="pressed" from="Resume" to="." method="_on_resume_pressed"]
-[connection signal="pressed" from="Main Menu" to="." method="_on_main_menu_pressed"]
-[connection signal="pressed" from="Exit" to="." method="_on_exit_pressed"]
+[connection signal="gui_input" from="Resume" to="." method="resume_gui_event"]
+[connection signal="mouse_entered" from="Resume" to="Resume" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Resume" to="Resume" method="_on_mouse_exited"]
+[connection signal="gui_input" from="Exit" to="." method="exit_gui_event"]
+[connection signal="mouse_entered" from="Exit" to="Exit" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Exit" to="Exit" method="_on_mouse_exited"]
+[connection signal="gui_input" from="Menu" to="." method="menu_gui_event"]
+[connection signal="mouse_entered" from="Menu" to="Menu" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Menu" to="Menu" method="_on_mouse_exited"]

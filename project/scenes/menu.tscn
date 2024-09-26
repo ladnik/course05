@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://dnl58hkj3wo1d"]
 
 [ext_resource type="Script" path="res://scripts/menu.gd" id="1_tvu83"]
-[ext_resource type="Script" path="res://scenes/menu_item.gd" id="2_81w3j"]
+[ext_resource type="Script" path="res://scripts/menu_item.gd" id="2_81w3j"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_blv0q"]
 font_size = 51
@@ -20,6 +20,7 @@ shadow_color = Color(0, 0, 0, 1)
 shadow_offset = Vector2(4, 1)
 
 [node name="Menu" type="CanvasLayer"]
+process_mode = 3
 script = ExtResource("1_tvu83")
 
 [node name="Title" type="Label" parent="."]
