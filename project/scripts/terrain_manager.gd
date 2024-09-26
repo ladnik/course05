@@ -49,7 +49,7 @@ func apply_kernel(grid_pos, target_value):
 			
 			if on_grid(grid_pos_kernel):
 				var kernel_value = kernel_multiplier * cubic_spline_kernel(grid_pos, grid_pos_kernel)
-				#var kernel_value = 1
+				
 				kernel_value = min(1.0, max(0, kernel_value))
 				
 				var new_grid_value = (1 - kernel_value) * grid[grid_pos_kernel.y][grid_pos_kernel.x] + kernel_value * target_value
@@ -90,7 +90,6 @@ func generateGrid():
 
 		boundary.append(Vector2(x, maxHeight))
 
-		print(maxHeight)
 		for y in range(_height):
 			if maxHeight <= y:
 				grid[y][x] = 1
@@ -100,38 +99,9 @@ func generateGrid():
 	boundary.append(Vector2(0, 		   _height - 1))
 
 	returnBoundaries.append(boundary)
-	
-	for y in range(80, 90):
-		for x in range(100, 150):
-			grid[y][x] = 0
-
-
-	for y in range(_height):
-		var maxHeight = round((sin(y / 3.0) * 10.0 + 70.0) )
-		print("maxHeight")
-		print(maxHeight)
-		for x in range(0, maxHeight):
-			grid[y][x] = 0
 
 	return returnBoundaries
 
-func findBoundaries(): 
-	var outerPoints = grid.duplicate(true)
-	for y in range(1, _height - 1):
-		for x in range(1, _width - 1):
-			if grid[y][x] == 1:
-				var neighbors = grid[y - 1][x] + grid[y + 1][x] + grid[y][x + 1] + grid[y][x - 1]
-
-				if neighbors < 4:
-					outerPoints[y][x] = 2
-				if neighbors > 4:
-					print("error")
-					print(x)
-					print(y)
-					print(neighbors)
-					print(grid[y - 1][x])
-					print(grid[y + 1][x])
-	return outerPoints
 
 # Godot functions
 
