@@ -27,7 +27,7 @@ enabled=PackedStringArray("res://addons/gut/plugin.cfg")
 
 [physics]
 
-common/physics_ticks_per_second=80
+common/physics_ticks_per_second=480
 
 [rendering]
 

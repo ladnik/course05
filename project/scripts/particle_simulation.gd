@@ -5,7 +5,8 @@ extends RefCounted
 var Constants = load('res://scripts/simulation_constants.gd')
 var Particle = load('res://scripts/Particle.gd')
 
-
+var fast_particle_array = PackedVector2Array()
+var fast_particle_array2 = PackedVector2Array()
 
 var particles : Array = []
 var gravity_vector: Vector2 = Vector2(0, Constants.GRAVITY)
@@ -59,27 +60,22 @@ func collsison_reflection(normal_vector: Vector2):
 	
 
 func interaction_force(particle1, particle2) -> Vector2:
-	var distance = particle1.position.distance_to(particle2.position)
-	if distance > Constants.INTERACTION_RADIUS:
+	var r = particle2.position - particle1.position
+	if r.length() > 2 * Constants.INTERACTION_RADIUS:
 		return Vector2(0,0)
 	
-	var force = Vector2(0,0)
+	var overlap = 2 * Constants.INTERACTION_RADIUS * r.normalized() - r
 	
-	var overlap = 2 * Constants.INTERACTION_RADIUS - distance
-	var normal = (particle1.position - particle2.position).normalized()
-	
-	force = Constants.SPRING_CONSTANT * overlap * normal
-	
+	var force = Constants.SPRING_CONSTANT * Vector2(overlap.x, overlap.y + 2 * Constants.INTERACTION_RADIUS)
 	return force
-
 	
 func calculate_interaction_forces() -> void:
 	# sum over all particles without double counting
 	for i in range(particles.size()):
 		for j in range(i+1, particles.size()):
 			var force = interaction_force(particles[i], particles[j])
-			particles[i].force += force
-			particles[j].force -= force
+			particles[i].force -= force
+			particles[j].force += force
 
 func clipToBorder():
 	for i in range(particles.size()):
