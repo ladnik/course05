@@ -15,7 +15,7 @@ func _ready() -> void:
 		waterdraw.material = particle_mat
 	
 		
-		waterdraw.position = p.position
+		waterdraw.position = p.position * Constants.SCALE
 		print(p.position)
 		add_child(waterdraw)
 		# Get all children of the current node
@@ -41,3 +41,6 @@ func _physics_process(delta: float) -> void:
 		draw_point.position = i_reset*(SIM.particles[p].position)
 		#print(draw_point)
 		
+func _draw() -> void:
+	# Draw a rectangle outline
+	draw_rect(Rect2(Vector2(0, 0), Vector2(Constants.RENDER_WIDTH, Constants.RENDER_HEIGHT)), Color(1, 1, 1), false)
