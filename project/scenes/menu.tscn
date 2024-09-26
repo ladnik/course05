@@ -1,9 +1,23 @@
-[gd_scene load_steps=3 format=3 uid="uid://dnl58hkj3wo1d"]
+[gd_scene load_steps=5 format=3 uid="uid://dnl58hkj3wo1d"]
 
 [ext_resource type="Script" path="res://scripts/menu.gd" id="1_tvu83"]
+[ext_resource type="Script" path="res://scenes/menu_item.gd" id="2_81w3j"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_blv0q"]
 font_size = 51
+outline_size = 11
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 12
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(4, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_eclty"]
+font_size = 32
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 10
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(4, 1)
 
 [node name="Menu" type="CanvasLayer"]
 script = ExtResource("1_tvu83")
@@ -14,59 +28,60 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -233.0
-offset_top = -207.5
-offset_right = 233.0
-offset_bottom = -64.5
+offset_left = -447.0
+offset_top = -129.0
+offset_right = 442.0
+offset_bottom = 14.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Sarntal Super Swirl
 Prototype"
 label_settings = SubResource("LabelSettings_blv0q")
-horizontal_alignment = 1
 
-[node name="StartButton" type="Button" parent="."]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -69.0
-offset_top = 53.0
-offset_right = 64.0
-offset_bottom = 111.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="Start" type="Label" parent="."]
+offset_left = 129.0
+offset_top = 358.0
+offset_right = 241.0
+offset_bottom = 400.0
+pivot_offset = Vector2(0, 21)
+mouse_filter = 0
 text = "Start"
+label_settings = SubResource("LabelSettings_eclty")
+vertical_alignment = 1
+script = ExtResource("2_81w3j")
 
-[node name="LevelOverview" type="Button" parent="."]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -72.0
-offset_top = 129.0
-offset_right = 69.0
-offset_bottom = 192.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "Levels"
+[node name="Exit" type="Label" parent="."]
+offset_left = 129.0
+offset_top = 463.0
+offset_right = 241.0
+offset_bottom = 505.0
+pivot_offset = Vector2(0, 21)
+mouse_filter = 0
+text = "Exit
+"
+label_settings = SubResource("LabelSettings_eclty")
+vertical_alignment = 1
+script = ExtResource("2_81w3j")
 
-[node name="Exit" type="Button" parent="."]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -72.0
-offset_top = 210.0
-offset_right = 74.0
-offset_bottom = 269.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "Exit"
+[node name="Level" type="Label" parent="."]
+offset_left = 129.0
+offset_top = 411.0
+offset_right = 241.0
+offset_bottom = 453.0
+pivot_offset = Vector2(0, 21)
+mouse_filter = 0
+text = "Level
+"
+label_settings = SubResource("LabelSettings_eclty")
+vertical_alignment = 1
+script = ExtResource("2_81w3j")
 
-[connection signal="button_up" from="StartButton" to="." method="start_game"]
-[connection signal="pressed" from="LevelOverview" to="." method="_on_level_overview_pressed"]
-[connection signal="pressed" from="Exit" to="." method="_on_exit_pressed"]
+[connection signal="gui_input" from="Start" to="." method="start_gui_event"]
+[connection signal="mouse_entered" from="Start" to="Start" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Start" to="Start" method="_on_mouse_exited"]
+[connection signal="gui_input" from="Exit" to="." method="exit_gui_event"]
+[connection signal="mouse_entered" from="Exit" to="Exit" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Exit" to="Exit" method="_on_mouse_exited"]
+[connection signal="gui_input" from="Level" to="." method="level_gui"]
+[connection signal="mouse_entered" from="Level" to="Level" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Level" to="Level" method="_on_mouse_exited"]
