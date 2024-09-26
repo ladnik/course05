@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/menu.gd" id="1_tvu83"]
 [ext_resource type="Script" path="res://scripts/menu_item.gd" id="2_81w3j"]
-[ext_resource type="Texture2D" uid="uid://b2nanxuajo0mq" path="res://assets/background_menu.png" id="2_mtjmp"]
+[ext_resource type="Texture2D" uid="uid://b2nanxuajo0mq" path="res://assets/background_dummy.png" id="2_mtjmp"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_blv0q"]
 font_size = 51
