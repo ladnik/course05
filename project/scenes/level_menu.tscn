@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://dar6jel2agbyj"]
+[gd_scene load_steps=9 format=3 uid="uid://dar6jel2agbyj"]
 
 [ext_resource type="Script" path="res://scripts/level_menu.gd" id="1_2eyd3"]
 [ext_resource type="Texture2D" uid="uid://b2nanxuajo0mq" path="res://assets/background_dummy.png" id="2_5pr8o"]
@@ -12,7 +12,31 @@ shadow_size = 12
 shadow_color = Color(0, 0, 0, 1)
 shadow_offset = Vector2(4, 1)
 
-[sub_resource type="LabelSettings" id="LabelSettings_kctln"]
+[sub_resource type="LabelSettings" id="LabelSettings_43jmp"]
+font_size = 32
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 10
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(4, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_vaccj"]
+font_size = 32
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 10
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(4, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_770dv"]
+font_size = 32
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 10
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(4, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_pfcbe"]
 font_size = 32
 outline_size = 3
 outline_color = Color(0, 0, 0, 1)
@@ -63,7 +87,7 @@ pivot_offset = Vector2(0, 21)
 mouse_filter = 0
 text = "1
 "
-label_settings = SubResource("LabelSettings_kctln")
+label_settings = SubResource("LabelSettings_43jmp")
 vertical_alignment = 1
 script = ExtResource("2_f0v4j")
 
@@ -83,7 +107,7 @@ pivot_offset = Vector2(0, 21)
 mouse_filter = 0
 text = "2
 "
-label_settings = SubResource("LabelSettings_kctln")
+label_settings = SubResource("LabelSettings_vaccj")
 vertical_alignment = 1
 script = ExtResource("2_f0v4j")
 
@@ -102,7 +126,7 @@ grow_vertical = 2
 pivot_offset = Vector2(0, 21)
 mouse_filter = 0
 text = "3"
-label_settings = SubResource("LabelSettings_kctln")
+label_settings = SubResource("LabelSettings_770dv")
 vertical_alignment = 1
 script = ExtResource("2_f0v4j")
 
@@ -112,16 +136,16 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -15.0
+offset_left = -148.0
 offset_top = -125.0
-offset_right = 15.0
-offset_bottom = -80.0
+offset_right = 152.0
+offset_bottom = -79.0
 grow_horizontal = 2
 grow_vertical = 0
-pivot_offset = Vector2(0, 21)
+pivot_offset = Vector2(150, 23)
 mouse_filter = 0
 text = "Back to Main Menu"
-label_settings = SubResource("LabelSettings_kctln")
+label_settings = SubResource("LabelSettings_pfcbe")
 vertical_alignment = 1
 script = ExtResource("2_f0v4j")
 
