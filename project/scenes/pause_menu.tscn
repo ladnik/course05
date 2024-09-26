@@ -1,12 +1,69 @@
-[gd_scene load_steps=2 format=3 uid="uid://dm55nq68nldsl"]
+[gd_scene load_steps=3 format=3 uid="uid://dm55nq68nldsl"]
 
 [ext_resource type="Script" path="res://scripts/pause_menu.gd" id="1_k46i6"]
 
-[node name="CanvasLayer" type="CanvasLayer"]
+[sub_resource type="LabelSettings" id="LabelSettings_qmjsm"]
+font_size = 51
+
+[node name="Pause_Scene" type="CanvasLayer"]
 process_mode = 3
 script = ExtResource("1_k46i6")
 
-[node name="Label" type="Label" parent="."]
-offset_right = 61.0
-offset_bottom = 28.0
-text = "PAUSE"
+[node name="Pause Menu" type="Label" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -233.0
+offset_top = 40.0
+offset_right = 233.0
+offset_bottom = 183.0
+grow_horizontal = 2
+text = "Pause Menu"
+label_settings = SubResource("LabelSettings_qmjsm")
+horizontal_alignment = 1
+
+[node name="Resume" type="Button" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -69.0
+offset_top = -93.0
+offset_right = 65.0
+offset_bottom = -27.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Resume"
+
+[node name="Main Menu" type="Button" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -66.0
+offset_top = -5.0
+offset_right = 68.0
+offset_bottom = 57.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Main Menu"
+
+[node name="Exit" type="Button" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.0
+offset_top = 80.0
+offset_right = 71.0
+offset_bottom = 136.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Exit"
+
+[connection signal="pressed" from="Resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="Main Menu" to="." method="_on_main_menu_pressed"]
+[connection signal="pressed" from="Exit" to="." method="_on_exit_pressed"]
