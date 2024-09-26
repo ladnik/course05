@@ -11,8 +11,15 @@ config_version=5
 [application]
 
 config/name="course05"
+run/main_scene="res://scenes/terrain_manager.tscn"
 config/features=PackedStringArray("4.3")
 config/icon="res://icon.svg"
+
+[display]
+
+window/size/viewport_width=3000
+window/size/viewport_height=1900
+window/stretch/aspect="expand"
 
 [editor_plugins]
 
