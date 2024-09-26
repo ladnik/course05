@@ -1,18 +1,72 @@
-[gd_scene load_steps=2 format=3 uid="uid://dar6jel2agbyj"]
+[gd_scene load_steps=6 format=3 uid="uid://dar6jel2agbyj"]
 
 [ext_resource type="Script" path="res://scripts/level_menu.gd" id="1_2eyd3"]
+[ext_resource type="Texture2D" uid="uid://b2nanxuajo0mq" path="res://assets/background_dummy.png" id="2_5pr8o"]
+[ext_resource type="Script" path="res://scripts/menu_item.gd" id="2_f0v4j"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_kctln"]
+font_size = 32
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 10
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(4, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_qie8e"]
+font_size = 51
+outline_size = 11
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 12
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(4, 1)
 
 [node name="LevelMenu" type="CanvasLayer"]
 script = ExtResource("1_2eyd3")
 
-[node name="Level1" type="Button" parent="."]
-anchors_preset = -1
-anchor_left = 0.463542
-anchor_top = 0.37037
-anchor_right = 0.569444
-anchor_bottom = 0.564815
-offset_top = 1.52588e-05
-text = "1"
-metadata/_edit_use_anchors_ = true
+[node name="TextureRect" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_5pr8o")
 
-[connection signal="pressed" from="Level1" to="." method="_on_level_1_pressed"]
+[node name="Level1" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -15.0
+offset_top = -22.5
+offset_right = 15.0
+offset_bottom = 22.5
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(0, 21)
+mouse_filter = 0
+text = "1
+"
+label_settings = SubResource("LabelSettings_kctln")
+vertical_alignment = 1
+script = ExtResource("2_f0v4j")
+
+[node name="Title" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -461.0
+offset_top = -219.0
+offset_right = 428.0
+offset_bottom = -76.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Level"
+label_settings = SubResource("LabelSettings_qie8e")
+horizontal_alignment = 1
+
+[connection signal="gui_input" from="Level1" to="." method="_on_level1_gui_input"]
+[connection signal="mouse_entered" from="Level1" to="Level1" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Level1" to="Level1" method="_on_mouse_exited"]
