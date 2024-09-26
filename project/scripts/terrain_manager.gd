@@ -2,8 +2,8 @@ extends Node2D
 
 const TILE_SIZE = 5  # Specify the tile side length here
 
-var width = 400
-var height = 100
+var width = 200
+var height = 50
 
 var grid : Array = []
 var gridNoise = FastNoiseLite.new()
@@ -39,7 +39,11 @@ func generateGrid():
 		#print(maxHeight)
 		for y in range(height):
 			if maxHeight <= y:
-				grid[y][x] = 1
+				grid[y][x] = 1.0
+		
+	for x in range(50, 100):
+		for y in range(40, 50):
+			grid[y][x] = 0.0
 
 	# Genereate the two bottom points
 	boundary.append(Vector2(width - 1, height - 1))

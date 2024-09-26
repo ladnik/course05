@@ -8,6 +8,6 @@
 script = ExtResource("1_4mte1")
 
 [node name="MarchingSquares" parent="." instance=ExtResource("2_in8gi")]
-scale = Vector2(6, 6)
+scale = Vector2(8, 8)
 
 [node name="TerrainManager" parent="." instance=ExtResource("3_8criy")]
