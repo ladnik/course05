@@ -120,26 +120,14 @@ func _ready():
 	get_tree().root.size_changed.connect(updateWindowSize)
 			
 func _process(_delta):
-	var mouse_pos = get_global_mouse_position()
-	
-	var mouse_pos_grid = to_grid_pos(mouse_pos)
-	
-	var x_idx = int(mouse_pos_grid.x)
-	var y_idx = int(mouse_pos_grid.y)
+	var mouse_pos_grid = to_grid_pos(get_global_mouse_position())
 	
 	# place new terrain
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and on_grid(mouse_pos_grid):
 		apply_kernel(mouse_pos_grid, 1.0)
-		
-		grid[y_idx][x_idx] = 1.0
-				
 		update_grid()
-		
 		
 	# remove terrain
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT) and on_grid(mouse_pos_grid):
-		grid[y_idx][x_idx] = 0
-		
 		apply_kernel(mouse_pos_grid, 0.0)
-		
 		update_grid()	
