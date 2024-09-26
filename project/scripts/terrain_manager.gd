@@ -1,6 +1,6 @@
 extends Node2D
 
-const TILE_SIZE = 16  # Specify the tile side length here
+const TILE_SIZE = 5  # Specify the tile side length here
 
 var width = 400
 var height = 100
@@ -11,7 +11,7 @@ var gridNoise = FastNoiseLite.new()
 
 func _ready():
 	generateGrid()
-	renderGrid()
+	#renderGrid()
 
 func generateGrid():
 	var returnBoundaries : Array[PackedVector2Array] = [] # all boundaries
@@ -36,7 +36,7 @@ func generateGrid():
 
 		boundary.append(Vector2(x, maxHeight))
 
-		print(maxHeight)
+		#print(maxHeight)
 		for y in range(height):
 			if maxHeight <= y:
 				grid[y][x] = 1
@@ -56,12 +56,13 @@ func renderGrid():
 			var tile = ColorRect.new()
 			tile.size = Vector2(TILE_SIZE, TILE_SIZE)
 			tile.position = Vector2(x * TILE_SIZE, y * TILE_SIZE)
-			tile.color = Color.GRAY if grid[y][x] == 1 else Color.SKY_BLUE
+			#tile.color = Color.GRAY if grid[y][x] == 1 else Color.SKY_BLUE
+			tile.color = Color.GRAY if grid[y][x] else Color.SKY_BLUE
 			add_child(tile)
 
-func _draw():
-	# Draw grid lines
-	for y in range(len(grid) + 1):
-		draw_line(Vector2(0, y * TILE_SIZE), Vector2(len(grid[0]) * TILE_SIZE, y * TILE_SIZE), Color.GRAY)
-	for x in range(len(grid[0]) + 1):
-		draw_line(Vector2(x * TILE_SIZE, 0), Vector2(x * TILE_SIZE, len(grid) * TILE_SIZE), Color.GRAY)
+# func _draw():
+# 	# Draw grid lines
+# 	for y in range(len(grid) + 1):
+# 		draw_line(Vector2(0, y * TILE_SIZE), Vector2(len(grid[0]) * TILE_SIZE, y * TILE_SIZE), Color.BLACK)
+# 	for x in range(len(grid[0]) + 1):
+# 		draw_line(Vector2(x * TILE_SIZE, 0), Vector2(x * TILE_SIZE, len(grid) * TILE_SIZE), Color.BLACK)

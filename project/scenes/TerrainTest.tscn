@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://smls0m0rxtrk"]
+
+[ext_resource type="Script" path="res://scripts/terrain_test_scene.gd" id="1_4mte1"]
+[ext_resource type="PackedScene" uid="uid://dehs2hte2ssfx" path="res://scenes/marching_squares.tscn" id="2_in8gi"]
+[ext_resource type="PackedScene" uid="uid://c6r0fsu41iq0a" path="res://scenes/terrain_manager.tscn" id="3_8criy"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_4mte1")
+
+[node name="MarchingSquares" parent="." instance=ExtResource("2_in8gi")]
+scale = Vector2(6, 6)
+
+[node name="TerrainManager" parent="." instance=ExtResource("3_8criy")]

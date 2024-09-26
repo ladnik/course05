@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dehs2hte2ssfx"]
+
+[ext_resource type="Script" path="res://scripts/marching_squares.gd" id="1_jx71f"]
+
+[node name="MarchingSquares" type="MeshInstance2D"]
+script = ExtResource("1_jx71f")
