@@ -1,7 +1,16 @@
-[gd_scene load_steps=4 format=3 uid="uid://dar6jel2agbyj"]
+[gd_scene load_steps=6 format=3 uid="uid://dar6jel2agbyj"]
 
 [ext_resource type="Script" path="res://scripts/level_menu.gd" id="1_2eyd3"]
+[ext_resource type="Texture2D" uid="uid://b2nanxuajo0mq" path="res://assets/background_dummy.png" id="2_5pr8o"]
 [ext_resource type="Script" path="res://scripts/menu_item.gd" id="2_f0v4j"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ovxh0"]
+font_size = 51
+outline_size = 11
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 12
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(4, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_kctln"]
 font_size = 32
@@ -14,6 +23,30 @@ shadow_offset = Vector2(4, 1)
 [node name="LevelMenu" type="CanvasLayer"]
 script = ExtResource("1_2eyd3")
 
+[node name="Background" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_5pr8o")
+
+[node name="Title" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -461.0
+offset_top = -219.0
+offset_right = 428.0
+offset_bottom = -76.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Levels"
+label_settings = SubResource("LabelSettings_ovxh0")
+horizontal_alignment = 1
+
 [node name="Level1" type="Label" parent="."]
 anchors_preset = 8
 anchor_left = 0.5
@@ -21,9 +54,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -15.0
-offset_top = -22.5
+offset_top = -85.5
 offset_right = 15.0
-offset_bottom = 22.5
+offset_bottom = -40.5
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(0, 21)
@@ -34,6 +67,71 @@ label_settings = SubResource("LabelSettings_kctln")
 vertical_alignment = 1
 script = ExtResource("2_f0v4j")
 
+[node name="Level2" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -15.0
+offset_top = -23.5
+offset_right = 15.0
+offset_bottom = 21.5
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(0, 21)
+mouse_filter = 0
+text = "2
+"
+label_settings = SubResource("LabelSettings_kctln")
+vertical_alignment = 1
+script = ExtResource("2_f0v4j")
+
+[node name="Level3" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -15.0
+offset_top = 39.5
+offset_right = 15.0
+offset_bottom = 84.5
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(0, 21)
+mouse_filter = 0
+text = "3"
+label_settings = SubResource("LabelSettings_kctln")
+vertical_alignment = 1
+script = ExtResource("2_f0v4j")
+
+[node name="backtomainmenu" type="Label" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -15.0
+offset_top = -125.0
+offset_right = 15.0
+offset_bottom = -80.0
+grow_horizontal = 2
+grow_vertical = 0
+pivot_offset = Vector2(0, 21)
+mouse_filter = 0
+text = "Back to Main Menu"
+label_settings = SubResource("LabelSettings_kctln")
+vertical_alignment = 1
+script = ExtResource("2_f0v4j")
+
 [connection signal="gui_input" from="Level1" to="." method="_on_level1_gui_input"]
 [connection signal="mouse_entered" from="Level1" to="Level1" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="Level1" to="Level1" method="_on_mouse_exited"]
+[connection signal="mouse_entered" from="Level2" to="Level2" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Level2" to="Level2" method="_on_mouse_exited"]
+[connection signal="mouse_entered" from="Level3" to="Level3" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Level3" to="Level3" method="_on_mouse_exited"]
+[connection signal="gui_input" from="backtomainmenu" to="." method="_on_backtomainmenu_gui_input"]
+[connection signal="mouse_entered" from="backtomainmenu" to="backtomainmenu" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="backtomainmenu" to="backtomainmenu" method="_on_mouse_exited"]
