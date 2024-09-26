@@ -1,2 +1,5 @@
 .vscode/
 .history/
+godot-cpp/
+build/
+godot-cpp.diff
