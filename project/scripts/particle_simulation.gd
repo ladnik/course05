@@ -14,12 +14,11 @@ var gravity_vector: Vector2 = Vector2(0, Constants.GRAVITY)
 # Called when the node enters the scene tree for the first time.
 
 func _init():
-	
+	# randomly spawn particles inside of HEIGHT and WIDTH
 	for i in range(Constants.NUMBER_PARTICLES):
-		var pos: Vector2 = Vector2(200+i*20,0)
-		var vel: Vector2= Vector2(0,10)
-		
-		particles.append(Particle.new(pos,vel))
+		var p = Particle.new()
+		p.position = Vector2(randf() * Constants.WIDTH, randf() * Constants.HEIGHT)
+		particles.append(p)
 
 
 
@@ -35,6 +34,7 @@ func update(delta):
 	#calculate_force_density(draw_mode)
 	calculate_interaction_forces()
 	integration_step(delta)
+	clipToBorder()
 	#collision_handling()
 	
 	#breakpoint
@@ -80,3 +80,18 @@ func calculate_interaction_forces() -> void:
 			var force = interaction_force(particles[i], particles[j])
 			particles[i].force += force
 			particles[j].force -= force
+
+func clipToBorder():
+	for i in range(particles.size()):
+		if particles[i].position.x < 0:
+			particles[i].position.x = 0
+			particles[i].velocity.x = 0
+		if particles[i].position.x > Constants.WIDTH:
+			particles[i].position.x = Constants.WIDTH
+			particles[i].velocity.x = 0
+		if particles[i].position.y < 0:
+			particles[i].position.y = 0
+			particles[i].velocity.y = 0
+		if particles[i].position.y > Constants.HEIGHT:
+			particles[i].position.y = Constants.HEIGHT
+			particles[i].velocity.y = 0
