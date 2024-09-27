@@ -189,9 +189,17 @@ func continuous_collision(start : Vector2, end : Vector2):
 				var o_s : Vector2 = line[0]
 				var b : Vector2 = o_r - o_s
 
-				var tan_vs = v_s.y / v_s.x
-				var t_r = (b.y - tan_vs * b.x) / (v_r.y - tan_vs * v_r.x)
-				var t_s = (b.x - v_r.x * t_r) / v_s.x
+				var t_r = -1.
+				var t_s = -1.
+				if v_s.x != 0:
+					var tan_vs = v_s.y / v_s.x
+					t_r = (b.y - tan_vs * b.x) / (v_r.y - tan_vs * v_r.x)
+					t_s = (b.x - v_r.x * t_r) / v_s.x
+				else:
+					var inv_tan_vs = v_s.x / v_s.y
+					t_r = (b.x - inv_tan_vs * b.y) / (v_r.x - inv_tan_vs * v_r.y)
+					t_s = (b.y - v_r.y * t_r) / v_s.y
+
 				# Collision occured
 				if t_r >= 0 and t_r <= 1 and t_s >= 0 and t_s <= 1:
 					t_rs.append(t_r)
