@@ -11,6 +11,7 @@ var num_particles = 1
 var start_time = 0.0
 var stop_time = 1.0
 
+var rng = RandomNumberGenerator.new()
 
 func _init(source_position: Vector2, direction: Vector2, velocity: float, width: int, spawn_interval: float, num_particles: int, start_time: float, stop_time:float) -> void:
 	self.position = source_position
@@ -22,6 +23,7 @@ func _init(source_position: Vector2, direction: Vector2, velocity: float, width:
 	self.normal = Vector2(direction.y, -direction.x)
 	self.start_time = start_time
 	self.stop_time = stop_time
+	rng.seed = 12345
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -34,7 +36,7 @@ func spawn(delta: float, particle_positions, previous_positions, velocities, for
 		timer = 0
 		for i in range(num_particles):
 			var offset = -self.normal * width / 2.0 + self.normal * width / (num_particles - 1) * i if num_particles > 1 else Vector2(0,0)
-			var particle_position = self.position + offset
+			var particle_position = self.position + offset + Vector2(rng.randf_range(-0.1, 0.1), rng.randf_range(-0.1, 0.1))
 			particle_positions.push_back(particle_position)
 			previous_positions.push_back(particle_position)
 			velocities.push_back(self.direction * initial_velocity)
