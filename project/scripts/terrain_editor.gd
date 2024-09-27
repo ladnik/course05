@@ -1,7 +1,7 @@
 extends Node2D
 
-var _width = 200
-var _height = 100
+var _width = 160
+var _height = 90
 
 var grid : Array = []
 var gridNoise = FastNoiseLite.new()
