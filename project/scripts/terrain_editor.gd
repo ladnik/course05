@@ -1,6 +1,6 @@
 extends Node2D
 
-var _width = 400
+var _width = 200
 var _height = 100
 
 var grid : Array = []
@@ -35,7 +35,6 @@ func on_grid(grid_pos):
 
 func apply_kernel(grid_pos, target_value):
 	var kernel_multiplier = 100
-	
 	for i in range(-kernel_radius - 1, kernel_radius + 1):
 		for j in range(-kernel_radius - 1, kernel_radius + 1):
 			var grid_pos_kernel = Vector2(grid_pos.x + j, grid_pos.y + i)

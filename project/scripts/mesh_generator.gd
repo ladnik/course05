@@ -21,25 +21,23 @@ const cases : Array = [
 
 const border_cases : Array = [
 	[],
-	[[3, 1]],
-	[[5, 3]],
-	[[5, 1]],
-	[[7, 5]],
-	[[3, 5], [7, 1]],
-	[[7, 3]],
-	[[7, 1]],
-	[[1, 7]],
-	[[3, 7]],
-	[[1, 3], [5, 7]],
-	[[5, 7]],
-	[[1, 5]],
-	[[3, 5]],
 	[[1, 3]],
+	[[3, 5]],
+	[[1, 5]],
+	[[5, 7]],
+	[[5, 3], [1, 7]],
+	[[3, 7]],
+	[[1, 7]],
+	[[7, 1]],
+	[[7, 3]],
+	[[3, 1], [7, 5]],
+	[[7, 5]],
+	[[5, 1]],
+	[[5, 3]],
+	[[3, 1]],
 	[]
 ]
 
-var line_vertices : PackedVector2Array = []
-var line_normals : PackedVector2Array = []
 var lines_in_cell : Array = []
 
 var triangleCoordinates : PackedVector3Array = []
@@ -49,9 +47,10 @@ var cellTriangleIndex : Array[int] = []
 func visualize(grid : Array):
 	marchingSquares(grid)
 	triangleMesh()
-	# queue_redraw() 
+	queue_redraw() 
 
 func _draw():
+	drawCollision()
 	pass #drawContours()
 
 # Only for debugging
@@ -66,6 +65,18 @@ func drawContours():
 		draw_line(vec1, vec3, Color.RED, w)
 		draw_line(vec3, vec2, Color.RED, w)
 
+# Only for debugging
+func drawCollision():
+	for i in range(len(lines_in_cell)):
+		for j in range(len(lines_in_cell[i])):
+			for line in lines_in_cell[i][j]:
+				var normal = line[2]
+				var a = line[0]
+				var b = line[1]
+				var w = 0.2
+				draw_line(a, b, Color.RED, w)
+				draw_line(a, a + normal, Color(1, 0, 1))
+
 func triangleMesh():
 	# Initialize the ArrayMesh.
 	var arr_mesh = ArrayMesh.new()
@@ -78,17 +89,19 @@ func triangleMesh():
 	mesh = arr_mesh
 
 func marchingSquares(grid : Array):
-	line_vertices = []
-	line_normals = []
-	lines_in_cell = []
+	
 	triangleCoordinates = []
 	cellTriangleIndex = []
 	var height = len(grid)
 	var width = len(grid[0])
+	if len(lines_in_cell) == 0:
+		lines_in_cell.resize(height - 1)
+		for i in range(height - 1):
+			lines_in_cell[i] = []
+			lines_in_cell[i].resize(width - 1)
 
 	var cellIndex = 0
 	for y in range(height - 1):
-		lines_in_cell.append([])
 		for x in range(width - 1):
 			# Determine bit number for cell
 			var cellCase = (int(!!roundf(grid[y][x])) << 3) + (int(!!roundf(grid[y][x+1])) << 2) + (int(!!roundf(grid[y+1][x+1])) << 1) + int(!!roundf(grid[y+1][x]))
@@ -98,7 +111,8 @@ func marchingSquares(grid : Array):
 			for num in case:
 				triangleCoordinates.append(marchingSquaresCoordinate(num, x, y, grid))
 			
-			lines_in_cell[y].append([[]])
+			
+			lines_in_cell[y][x] = []
 			var lines_to_add = border_cases[cellCase]
 			for line in lines_to_add:
 				var a : int = line[0]
@@ -107,12 +121,9 @@ func marchingSquares(grid : Array):
 				var b : int = line[1]
 				var b3 : Vector3 = marchingSquaresCoordinate(b, x, y, grid)
 				var bp : Vector2 = Vector2(b3.x, b3.y)
-				lines_in_cell[y][x].append(len(line_vertices))
-				line_vertices.append(ap)
-				line_vertices.append(bp)
 				var d : Vector2 = bp - ap
-				var n : Vector2 = Vector2(d.y, -d.x)
-				line_normals.append(n)
+				var n : Vector2 = Vector2(d.y, -d.x).normalized()
+				lines_in_cell[y][x].append([ap, bp, n])
 
 	cellTriangleIndex.append(cellIndex)
 
