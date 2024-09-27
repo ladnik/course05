@@ -18,7 +18,7 @@ var gravity_vector: Vector2 = Vector2(0, Constants.GRAVITY)
 func _init():
 	# randomly spawn particles inside of HEIGHT and WIDTH
 	for i in range(Constants.NUMBER_PARTICLES):
-		var position = Vector2(randf() * Constants.WIDTH, randf() * Constants.HEIGHT)
+		var position = Vector2(randf() * 50+100, randf() * 50+100)
 		fast_particle_array.push_back(position)
 		previous_positions.push_back(position)
 		velocities.push_back(Vector2(0,0))
@@ -30,14 +30,15 @@ func update(delta):
 	reset_forces()
 	calculate_interaction_forces()
 	integration_step(delta)
-	#double_density_relaxation(delta)
-	#calculate_next_velocity(delta)
+	double_density_relaxation(delta)
+	calculate_next_velocity(delta)
 	
 	clipToBorder()
 
 func integration_step(delta):
 	for i in range(Constants.NUMBER_PARTICLES):
 		var force: Vector2 = gravity_vector + force_array[i]
+		#var force: Vector2 = gravity_vector 
 		previous_positions[i] = fast_particle_array[i]
 		velocities[i] += delta * force
 		fast_particle_array[i] += delta * velocities[i]
@@ -57,7 +58,8 @@ func interaction_force(position1, position2) -> Vector2:
 	
 	var overlap = 2 * Constants.INTERACTION_RADIUS * r.normalized() - r
 	
-	var force = Constants.SPRING_CONSTANT * Vector2(overlap.x, overlap.y + 2 * Constants.INTERACTION_RADIUS)
+	var force = Constants.SPRING_CONSTANT * Vector2(min(overlap.x, 0.2* Constants.INTERACTION_RADIUS), min(overlap.y,0.05*Constants.INTERACTION_RADIUS) + 2 * Constants.INTERACTION_RADIUS)
+	
 	return force
 	
 func calculate_interaction_forces() -> void:
@@ -94,7 +96,7 @@ func double_density_relaxation(delta):
 		var desnity = 0
 		var density_near = 0
 		var particleA= fast_particle_array[i]
-		var h = 25 #cut-off radius
+		var h = 15 #cut-off radius
 		var k = 0.1 
 		var k_near= 0.2
 		var density_zero= 10
