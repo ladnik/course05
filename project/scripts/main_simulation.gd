@@ -50,12 +50,12 @@ func _draw() -> void:
 	#draw_line(Vector2(0,0), Vector2(Constants.RENDER_WIDTH, Constants.RENDER_HEIGHT), Color(1, 1, 0))
 
 	for p in range(SIM.fast_particle_array.size()):
-		draw_circle(SIM.fast_particle_array[p] * Constants.SCALE, 5 * Constants.SCALE, Color(1, 0, 0), true)
-		# draw_circle(SIM.fast_particle_array[p] * Constants.SCALE, Constants.INTERACTION_RADIUS * Constants.SCALE, Color(1, 0, 0), false)
+		draw_circle(SIM.fast_particle_array[p] * Constants.SCALE, 5 * Constants.SCALE, Color(0, 1, 0), true)
+		draw_circle(SIM.fast_particle_array[p] * Constants.SCALE, Constants.INTERACTION_RADIUS * Constants.SCALE, Color(0, 1, 0), false)
 		# draw diagonal line from particle to interaction boundary
-		#draw_line(SIM.fast_particle_array[p] * Constants.SCALE, (SIM.fast_particle_array[p] + Vector2(1, 1).normalized() * Constants.INTERACTION_RADIUS) * Constants.SCALE, Color(1, 0, 0), 1, false)
-		#if Constants.DISPLAY_VELOCITY:
-			#draw_line(SIM.fast_particle_array[p] * Constants.SCALE, (SIM.fast_particle_array[p] + SIM.velocities[p]) * Constants.SCALE, Color(0, 1, 0), 1, false)
-		#if Constants.DISPLAY_FORCE:
-			##print(SIM.particles[p].last_force)
-			#draw_line(SIM.fast_particle_array[p] * Constants.SCALE, (SIM.fast_particle_array[p] + SIM.force_array[p]) * Constants.SCALE, Color(0, 0, 1), 1, false)
+		draw_line(SIM.fast_particle_array[p] * Constants.SCALE, (SIM.fast_particle_array[p] + Vector2(1, 1).normalized() * Constants.INTERACTION_RADIUS) * Constants.SCALE, Color(1, 0, 0), 1, false)
+		if Constants.DISPLAY_VELOCITY:
+			draw_line(SIM.fast_particle_array[p] * Constants.SCALE, (SIM.fast_particle_array[p] + SIM.velocities[p]) * Constants.SCALE, Color(0, 1, 0), 1, false)
+		if Constants.DISPLAY_FORCE:
+			#print(SIM.particles[p].last_force)
+			draw_line(SIM.fast_particle_array[p] * Constants.SCALE, (SIM.fast_particle_array[p] + SIM.force_array[p]) * Constants.SCALE, Color(0, 0, 1), 1, false)
