@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import os
 import sys
+import subprocess
 
 env = SConscript("godot-cpp/SConstruct")
 
@@ -12,9 +13,12 @@ env = SConscript("godot-cpp/SConstruct")
 # - CPPDEFINES are for pre-processor defines
 # - LINKFLAGS are for linking flags
 
+opencv_libs = [lib.decode('ascii')[2:] for lib in subprocess.check_output(["pkg-config", "--libs", "opencv4"]).split()]
+
 # tweak this if you want to use different folders, or more folders, to store your source code in.
-env.Append(CPPPATH=["src/", "/usr/include/libusb-1.0"])
+env.Append(CPPPATH=["src/", "/usr/include/libusb-1.0", "/usr/include/opencv4"])
 env.Append(CPPFLAGS=["-fexceptions"])
+env.Append(LIBS=["freenect"] + opencv_libs)
 sources = Glob("src/*.cpp")
 
 if env["platform"] == "macos":
