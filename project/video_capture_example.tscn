@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://csiw0gc8i4r1h"]
+
+[ext_resource type="Script" path="res://video_capture_example.gd" id="1_q8onu"]
+
+[node name="VideoCaptureExample" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 640.0
+offset_bottom = 480.0
+script = ExtResource("1_q8onu")
+metadata/_edit_group_ = true
+
+[node name="VideoFeed" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
