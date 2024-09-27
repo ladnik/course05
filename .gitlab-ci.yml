@@ -31,7 +31,7 @@ import-assets:
   stage: import
   script:
     - cd $PROJECT_PATH
-    - godot --headless --verbose --editor --quit  || true
+    - godot --headless --verbose --import || true
     - cd ..
     - scons -v
 
@@ -48,7 +48,7 @@ unit-test:
     - cd $PROJECT_PATH
     - mkdir -v -p $TEST_PATH
     - mkdir -v -p $REPORT_PATH
-    - godot --headless --verbose --editor --quit  || true 
+    - godot --headless --verbose --import  || true 
     - godot --headless -s $TEST_SCRIPT -gdir=$TEST_PATH -gjunit_xml_file=$REPORT_FILE
   needs: ["import-assets"]
   artifacts:
@@ -71,7 +71,7 @@ integration-test:
     - cd $PROJECT_PATH
     - mkdir -v -p $TEST_PATH
     - mkdir -v -p $REPORT_PATH
-    - godot --headless --verbose --editor --quit  || true 
+    - godot --headless --verbose --import
     - godot --headless -s $TEST_SCRIPT -gdir=$TEST_PATH -gjunit_xml_file=$REPORT_FILE
   needs: ["import-assets"]
   artifacts:
