@@ -81,10 +81,10 @@ func visualize(grid : Array):
 	triangleMesh()
 	var end_triangle_mesh =  Time.get_unix_time_from_system()
 
-	print("Marching Squares: ")
-	print(end_ms - start_ms)
-	print("Drawing: ")
-	print(end_triangle_mesh - end_ms)
+	# print("Marching Squares: ")
+	# print(end_ms - start_ms)
+	# print("Drawing: ")
+	# print(end_triangle_mesh - end_ms)
 	#queue_redraw() 
 
 func _draw():
@@ -166,7 +166,6 @@ func get_triangles_per_chunk(chunk_idx_x, chunk_idx_y, grid: Array):
 			cellIndex += caseLength[cellCase]
 			for num in case:
 				chunk_triangle_coords.append(marchingSquaresCoordinate(num, x, y, grid))
-
 			
 			lines_in_cell[y][x] = []
 			var lines_to_add = border_cases[cellCase]
