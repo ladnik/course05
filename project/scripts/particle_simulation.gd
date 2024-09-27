@@ -18,7 +18,7 @@ var gravity_vector: Vector2 = Vector2(0, Constants.GRAVITY)
 func _init():
 	# randomly spawn particles inside of HEIGHT and WIDTH
 	for i in range(Constants.NUMBER_PARTICLES):
-		var position = Vector2(randf() * 50+100, randf() * 50+100)
+		var position = Vector2(randf() * 50+100, randf() * 0)
 		fast_particle_array.push_back(position)
 		previous_positions.push_back(position)
 		velocities.push_back(Vector2(0,0))
@@ -31,6 +31,7 @@ func update(delta):
 	calculate_interaction_forces()
 	integration_step(delta)
 	double_density_relaxation(delta)
+	check_oneway_coupling()
 	calculate_next_velocity(delta)
 	
 	clipToBorder()
@@ -74,22 +75,22 @@ func reset_forces():
 	for i in range(fast_particle_array.size()):
 		force_array[i] = Vector2(0,0)
 
-#func collision_checker(boundary, pos):
-	#pass
-#func check_oneway_coupling():
-	#for i in range(particles.size()):
-		#var collision_object = collision_checker(particles[i].pre_position,fast_particle_array[i])
-		#if collision_object.bool == True:
-			#handle_oneway_coupling(i:int,collision_object.normalvector, collision_object.intersection)
+func collision_checker(i:int)-> bool:
+	#print(fast_particle_array[i].x /2)
+	if fast_particle_array[i].y >fast_particle_array[i].x /2:
+		return true
+	else:
+		return false
+func check_oneway_coupling():
+	for i in range(fast_particle_array.size()):
+		var collision_object = collision_checker(i)
+		if collision_object == true:
+			#print("True")
+			fast_particle_array[i]+=Vector2(2,-4).normalized()/Constants.SCALE/15
 			
-#func handle_oneway_coupling(particle ,normal_vector:Vector2,new_position:Vector2):
-	#fast_particle_array[i]=new_position
-	#var v_x = velocities[i].x
-	#var v_y = velocities[i].y
-	#var n_x = normal_vector.x
-	#var n_y = normal_vector.y
-	##R=V−2⋅(V⋅N)⋅N
-	#particles[i].velocity = particles[i].velocity- 2*(v_x*n_x+v_y*n_y)*normal_vector
+			
+
+	
 	
 func double_density_relaxation(delta):
 	for i in range(fast_particle_array.size()):
@@ -139,7 +140,7 @@ func clipToBorder():
 			velocities[i].x = 0
 		if fast_particle_array[i].y < 0:
 			fast_particle_array[i].y = 0
-			velocities[i].y = 0
+			velocities[i].y *= -1
 		if fast_particle_array[i].y > Constants.HEIGHT:
 			fast_particle_array[i].y = Constants.HEIGHT
 			velocities[i].y = 0

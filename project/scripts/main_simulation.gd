@@ -36,6 +36,7 @@ func _physics_process(delta: float) -> void:
 func _draw() -> void:
 	# Draw a rectangle outline
 	draw_rect(Rect2(Vector2(0, 0), Vector2(Constants.RENDER_WIDTH, Constants.RENDER_HEIGHT)), Color(1, 1, 1), false)
+	draw_line(Vector2(0,0), Vector2(Constants.RENDER_WIDTH, Constants.RENDER_HEIGHT), Color(1, 1, 0))
 	#for p in range(SIM.fast_particle_array.size()):
 		#draw_circle(SIM.fast_particle_array[p] * Constants.SCALE, Constants.INTERACTION_RADIUS * Constants.SCALE, Color(1, 0, 0), false)
 		# draw diagonal line from particle to interaction boundary

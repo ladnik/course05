@@ -3,3 +3,4 @@
 godot-cpp/
 build/
 godot-cpp.diff
+.godot/
