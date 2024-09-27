@@ -110,7 +110,19 @@ func calculate_interaction_forces() -> void:
 	##R=V−2⋅(V⋅N)⋅N
 	#particles[i].velocity = particles[i].velocity- 2*(v_x*n_x+v_y*n_y)*normal_vector
 	
-
+func double_density_relaxation(delta):
+	for i in range(particles.size()):
+		var desnity = 0
+		var density_near = 0
+		var particleA= particles[i]
+		for j in range(particles.size()):
+			if i==j:
+				continue
+			var particleB=particles[j]
+			var rij = particleB.positon-particleA.position
+			var q=rij.length()
+			
+			
 func clipToBorder():
 	for i in range(particles.size()):
 		if particles[i].position.x < 0:
