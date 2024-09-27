@@ -1,8 +1,10 @@
-extends RefCounted
+extends Node2D
 
 # import terrrain manager script to access the terrain data
 #var TERRAIN_MANAGER = load("res://scripts/terrain_manager.gd")
 var Constants = load('res://scripts/simulation_constants.gd')
+var WATER_SOURCE = load('res://scripts/water_source.gd')
+var water_source: Node2D
 
 var fast_particle_array = PackedVector2Array()
 var previous_positions = PackedVector2Array()
@@ -17,7 +19,10 @@ var mesh_generator: MeshInstance2D
 # Called when the node enters the scene tree for the first time.
 
 func _init():
-	# randomly spawn particles inside of HEIGHT and WIDTH
+	self.water_source = WATER_SOURCE.new(Vector2(100, 20), Vector2(0, 10), 10, 10, 0.2, 2, 0.0, 4.0)
+
+
+func random_spawn():
 	for i in range(Constants.NUMBER_PARTICLES):
 		var position = Vector2(randf() * 50+100, randf() * 0)
 		fast_particle_array.push_back(position)
@@ -28,6 +33,8 @@ func _init():
 
 
 func update(delta):
+	self.water_source.spawn(delta, fast_particle_array, previous_positions, velocities, force_array)
+
 	reset_forces()
 	calculate_interaction_forces()
 	integration_step(delta)
@@ -38,7 +45,7 @@ func update(delta):
 	clipToBorder()
 
 func integration_step(delta):
-	for i in range(Constants.NUMBER_PARTICLES):
+	for i in range(fast_particle_array.size()):
 		var force: Vector2 = gravity_vector + force_array[i]
 		#var force: Vector2 = gravity_vector 
 		previous_positions[i] = fast_particle_array[i]
@@ -48,7 +55,7 @@ func integration_step(delta):
 
 	
 func calculate_next_velocity(delta):
-	for i in range(Constants.NUMBER_PARTICLES):
+	for i in range(fast_particle_array.size()):
 		#Calculate the new velocity from the previous and current position
 		var velocity : Vector2 = (fast_particle_array[i] - previous_positions[i]) / delta
 		velocities[i] = velocity
@@ -60,7 +67,10 @@ func interaction_force(position1, position2) -> Vector2:
 	
 	var overlap = 2 * Constants.INTERACTION_RADIUS * r.normalized() - r
 	
-	var force = Constants.SPRING_CONSTANT * Vector2(min(overlap.x, 0.2* Constants.INTERACTION_RADIUS), min(overlap.y,0.05*Constants.INTERACTION_RADIUS) + 2 * Constants.INTERACTION_RADIUS)
+	var forceX = overlap.x
+	var forceY = overlap.y
+
+	var force = Constants.SPRING_CONSTANT * Vector2(forceX, forceY)
 	
 	return force
 	
@@ -91,15 +101,18 @@ func check_oneway_coupling():
 		if collision_object[0] == true:
 			#print("True")
 			#fast_particle_array[i]+=Vector2(2,-4).normalized()/Constants.SCALE/15
+			# fast_particle_array.remove_at(i)
+			# previous_positions.remove_at(i)
+			# velocities.remove_at(i)
+			# force_array.remove_at(i)
 			fast_particle_array[i]+=collision_object[2].normalized()/Constants.SCALE
-	
 	
 func double_density_relaxation(delta):
 	for i in range(fast_particle_array.size()):
-		var desnity = 0
+		var density = 0
 		var density_near = 0
 		var particleA= fast_particle_array[i]
-		var h = 15 #cut-off radius
+		var h = 30 #cut-off radius
 		var k = 0.1 
 		var k_near= 0.2
 		var density_zero= 10
@@ -110,10 +123,10 @@ func double_density_relaxation(delta):
 			var rij = particleB-particleA
 			var q=rij.length()/h
 			if q < 1:
-				desnity+=(1-q)**2
+				density+=(1-q)**2
 				density_near+=(1-q)**3
 		#compute Pressure
-		var pressure= k*(desnity-density_zero)
+		var pressure= k*(density-density_zero)
 		var pressure_near= k_near*density_near
 		var pos_displacement_A = Vector2(0,0)
 		for j in range(fast_particle_array.size()):
