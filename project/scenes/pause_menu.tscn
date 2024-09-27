@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://scripts/menu_item.gd" id="2_otmi0"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_qmjsm"]
-font_size = 51
+font_size = 80
 outline_size = 8
 outline_color = Color(0, 0, 0, 1)
 shadow_size = 10
@@ -12,7 +12,7 @@ shadow_color = Color(0, 0, 0, 1)
 shadow_offset = Vector2(4, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_5ib5w"]
-font_size = 32
+font_size = 50
 outline_size = 3
 outline_color = Color(0, 0, 0, 1)
 shadow_size = 10
@@ -20,7 +20,7 @@ shadow_color = Color(0, 0, 0, 1)
 shadow_offset = Vector2(4, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_xfkeo"]
-font_size = 32
+font_size = 50
 outline_size = 3
 outline_color = Color(0, 0, 0, 1)
 shadow_size = 10
@@ -28,7 +28,7 @@ shadow_color = Color(0, 0, 0, 1)
 shadow_offset = Vector2(4, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_rpwns"]
-font_size = 32
+font_size = 50
 outline_size = 3
 outline_color = Color(0, 0, 0, 1)
 shadow_size = 10
@@ -51,19 +51,19 @@ color = Color(0, 0, 0, 0.431373)
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = 129.0
-offset_top = -129.0
-offset_right = 595.0
-offset_bottom = -31.0
+offset_left = 169.0
+offset_top = -328.0
+offset_right = 635.0
+offset_bottom = -230.0
 grow_vertical = 2
 text = "Pause"
 label_settings = SubResource("LabelSettings_qmjsm")
 
 [node name="Resume" type="Label" parent="."]
-offset_left = 129.0
-offset_top = 358.0
-offset_right = 241.0
-offset_bottom = 400.0
+offset_left = 175.0
+offset_top = 498.0
+offset_right = 368.0
+offset_bottom = 567.0
 pivot_offset = Vector2(0, 21)
 mouse_filter = 0
 text = "Resume"
@@ -72,10 +72,10 @@ vertical_alignment = 1
 script = ExtResource("2_otmi0")
 
 [node name="Exit" type="Label" parent="."]
-offset_left = 129.0
-offset_top = 463.0
-offset_right = 241.0
-offset_bottom = 505.0
+offset_left = 175.0
+offset_top = 788.0
+offset_right = 419.0
+offset_bottom = 857.0
 pivot_offset = Vector2(0, 21)
 mouse_filter = 0
 text = "Exit Game
@@ -85,10 +85,10 @@ vertical_alignment = 1
 script = ExtResource("2_otmi0")
 
 [node name="Menu" type="Label" parent="."]
-offset_left = 129.0
-offset_top = 411.0
-offset_right = 241.0
-offset_bottom = 453.0
+offset_left = 175.0
+offset_top = 638.0
+offset_right = 555.0
+offset_bottom = 707.0
 pivot_offset = Vector2(0, 21)
 mouse_filter = 0
 text = "Return to Menu
