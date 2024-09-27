@@ -19,7 +19,7 @@ func _init():
 	# randomly spawn particles inside of HEIGHT and WIDTH
 	for i in range(Constants.NUMBER_PARTICLES):
 		var p = Particle.new()
-		p.position = Vector2(randf() * Constants.WIDTH, randf() * Constants.HEIGHT)
+		p.position = Vector2(randf() * 10+100, randf() * 10+100)
 		particles.append(p)
 		fast_particle_array.push_back(p.position)
 		force_array.push_back(Vector2(0,0))
@@ -39,7 +39,8 @@ func update(delta):
 	reset_forces()
 	calculate_interaction_forces()
 	integration_step(delta)
-	calculate_next_velocity(delta)
+	#double_density_relaxation(delta)
+	#calculate_next_velocity(delta)
 	
 	clipToBorder()
 	
@@ -103,6 +104,7 @@ func reset_forces():
 		#var collision_object = collision_checker(particles[i].pre_position,particles[i].position)
 		#if collision_object.bool == True:
 			#handle_oneway_coupling(i:int,collision_object.normalvector, collision_object.intersection)
+			
 #func handle_oneway_coupling(particle ,normal_vector:Vector2,new_position:Vector2):
 	#particles[i].position=new_position
 	#var v_x = particles[i].velocity.x
@@ -113,16 +115,41 @@ func reset_forces():
 	#particles[i].velocity = particles[i].velocity- 2*(v_x*n_x+v_y*n_y)*normal_vector
 	
 func double_density_relaxation(delta):
-	for i in range(particles.size()):
+	for i in range(fast_particle_array.size()):
 		var desnity = 0
 		var density_near = 0
-		var particleA= particles[i]
-		for j in range(particles.size()):
+		var particleA= fast_particle_array[i]
+		var h = 25 #cut-off radius
+		var k = 0.1 
+		var k_near= 0.2
+		var density_zero= 10
+		for j in range(fast_particle_array.size()):
 			if i==j:
 				continue
-			var particleB=particles[j]
-			var rij = particleB.positon-particleA.position
-			var q=rij.length()
+			var particleB=fast_particle_array[j]
+			var rij = particleB-particleA
+			var q=rij.length()/h
+			if q < 1:
+				desnity+=(1-q)**2
+				density_near+=(1-q)**3
+		#compute Pressure
+		var pressure= k*(desnity-density_zero)
+		var pressure_near= k_near*density_near
+		var pos_displacement_A = Vector2(0,0)
+		for j in range(fast_particle_array.size()):
+			if i==j:
+				continue
+			var particleB=fast_particle_array[j]
+			var rij = particleB-particleA
+			var q=rij.length()/h
+			if q < 1:
+				rij=rij.normalized()
+				var displacement_term:Vector2 =delta**2 * (pressure*(1-q)+pressure_near*(1-q)**2)*rij
+				particleB += displacement_term/2
+				pos_displacement_A -= displacement_term/2
+		particleA += pos_displacement_A
+				
+		
 			
 			
 func clipToBorder():
