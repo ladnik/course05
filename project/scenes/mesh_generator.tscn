@@ -1,6 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://dj6i5anlrylyt"]
+[gd_scene load_steps=4 format=3 uid="uid://q7cjvoss1ve4"]
 
+[ext_resource type="Shader" path="res://shaders/mesh_generator.gdshader" id="1_cofql"]
 [ext_resource type="Script" path="res://scripts/mesh_generator.gd" id="1_wdgqf"]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vt7le"]
+shader = ExtResource("1_cofql")
+shader_parameter/x_scale = 1.0
+shader_parameter/y_scale = 1.0
+
 [node name="MeshGenerator" type="MeshInstance2D"]
+material = SubResource("ShaderMaterial_vt7le")
 script = ExtResource("1_wdgqf")
