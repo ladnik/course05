@@ -1,8 +1,10 @@
-extends RefCounted
+extends Node2D
 
 # import terrrain manager script to access the terrain data
 #var TERRAIN_MANAGER = load("res://scripts/terrain_manager.gd")
 var Constants = load('res://scripts/simulation_constants.gd')
+var WATER_SOURCE = load('res://scripts/water_source.gd')
+var water_source: Node2D
 
 var fast_particle_array = PackedVector2Array()
 var previous_positions = PackedVector2Array()
@@ -17,7 +19,10 @@ var mesh_generator: MeshInstance2D
 # Called when the node enters the scene tree for the first time.
 
 func _init():
-	# randomly spawn particles inside of HEIGHT and WIDTH
+	self.water_source = WATER_SOURCE.new(Vector2(100, 20), Vector2(0, 10), 10, 10, 0.2, 2, 0.0, 10.0)
+
+
+func random_spawn():
 	for i in range(Constants.NUMBER_PARTICLES):
 		var position = Vector2(randf() * 50+100, randf() * 0)
 		fast_particle_array.push_back(position)
@@ -28,6 +33,8 @@ func _init():
 
 
 func update(delta):
+	self.water_source.spawn(delta, fast_particle_array, previous_positions, velocities, force_array)
+
 	reset_forces()
 	calculate_interaction_forces()
 	integration_step(delta)
@@ -38,7 +45,7 @@ func update(delta):
 	clipToBorder()
 
 func integration_step(delta):
-	for i in range(Constants.NUMBER_PARTICLES):
+	for i in range(fast_particle_array.size()):
 		var force: Vector2 = gravity_vector + force_array[i]
 		#var force: Vector2 = gravity_vector 
 		previous_positions[i] = fast_particle_array[i]
@@ -48,7 +55,7 @@ func integration_step(delta):
 
 	
 func calculate_next_velocity(delta):
-	for i in range(Constants.NUMBER_PARTICLES):
+	for i in range(fast_particle_array.size()):
 		#Calculate the new velocity from the previous and current position
 		var velocity : Vector2 = (fast_particle_array[i] - previous_positions[i]) / delta
 		velocities[i] = velocity
