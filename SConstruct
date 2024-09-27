@@ -14,6 +14,8 @@ env = SConscript("godot-cpp/SConstruct")
 # - LINKFLAGS are for linking flags
 
 opencv_libs = [lib.decode('ascii')[2:] for lib in subprocess.check_output(["pkg-config", "--libs", "opencv4"]).split()]
+# This library is not found on specific systems (e.g. Ubuntu 22.04)
+opencv_libs.remove("opencv_gapi")
 
 # tweak this if you want to use different folders, or more folders, to store your source code in.
 env.Append(CPPPATH=["src/", "/usr/include/libusb-1.0", "/usr/include/opencv4", "libfreenect/include", "libfreenect/wrappers/cpp"])
