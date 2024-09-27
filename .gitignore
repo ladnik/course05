@@ -6,3 +6,4 @@
 
 # Platform specific file produced by godot --dump-extension-api
 extension_api.json
+.DS_Store
