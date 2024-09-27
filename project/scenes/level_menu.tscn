@@ -1,0 +1,209 @@
+[gd_scene load_steps=9 format=3 uid="uid://dar6jel2agbyj"]
+
+[ext_resource type="Script" path="res://scripts/level_menu.gd" id="1_2eyd3"]
+[ext_resource type="Texture2D" uid="uid://b2nanxuajo0mq" path="res://assets/background_dummy.png" id="2_5pr8o"]
+[ext_resource type="Script" path="res://scripts/menu_item.gd" id="2_f0v4j"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ovxh0"]
+font_size = 90
+outline_size = 11
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 12
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(4, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_43jmp"]
+font_size = 50
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 10
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(4, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_vaccj"]
+font_size = 50
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 10
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(4, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_770dv"]
+font_size = 50
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 10
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(4, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_pfcbe"]
+font_size = 55
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 10
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(4, 1)
+
+[node name="LevelMenu" type="CanvasLayer"]
+script = ExtResource("1_2eyd3")
+
+[node name="Background" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_5pr8o")
+
+[node name="Title" type="Label" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -454.0
+offset_top = 191.0
+offset_right = 435.0
+offset_bottom = 334.0
+grow_horizontal = 2
+text = "Levels"
+label_settings = SubResource("LabelSettings_ovxh0")
+horizontal_alignment = 1
+
+[node name="Level1box" type="ColorRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -260.0
+offset_top = -10.0
+offset_right = -140.0
+offset_bottom = 110.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(40, 40)
+color = Color(1, 1, 1, 0.784314)
+
+[node name="Level1" type="Label" parent="." node_paths=PackedStringArray("box")]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -260.0
+offset_top = -10.0
+offset_right = -140.0
+offset_bottom = 110.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(40, 40)
+mouse_filter = 0
+text = "1
+"
+label_settings = SubResource("LabelSettings_43jmp")
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("2_f0v4j")
+box = NodePath("../Level1box")
+
+[node name="Level2box" type="ColorRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -10.0
+offset_right = 60.0
+offset_bottom = 110.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(40, 40)
+color = Color(1, 1, 1, 0.784314)
+
+[node name="Level2" type="Label" parent="." node_paths=PackedStringArray("box")]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -10.0
+offset_right = 60.0
+offset_bottom = 110.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(40, 40)
+mouse_filter = 0
+text = "2
+"
+label_settings = SubResource("LabelSettings_vaccj")
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("2_f0v4j")
+box = NodePath("../Level2box")
+
+[node name="Level3box" type="ColorRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 140.0
+offset_top = -10.0
+offset_right = 260.0
+offset_bottom = 110.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(40, 40)
+color = Color(1, 1, 1, 0.784314)
+
+[node name="Level3" type="Label" parent="." node_paths=PackedStringArray("box")]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 140.0
+offset_top = -10.0
+offset_right = 260.0
+offset_bottom = 110.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(40, 40)
+mouse_filter = 0
+text = "3"
+label_settings = SubResource("LabelSettings_770dv")
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("2_f0v4j")
+box = NodePath("../Level3box")
+
+[node name="backtomainmenu" type="Label" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -148.0
+offset_top = -165.0
+offset_right = 152.0
+offset_bottom = -119.0
+grow_horizontal = 2
+grow_vertical = 0
+pivot_offset = Vector2(150, 23)
+mouse_filter = 0
+text = "Back to Main Menu"
+label_settings = SubResource("LabelSettings_pfcbe")
+vertical_alignment = 1
+script = ExtResource("2_f0v4j")
+
+[connection signal="gui_input" from="Level1" to="." method="_on_level1_gui_input"]
+[connection signal="mouse_entered" from="Level1" to="Level1" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Level1" to="Level1" method="_on_mouse_exited"]
+[connection signal="mouse_entered" from="Level2" to="Level2" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Level2" to="Level2" method="_on_mouse_exited"]
+[connection signal="mouse_entered" from="Level3" to="Level3" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Level3" to="Level3" method="_on_mouse_exited"]
+[connection signal="gui_input" from="backtomainmenu" to="." method="_on_backtomainmenu_gui_input"]
+[connection signal="mouse_entered" from="backtomainmenu" to="backtomainmenu" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="backtomainmenu" to="backtomainmenu" method="_on_mouse_exited"]
