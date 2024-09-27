@@ -3,12 +3,12 @@ extends RefCounted
 # import terrrain manager script to access the terrain data
 #var TERRAIN_MANAGER = load("res://scripts/terrain_manager.gd")
 var Constants = load('res://scripts/simulation_constants.gd')
-var Particle = load('res://scripts/Particle.gd')
 
 var fast_particle_array = PackedVector2Array()
+var previous_positions = PackedVector2Array()
+var velocities = PackedVector2Array() 
 var force_array = PackedVector2Array()
 
-var particles : Array = []
 var gravity_vector: Vector2 = Vector2(0, Constants.GRAVITY)
 
 
@@ -18,24 +18,15 @@ var gravity_vector: Vector2 = Vector2(0, Constants.GRAVITY)
 func _init():
 	# randomly spawn particles inside of HEIGHT and WIDTH
 	for i in range(Constants.NUMBER_PARTICLES):
-		var p = Particle.new()
-		p.position = Vector2(randf() * 10+100, randf() * 10+100)
-		particles.append(p)
-		fast_particle_array.push_back(p.position)
+		var position = Vector2(randf() * Constants.WIDTH, randf() * Constants.HEIGHT)
+		fast_particle_array.push_back(position)
+		previous_positions.push_back(position)
+		velocities.push_back(Vector2(0,0))
 		force_array.push_back(Vector2(0,0))
 
 
 
 func update(delta):
-	#var m = OS.get_ticks_msec()
-	
-	#find_neighborhoods()
-	#print('find_neighborhoods takes ' + str(OS.get_ticks_msec() - m) + ' ms.')
-	#m = OS.get_ticks_msec()
-	
-	#calculate_density()
-	#calculate_pressure()
-	#calculate_force_density(draw_mode)
 	reset_forces()
 	calculate_interaction_forces()
 	integration_step(delta)
@@ -43,37 +34,21 @@ func update(delta):
 	#calculate_next_velocity(delta)
 	
 	clipToBorder()
-	
-	
-	#collision_handling()
-	
-	#breakpoint
-	#grid.update_structure(particles)
-	
-	#print('everything else takes ' + str(OS.get_ticks_msec() - m) + ' ms.')
-	#m = OS.get_ticks_msec()
 
 func integration_step(delta):
 	for i in range(Constants.NUMBER_PARTICLES):
 		var force: Vector2 = gravity_vector + force_array[i]
-		particles[i].pre_position = particles[i].position
-		particles[i].velocity += delta * force
-		particles[i].position += delta * particles[i].velocity
-		fast_particle_array[i] = particles[i].position
-		particles[i].last_force = particles[i].force
-		particles[i].force = Vector2(0,0)
+		previous_positions[i] = fast_particle_array[i]
+		velocities[i] += delta * force
+		fast_particle_array[i] += delta * velocities[i]
 	
 
 	
 func calculate_next_velocity(delta):
 	for i in range(Constants.NUMBER_PARTICLES):
 		#Calculate the new velocity from the previous and current position
-		var velocity : Vector2 = (particles[i].position - particles[i].pre_position) / delta
-		particles[i].velocity = velocity
-
-func collsison_reflection(normal_vector: Vector2):
-	pass
-	
+		var velocity : Vector2 = (fast_particle_array[i] - previous_positions[i]) / delta
+		velocities[i] = velocity
 
 func interaction_force(position1, position2) -> Vector2:
 	var r = position2 - position1
@@ -94,21 +69,21 @@ func calculate_interaction_forces() -> void:
 			force_array[j] += force
 
 func reset_forces():
-	for i in range(particles.size()):
+	for i in range(fast_particle_array.size()):
 		force_array[i] = Vector2(0,0)
 
 #func collision_checker(boundary, pos):
 	#pass
 #func check_oneway_coupling():
 	#for i in range(particles.size()):
-		#var collision_object = collision_checker(particles[i].pre_position,particles[i].position)
+		#var collision_object = collision_checker(particles[i].pre_position,fast_particle_array[i])
 		#if collision_object.bool == True:
 			#handle_oneway_coupling(i:int,collision_object.normalvector, collision_object.intersection)
 			
 #func handle_oneway_coupling(particle ,normal_vector:Vector2,new_position:Vector2):
-	#particles[i].position=new_position
-	#var v_x = particles[i].velocity.x
-	#var v_y = particles[i].velocity.y
+	#fast_particle_array[i]=new_position
+	#var v_x = velocities[i].x
+	#var v_y = velocities[i].y
 	#var n_x = normal_vector.x
 	#var n_y = normal_vector.y
 	##R=V−2⋅(V⋅N)⋅N
@@ -153,19 +128,19 @@ func double_density_relaxation(delta):
 			
 			
 func clipToBorder():
-	for i in range(particles.size()):
-		if particles[i].position.x < 0:
-			particles[i].position.x = 0
-			particles[i].velocity.x = 0
-		if particles[i].position.x > Constants.WIDTH:
-			particles[i].position.x = Constants.WIDTH
-			particles[i].velocity.x = 0
-		if particles[i].position.y < 0:
-			particles[i].position.y = 0
-			particles[i].velocity.y = 0
-		if particles[i].position.y > Constants.HEIGHT:
-			particles[i].position.y = Constants.HEIGHT
-			particles[i].velocity.y = 0
+	for i in range(fast_particle_array.size()):
+		if fast_particle_array[i].x < 0:
+			fast_particle_array[i].x = 0
+			velocities[i].x = 0
+		if fast_particle_array[i].x > Constants.WIDTH:
+			fast_particle_array[i].x = Constants.WIDTH
+			velocities[i].x = 0
+		if fast_particle_array[i].y < 0:
+			fast_particle_array[i].y = 0
+			velocities[i].y = 0
+		if fast_particle_array[i].y > Constants.HEIGHT:
+			fast_particle_array[i].y = Constants.HEIGHT
+			velocities[i].y = 0
 
 func get_particle_positions():
 	return fast_particle_array

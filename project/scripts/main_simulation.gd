@@ -8,12 +8,12 @@ var particle_mat = CanvasItemMaterial.new()
 func _ready() -> void:
 	#View.size = Vector2(Constants.RENDER_WIDTH, Constants.RENDER_HEIGHT)
 	#OS.window_size = $View.size
-	for p in SIM.particles:
+	for p in SIM.fast_particle_array:
 			var waterdraw = Sprite2D.new()
 			waterdraw.texture = preload("res://assets/ball.png")
 			waterdraw.material = particle_mat
 		
-			waterdraw.position = p.position * Constants.SCALE
+			waterdraw.position = p * Constants.SCALE
 			add_child(waterdraw)
 
 	
@@ -26,22 +26,22 @@ func _physics_process(delta: float) -> void:
 			if child is Sprite2D:
 				children.append(child)
 				
-	for p in range(SIM.particles.size()):
+	for p in range(SIM.fast_particle_array.size()):
 		var draw_point = get_child(p+1)
 		var i_reset=1
-		draw_point.position = i_reset*(SIM.particles[p].position * Constants.SCALE)
+		draw_point.position = i_reset*(SIM.fast_particle_array[p] * Constants.SCALE)
 
 	queue_redraw()
 		
 func _draw() -> void:
 	# Draw a rectangle outline
 	draw_rect(Rect2(Vector2(0, 0), Vector2(Constants.RENDER_WIDTH, Constants.RENDER_HEIGHT)), Color(1, 1, 1), false)
-	for p in range(SIM.particles.size()):
-		draw_circle(SIM.particles[p].position * Constants.SCALE, Constants.INTERACTION_RADIUS * Constants.SCALE, Color(1, 0, 0), false)
+	for p in range(SIM.fast_particle_array.size()):
+		draw_circle(SIM.fast_particle_array[p] * Constants.SCALE, Constants.INTERACTION_RADIUS * Constants.SCALE, Color(1, 0, 0), false)
 		# draw diagonal line from particle to interaction boundary
-		draw_line(SIM.particles[p].position * Constants.SCALE, (SIM.particles[p].position + Vector2(1, 1).normalized() * Constants.INTERACTION_RADIUS) * Constants.SCALE, Color(1, 0, 0), 1, false)
+		draw_line(SIM.fast_particle_array[p] * Constants.SCALE, (SIM.fast_particle_array[p] + Vector2(1, 1).normalized() * Constants.INTERACTION_RADIUS) * Constants.SCALE, Color(1, 0, 0), 1, false)
 		if Constants.DISPLAY_VELOCITY:
-			draw_line(SIM.particles[p].position * Constants.SCALE, (SIM.particles[p].position + SIM.particles[p].velocity) * Constants.SCALE, Color(0, 1, 0), 1, false)
+			draw_line(SIM.fast_particle_array[p] * Constants.SCALE, (SIM.fast_particle_array[p] + SIM.velocities[p]) * Constants.SCALE, Color(0, 1, 0), 1, false)
 		if Constants.DISPLAY_FORCE:
 			#print(SIM.particles[p].last_force)
 			draw_line(SIM.fast_particle_array[p] * Constants.SCALE, (SIM.fast_particle_array[p] + SIM.force_array[p]) * Constants.SCALE, Color(0, 0, 1), 1, false)
