@@ -14,11 +14,8 @@ func _ready() -> void:
 			waterdraw.material = particle_mat
 		
 			waterdraw.position = p.position * Constants.SCALE
-			print(p.position)
 			add_child(waterdraw)
 
-	print(Constants.DISPLAY_FORCE)
-	
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
@@ -40,12 +37,11 @@ func _draw() -> void:
 	# Draw a rectangle outline
 	draw_rect(Rect2(Vector2(0, 0), Vector2(Constants.RENDER_WIDTH, Constants.RENDER_HEIGHT)), Color(1, 1, 1), false)
 	for p in range(SIM.particles.size()):
-		#print(SIM.particles[p].position)
 		draw_circle(SIM.particles[p].position * Constants.SCALE, Constants.INTERACTION_RADIUS * Constants.SCALE, Color(1, 0, 0), false)
 		# draw diagonal line from particle to interaction boundary
 		draw_line(SIM.particles[p].position * Constants.SCALE, (SIM.particles[p].position + Vector2(1, 1).normalized() * Constants.INTERACTION_RADIUS) * Constants.SCALE, Color(1, 0, 0), 1, false)
 		if Constants.DISPLAY_VELOCITY:
 			draw_line(SIM.particles[p].position * Constants.SCALE, (SIM.particles[p].position + SIM.particles[p].velocity) * Constants.SCALE, Color(0, 1, 0), 1, false)
 		if Constants.DISPLAY_FORCE:
-			#print(SIM.particles[p].force)
-			draw_line(SIM.particles[p].position * Constants.SCALE, (SIM.particles[p].position + SIM.particles[p].last_force) * Constants.SCALE, Color(0, 0, 1), 1, false)
+			#print(SIM.particles[p].last_force)
+			draw_line(SIM.fast_particle_array[p] * Constants.SCALE, (SIM.fast_particle_array[p] + SIM.force_array[p]) * Constants.SCALE, Color(0, 0, 1), 1, false)
