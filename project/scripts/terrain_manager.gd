@@ -7,8 +7,8 @@ extends Node2D
 # Godot functions
 
 func _ready():
-	editor.generateGrid()	
-	renderer.initialize(editor.grid)
+	editor.generateGrid()
+	renderer.initialize(editor.grid, mesh_generator.scale)
 	mesh_generator.visualize(editor.grid)
 
 func _process(_delta):
