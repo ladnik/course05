@@ -44,13 +44,22 @@ var triangleCoordinates : PackedVector3Array = []
 const caseLength : Array = [0, 1, 1, 2, 1, 4, 2, 3, 1, 2, 4, 3, 2, 3, 3, 2]
 var cellTriangleIndex : Array[int] = []
 
+# needed for collision debug drawing
+@onready var renderer = $"../TerrainRenderer"
+var debug_start_pos = Vector2(0, 0)
+var debug_end_pos = Vector2(1, 1)
+var debug_col = Vector2(0, 0)
+var debug_normal = Vector2(1, 0)
+var debug_collided : bool = false
+
 func visualize(grid : Array):
 	marchingSquares(grid)
 	triangleMesh()
 	#queue_redraw() 
 
 func _draw():
-	drawCollision()
+	#drawCollision()
+	drawDebugCollision()
 	pass #drawContours()
 
 # Only for debugging
@@ -76,6 +85,12 @@ func drawCollision():
 				var w = 0.2
 				draw_line(a, b, Color.RED, w)
 				draw_line(a, a + normal, Color(1, 0, 1))
+
+func drawDebugCollision():
+	var w = .5
+	draw_line(debug_start_pos, debug_end_pos, Color(0, 1, 0), w)
+	if debug_collided:
+		draw_line(debug_col, debug_col + debug_normal, Color(1, 0, 1), w)
 
 func triangleMesh():
 	# Initialize the ArrayMesh.
@@ -156,7 +171,7 @@ func pointOffset(x0 : float, y0 : float):
 
 # Return a tuple 
 func continuous_collision(start : Vector2, end : Vector2):
-	var t_ss = []
+	var t_rs = []
 	var collision_normals = []
 	var x_min = int(min(start.x, end.x))
 	var x_max = int(max(start.x, end.x)) + 1
@@ -179,22 +194,31 @@ func continuous_collision(start : Vector2, end : Vector2):
 				var t_s = (b.x - v_r.x * t_r) / v_s.x
 				# Collision occured
 				if t_r >= 0 and t_r <= 1 and t_s >= 0 and t_s <= 1:
-					t_ss.append(t_s)
+					t_rs.append(t_r)
 					collision_normals.append(line[2])
 	# no collisions occured
-	if len(t_ss) == 0:
+	if len(t_rs) == 0:
 		# return a valid position and normalized normal vector to avoid strange errors
 		return [false, Vector2(0, 0), Vector2(-1, 0)]
 
-	min_index = 0
-	min_distance = t_ss[0]
-	for i in range(1, len(t_ss)):
-		if t_ss[i] < min_distance:
+	var min_index = 0
+	var min_distance = t_rs[0]
+	for i in range(1, len(t_rs)):
+		if t_rs[i] < min_distance:
 			min_index = i
-			min_distance = t_ss[i]
+			min_distance = t_rs[i]
 	return [true, o_r - v_r * min_distance, collision_normals[min_index]]
+
+
 
 func _unhandled_input(event):
 	if event is InputEventKey:
 		if event.pressed and event.keycode == KEY_C:
-			print("got input")
+			debug_start_pos = renderer.to_grid_pos(get_global_mouse_position())
+		if event.pressed and event.keycode == KEY_V:
+			debug_end_pos = renderer.to_grid_pos(get_global_mouse_position())
+			var collision = continuous_collision(debug_start_pos, debug_end_pos)
+			debug_collided = collision[0]
+			debug_col = collision[1]
+			debug_normal = collision[2]
+			queue_redraw()
