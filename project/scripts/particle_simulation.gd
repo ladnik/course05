@@ -82,7 +82,7 @@ func collision_checker(i:int)-> Array:
 		#return true
 	#else:
 		#return false
-	var array_collision = mesh_generator.continuous_collision(fast_particle_array[i],previous_positions[i])
+	var array_collision = mesh_generator.continuous_collision(previous_positions[i], fast_particle_array[i])
 	return array_collision
 		
 func check_oneway_coupling():
@@ -91,7 +91,7 @@ func check_oneway_coupling():
 		if collision_object[0] == true:
 			#print("True")
 			#fast_particle_array[i]+=Vector2(2,-4).normalized()/Constants.SCALE/15
-			fast_particle_array[i]+=collision_object[2].normalized()/Constants.SCALE/15
+			fast_particle_array[i]+=collision_object[2].normalized()/Constants.SCALE
 			
 			
 
@@ -139,10 +139,10 @@ func clipToBorder():
 	for i in range(fast_particle_array.size()):
 		if fast_particle_array[i].x < 0:
 			fast_particle_array[i].x = 0
-			velocities[i].x = 0
+			velocities[i].x *= -1
 		if fast_particle_array[i].x > Constants.WIDTH:
 			fast_particle_array[i].x = Constants.WIDTH
-			velocities[i].x = 0
+			velocities[i].x *= -1
 		if fast_particle_array[i].y < 0:
 			fast_particle_array[i].y = 0
 			velocities[i].y *= -1
