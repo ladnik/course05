@@ -22,17 +22,17 @@ variables:
   TEMPLATE: template_debug
 
 before_script:
-    - export SCONS_CACHE="./cache"
-    - source gitlab_functions.sh
+  - export SCONS_CACHE="./cache"
+  - source gitlab_functions.sh
+  - section_start "GODOT_IMPORT" "Import Godot resources"
+  - cd $PROJECT_PATH
+  - godot --headless --verbose --import
+  - cd ..
+  - section_end "GODOT_IMPORT"
 
-
-    
 import-assets:
   stage: import
   script:
-    - cd $PROJECT_PATH
-    - godot --headless --verbose --import || true
-    - cd ..
     - scons -v
 
   needs: []
@@ -48,17 +48,15 @@ unit-test:
     - cd $PROJECT_PATH
     - mkdir -v -p $TEST_PATH
     - mkdir -v -p $REPORT_PATH
-    - godot --headless --verbose --import  || true 
     - godot --headless -s $TEST_SCRIPT -gdir=$TEST_PATH -gjunit_xml_file=$REPORT_FILE
   needs: ["import-assets"]
   artifacts:
     name: report_$CI_JOB_NAME
-    when: 'always'
+    when: "always"
     paths:
       - $PROJECT_PATH/$REPORT_PATH/*
     reports:
       junit: $PROJECT_PATH/$REPORT_FILE
-    
 
 integration-test:
   stage: test
@@ -71,18 +69,17 @@ integration-test:
     - cd $PROJECT_PATH
     - mkdir -v -p $TEST_PATH
     - mkdir -v -p $REPORT_PATH
-    - godot --headless --verbose --import
     - godot --headless -s $TEST_SCRIPT -gdir=$TEST_PATH -gjunit_xml_file=$REPORT_FILE
   needs: ["import-assets"]
   artifacts:
     name: report_$CI_JOB_NAME
-    when: 'always'
+    when: "always"
     paths:
       - $PROJECT_PATH/$REPORT_PATH/*
     reports:
       junit: $PROJECT_PATH/$REPORT_FILE
 
-# Compile bindings, build custom libraries and export to platforms  
+# Compile bindings, build custom libraries and export to platforms
 linux:
   stage: export
   variables:
@@ -111,7 +108,7 @@ windows:
   script:
     - section_start "SCONS_COMPILE_LIBS" "Compile C++ libraries"
     - scons platform=windows target=$TEMPLATE
-    - section_end "SCONS_COMPILE_LIBS" 
+    - section_end "SCONS_COMPILE_LIBS"
 
     - cd $PROJECT_PATH
     - mkdir -v -p $EXPORT_PATH
@@ -134,7 +131,7 @@ web:
   script:
     - section_start "SCONS_COMPILE_LIBS" "Compile C++ libraries"
     - scons platform=web target=$TEMPLATE
-    - section_end "SCONS_COMPILE_LIBS" 
+    - section_end "SCONS_COMPILE_LIBS"
 
     - cd $PROJECT_PATH
     - mkdir -v -p $EXPORT_PATH
@@ -148,4 +145,3 @@ web:
     name: $EXPORT_NAME-$CI_JOB_NAMEl
     paths:
       - $PROJECT_PATH/$EXPORT_PATH/*
-
