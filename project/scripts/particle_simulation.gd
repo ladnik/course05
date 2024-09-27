@@ -94,17 +94,13 @@ func collision_checker(i:int)-> Array:
 		#return false
 	var array_collision = mesh_generator.continuous_collision(previous_positions[i], fast_particle_array[i])
 	return array_collision
-		
+
 func check_oneway_coupling():
 	for i in range(fast_particle_array.size()):
 		var collision_object = collision_checker(i)
 		if collision_object[0] == true:
 			#print("True")
 			#fast_particle_array[i]+=Vector2(2,-4).normalized()/Constants.SCALE/15
-			# fast_particle_array.remove_at(i)
-			# previous_positions.remove_at(i)
-			# velocities.remove_at(i)
-			# force_array.remove_at(i)
 			fast_particle_array[i]+=collision_object[2].normalized()/Constants.SCALE
 	
 func double_density_relaxation(delta):
@@ -162,3 +158,9 @@ func clipToBorder():
 
 func get_particle_positions():
 	return fast_particle_array
+
+func remove_particle(i: int):
+	fast_particle_array.remove_at(i)
+	previous_positions.remove_at(i)
+	velocities.remove_at(i)
+	force_array.remove_at(i)

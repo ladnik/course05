@@ -29,5 +29,5 @@ visible = false
 [node name="ParticleSimulation" parent="." instance=ExtResource("6_02jwq")]
 
 [node name="PowerPlant" parent="." instance=ExtResource("7_ptt5m")]
-position = Vector2(19, 195)
-scale = Vector2(10, 10)
+position = Vector2(1324, 676)
+scale = Vector2(14.6, 14.6)
