@@ -19,7 +19,7 @@ config/icon="res://icon.svg"
 
 window/size/viewport_width=3000
 window/size/viewport_height=1900
-window/stretch/aspect="expand"
+window/size/resizable=false
 
 [editor_plugins]
 

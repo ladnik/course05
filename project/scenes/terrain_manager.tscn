@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scripts/terrain_manager.gd" id="1_thinb"]
 [ext_resource type="Script" path="res://scripts/terrain_renderer.gd" id="2_4xkgq"]
 [ext_resource type="Script" path="res://scripts/terrain_editor.gd" id="3_5hetr"]
-[ext_resource type="PackedScene" uid="uid://btgq3f6ewa184" path="res://scenes/marching_squares.tscn" id="4_uydl6"]
+[ext_resource type="PackedScene" uid="uid://cj0qi5k5eypyk" path="res://scenes/marching_squares.tscn" id="4_uydl6"]
 
 [node name="TerrainManager" type="Node2D"]
 script = ExtResource("1_thinb")
@@ -16,3 +16,6 @@ script = ExtResource("3_5hetr")
 
 [node name="MeshGenerator" parent="." instance=ExtResource("4_uydl6")]
 scale = Vector2(15, 15)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(1500, 950)
