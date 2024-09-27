@@ -1,2 +1,5 @@
 .vscode/
 .history/
+
+.DS_Store
+cache/

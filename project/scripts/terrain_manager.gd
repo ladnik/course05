@@ -3,6 +3,7 @@ extends Node2D
 @onready var editor = $TerrainEditor
 @onready var renderer = $TerrainRenderer
 @onready var mesh_generator = $MeshGenerator
+
 # Godot functions
 
 var last_mouse_clicked = false
@@ -11,8 +12,8 @@ var this_mouse_clicked = false
 var only_marching_squares_after_drawn = false
 
 func _ready():
-	editor.generateGrid()	
-	renderer.initialize(editor.grid)
+	editor.generateGrid()
+	renderer.initialize(editor.grid, mesh_generator.scale)
 	mesh_generator.visualize(editor.grid)
 
 func _process(_delta):

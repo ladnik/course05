@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://c0t56i52uemdg"]
+[gd_scene load_steps=2 format=3 uid="uid://dj6i5anlrylyt"]
 
 [ext_resource type="Script" path="res://scripts/mesh_generator.gd" id="1_wdgqf"]
 

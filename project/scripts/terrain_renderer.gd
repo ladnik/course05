@@ -22,12 +22,12 @@ func update_grid(grid):
 	#gridTexture.update(gridImage)
 	pass
 
-func updateWindowSize(): 
+func updateWindowSize(scale): 
 	var windowSize = get_viewport_rect().size
-	var scaleY = windowSize.y / _height
-	gridSprite.scale = Vector2(scaleY, scaleY)
+	gridSprite.scale = scale
+	
 
-func initialize(grid):
+func initialize(grid, scale):
 	_height = len(grid)
 	_width = len(grid[0])
 
@@ -40,7 +40,7 @@ func initialize(grid):
 
 	update_grid(grid)
 
-	updateWindowSize()
+	updateWindowSize(scale)
 
 
 # Godot functions
@@ -48,7 +48,7 @@ func initialize(grid):
 func _ready() -> void:
 	get_tree().root.size_changed.connect(updateWindowSize)
 
-	add_child(gridSprite)
+	#add_child(gridSprite)
 
 func _process(delta: float) -> void:
 	pass
