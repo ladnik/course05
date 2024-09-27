@@ -4,3 +4,5 @@ godot-cpp/
 build/
 godot-cpp.diff
 .godot/
+.DS_Store
+cache/

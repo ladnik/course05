@@ -1,67 +1,52 @@
 extends Node2D
 
-const TILE_SIZE = 16  # Specify the tile side length here
+@onready var editor = $TerrainEditor
+@onready var renderer = $TerrainRenderer
+@onready var mesh_generator = $MeshGenerator
 
-var width = 400
-var height = 100
+# Godot functions
 
-var grid : Array = []
-var gridNoise = FastNoiseLite.new()
+var last_mouse_clicked = false
+var this_mouse_clicked = false
 
+var only_marching_squares_after_drawn = false
 
 func _ready():
-	generateGrid()
-	renderGrid()
+	editor.generateGrid()
+	renderer.initialize(editor.grid, mesh_generator.scale)
+	mesh_generator.visualize(editor.grid)
 
-func generateGrid():
-	var returnBoundaries : Array[PackedVector2Array] = [] # all boundaries
-	var boundary : PackedVector2Array = [] # current boundary
+func _process(_delta):
+	var mouse_pos_grid = renderer.to_grid_pos(get_global_mouse_position())
 
-	# Generate grid array
-	for y in range(height):
-		var grid_row = []
-		for x in range(width):
-			grid_row.append(0)
-		grid.append(grid_row)
+	this_mouse_clicked = false
 
-	# Initialize noise generator
-	gridNoise.seed = 0815;
-	gridNoise.noise_type = FastNoiseLite.TYPE_PERLIN
-	gridNoise.fractal_octaves = 4
-	gridNoise.frequency = 0.0075
+	# place new terrain
+	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and editor.on_grid(mouse_pos_grid):
+		editor.apply_kernel(mouse_pos_grid, 1.0)
+		renderer.update_grid(editor.grid)
+		mesh_generator.set_chunk_and_neighbors_just_changed(mouse_pos_grid, editor.grid, editor.kernel_radius)
+		this_mouse_clicked = true
 
-	# Fill grid with noise data and generate output boundaries
-	for x in range(width):
-		var maxHeight = round(gridNoise.get_noise_1d(x) * height * 2 + height / 2.5)
+		if not only_marching_squares_after_drawn:
+			mesh_generator.visualize(editor.grid)
+		
+	# remove terrain
+	if Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT) and editor.on_grid(mouse_pos_grid):
+		editor.apply_kernel(mouse_pos_grid, 0.0)
+		mesh_generator.set_chunk_and_neighbors_just_changed(mouse_pos_grid, editor.grid, editor.kernel_radius)
+		renderer.update_grid(editor.grid)
+		this_mouse_clicked = true
 
-		boundary.append(Vector2(x, maxHeight))
+		if not only_marching_squares_after_drawn:
+			mesh_generator.visualize(editor.grid)
 
-		print(maxHeight)
-		for y in range(height):
-			if maxHeight <= y:
-				grid[y][x] = 1
+	if !this_mouse_clicked and last_mouse_clicked and only_marching_squares_after_drawn:
+		print("just released")
+		mesh_generator.visualize(editor.grid)
 
-	# Genereate the two bottom points
-	boundary.append(Vector2(width - 1, height - 1))
-	boundary.append(Vector2(0, 		   height - 1))
+	last_mouse_clicked = this_mouse_clicked
 
-	returnBoundaries.append(boundary)
+	
 
-	return returnBoundaries
-
-
-func renderGrid(): 
-	for y in range(height):
-		for x in range(width):
-			var tile = ColorRect.new()
-			tile.size = Vector2(TILE_SIZE, TILE_SIZE)
-			tile.position = Vector2(x * TILE_SIZE, y * TILE_SIZE)
-			tile.color = Color.GRAY if grid[y][x] == 1 else Color.SKY_BLUE
-			add_child(tile)
-
-func _draw():
-	# Draw grid lines
-	for y in range(len(grid) + 1):
-		draw_line(Vector2(0, y * TILE_SIZE), Vector2(len(grid[0]) * TILE_SIZE, y * TILE_SIZE), Color.GRAY)
-	for x in range(len(grid[0]) + 1):
-		draw_line(Vector2(x * TILE_SIZE, 0), Vector2(x * TILE_SIZE, len(grid) * TILE_SIZE), Color.GRAY)
+	
