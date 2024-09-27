@@ -18,4 +18,4 @@ script = ExtResource("3_5hetr")
 scale = Vector2(15, 15)
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(1500, 950)
+position = Vector2(960, 540)
