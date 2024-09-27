@@ -50,7 +50,7 @@ func apply_kernel(grid_pos, target_value):
 				grid[grid_pos_kernel.y][grid_pos_kernel.x] = min(1.0, max(0, new_grid_value))
 
 
-func generateGrid():
+func generateGrid(seed, type, octaves, frequency):
 	var returnBoundaries : Array[PackedVector2Array] = [] # all boundaries
 	var boundary : PackedVector2Array = [] # current boundary
 
@@ -61,11 +61,11 @@ func generateGrid():
 			grid_row.append(0)
 		grid.append(grid_row)
 
-	# Initialize noise generator
-	gridNoise.seed = 0815;
-	gridNoise.noise_type = FastNoiseLite.TYPE_PERLIN
-	gridNoise.fractal_octaves = 4
-	gridNoise.frequency = 0.0075
+	# Initialize noise generator with passed parameters
+	gridNoise.seed = seed;
+	gridNoise.noise_type = type
+	gridNoise.fractal_octaves = octaves
+	gridNoise.frequency = frequency
 
 	# Fill grid with noise data and generate output boundaries
 	for x in range(_width):

@@ -1,10 +1,15 @@
 extends Node2D
 
-@onready var mesh_generator: MeshInstance2D = $"../MeshGenerator"
+class_name ParticleSimulation
 
-var SIM = load('res://scripts/particle_simulation.gd').new()
+@onready var mesh_generator: MeshInstance2D = $"../TerrainManager/MeshGenerator"
+
+var SIM 
 var Constants = load('res://scripts/simulation_constants.gd')
 var particle_mat = CanvasItemMaterial.new()
+
+func _init(pos_x, dis_x, pos_y, dis_y):
+	SIM = load('res://scripts/particle_simulation.gd').new(pos_x, dis_x, pos_y, dis_y)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -31,8 +36,8 @@ func _physics_process(delta: float) -> void:
 			if child is Sprite2D:
 				children.append(child)
 				
-	for p in range(SIM.fast_particle_array.size()):
-		var draw_point = get_child(p+1)
+	for p in range(children.size()):
+		var draw_point = get_child(p)
 		var i_reset=1
 		draw_point.position = i_reset*(SIM.fast_particle_array[p] * Constants.SCALE)
 
