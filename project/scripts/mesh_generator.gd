@@ -47,7 +47,7 @@ var cellTriangleIndex : Array[int] = []
 func visualize(grid : Array):
 	marchingSquares(grid)
 	triangleMesh()
-	queue_redraw() 
+	#queue_redraw() 
 
 func _draw():
 	drawCollision()
