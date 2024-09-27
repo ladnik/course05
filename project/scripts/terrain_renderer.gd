@@ -48,7 +48,7 @@ func initialize(grid):
 func _ready() -> void:
 	get_tree().root.size_changed.connect(updateWindowSize)
 
-	add_child(gridSprite)
+	#add_child(gridSprite)
 
 func _process(delta: float) -> void:
 	pass

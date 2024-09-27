@@ -1,6 +1,6 @@
 extends MeshInstance2D
 
-var cases : Array = [
+const cases : Array = [
 	[],
 	[1, 2, 3],
 	[3, 4, 5],								# 2
@@ -18,16 +18,39 @@ var cases : Array = [
 	[0, 1, 6, 1, 3, 6, 3, 4, 6],			# 14
 	[0, 2, 4, 0, 4, 6]
 ]
+
+const border_cases : Array = [
+	[],
+	[[1, 3]],
+	[[3, 5]],
+	[[1, 5]],
+	[[5, 7]],
+	[[5, 3], [1, 7]],
+	[[3, 7]],
+	[[1, 7]],
+	[[7, 1]],
+	[[7, 3]],
+	[[3, 1], [7, 5]],
+	[[7, 5]],
+	[[5, 1]],
+	[[5, 3]],
+	[[3, 1]],
+	[]
+]
+
+var lines_in_cell : Array = []
+
 var triangleCoordinates : PackedVector3Array = []
-var caseLength : Array = [0, 1, 1, 2, 1, 4, 2, 3, 1, 2, 4, 3, 2, 3, 3, 2]
+const caseLength : Array = [0, 1, 1, 2, 1, 4, 2, 3, 1, 2, 4, 3, 2, 3, 3, 2]
 var cellTriangleIndex : Array[int] = []
 
 func visualize(grid : Array):
 	marchingSquares(grid)
 	triangleMesh()
-	# queue_redraw() 
+	#queue_redraw() 
 
 func _draw():
+	drawCollision()
 	pass #drawContours()
 
 # Only for debugging
@@ -42,6 +65,18 @@ func drawContours():
 		draw_line(vec1, vec3, Color.RED, w)
 		draw_line(vec3, vec2, Color.RED, w)
 
+# Only for debugging
+func drawCollision():
+	for i in range(len(lines_in_cell)):
+		for j in range(len(lines_in_cell[i])):
+			for line in lines_in_cell[i][j]:
+				var normal = line[2]
+				var a = line[0]
+				var b = line[1]
+				var w = 0.2
+				draw_line(a, b, Color.RED, w)
+				draw_line(a, a + normal, Color(1, 0, 1))
+
 func triangleMesh():
 	# Initialize the ArrayMesh.
 	var arr_mesh = ArrayMesh.new()
@@ -54,8 +89,16 @@ func triangleMesh():
 	mesh = arr_mesh
 
 func marchingSquares(grid : Array):
+	
+	triangleCoordinates = []
+	cellTriangleIndex = []
 	var height = len(grid)
 	var width = len(grid[0])
+	if len(lines_in_cell) == 0:
+		lines_in_cell.resize(height - 1)
+		for i in range(height - 1):
+			lines_in_cell[i] = []
+			lines_in_cell[i].resize(width - 1)
 
 	var cellIndex = 0
 	for y in range(height - 1):
@@ -66,7 +109,22 @@ func marchingSquares(grid : Array):
 			cellTriangleIndex.append(cellIndex)
 			cellIndex += caseLength[cellCase]
 			for num in case:
-				marchingSquaresCoordinate(num, x, y, grid)
+				triangleCoordinates.append(marchingSquaresCoordinate(num, x, y, grid))
+			
+			
+			lines_in_cell[y][x] = []
+			var lines_to_add = border_cases[cellCase]
+			for line in lines_to_add:
+				var a : int = line[0]
+				var a3 : Vector3 = marchingSquaresCoordinate(a, x, y, grid)
+				var ap : Vector2 = Vector2(a3.x, a3.y)
+				var b : int = line[1]
+				var b3 : Vector3 = marchingSquaresCoordinate(b, x, y, grid)
+				var bp : Vector2 = Vector2(b3.x, b3.y)
+				var d : Vector2 = bp - ap
+				var n : Vector2 = Vector2(d.y, -d.x).normalized()
+				lines_in_cell[y][x].append([ap, bp, n])
+
 	cellTriangleIndex.append(cellIndex)
 
 
@@ -90,7 +148,7 @@ func marchingSquaresCoordinate(num : int, x : int , y : int, grid : Array):
 			coord = Vector3(x + 1, y, 0)
 		7: 
 			coord = Vector3(x + pointOffset(grid[y][x], grid[y][x+1]), y, 0)
-	triangleCoordinates.append(coord)
+	return coord
 
 func pointOffset(x0 : float, y0 : float):
 	return (0.5 - x0) / (y0 - x0)

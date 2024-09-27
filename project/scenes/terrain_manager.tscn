@@ -18,5 +18,8 @@ script = ExtResource("3_5hetr")
 [node name="MeshGenerator" parent="." instance=ExtResource("4_uydl6")]
 scale = Vector2(15, 15)
 
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(960, 540)
+
 [node name="Pause_Scene" parent="." instance=ExtResource("5_74eqg")]
 visible = false
