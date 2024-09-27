@@ -52,11 +52,10 @@ func update(delta):
 	#print('everything else takes ' + str(OS.get_ticks_msec() - m) + ' ms.')
 	#m = OS.get_ticks_msec()
 
-
-
 func integration_step(delta):
 	for i in range(Constants.NUMBER_PARTICLES):
 		var force: Vector2 = gravity_vector + force_array[i]
+		particles[i].pre_position = particles[i].position
 		particles[i].velocity += delta * force
 		particles[i].position += delta * particles[i].velocity
 		fast_particle_array[i] = particles[i].position
@@ -68,9 +67,9 @@ func integration_step(delta):
 func calculate_next_velocity(delta):
 	for i in range(Constants.NUMBER_PARTICLES):
 		#Calculate the new velocity from the previous and current position
-		var velocity : Vector2 = (particles[i].position - particles[i].pre_position)/delta
+		var velocity : Vector2 = (particles[i].position - particles[i].pre_position) / delta
 		particles[i].velocity = velocity
-		print(velocity)
+
 func collsison_reflection(normal_vector: Vector2):
 	pass
 	
@@ -140,3 +139,6 @@ func clipToBorder():
 		if particles[i].position.y > Constants.HEIGHT:
 			particles[i].position.y = Constants.HEIGHT
 			particles[i].velocity.y = 0
+
+func get_particle_positions():
+	return fast_particle_array
