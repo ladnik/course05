@@ -1,0 +1,115 @@
+[gd_scene load_steps=10 format=3 uid="uid://dm55nq68nldsl"]
+
+[ext_resource type="Script" path="res://scripts/pause_menu.gd" id="1_k46i6"]
+[ext_resource type="Shader" path="res://shaders/pause_menu.gdshader" id="2_f44fp"]
+[ext_resource type="Script" path="res://scripts/menu_item.gd" id="2_otmi0"]
+[ext_resource type="Texture2D" uid="uid://b2nanxuajo0mq" path="res://assets/background_dummy.png" id="3_q075l"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4xq72"]
+shader = ExtResource("2_f44fp")
+shader_parameter/lod = 4.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_qmjsm"]
+font_size = 80
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 10
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(4, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_5ib5w"]
+font_size = 50
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 10
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(4, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_xfkeo"]
+font_size = 50
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 10
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(4, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_rpwns"]
+font_size = 50
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 10
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(4, 1)
+
+[node name="Pause_Scene" type="CanvasLayer"]
+process_mode = 3
+script = ExtResource("1_k46i6")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_4xq72")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_q075l")
+
+[node name="Pause" type="Label" parent="."]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 169.0
+offset_top = -328.0
+offset_right = 635.0
+offset_bottom = -230.0
+grow_vertical = 2
+text = "Pause"
+label_settings = SubResource("LabelSettings_qmjsm")
+
+[node name="Resume" type="Label" parent="."]
+offset_left = 175.0
+offset_top = 498.0
+offset_right = 368.0
+offset_bottom = 567.0
+pivot_offset = Vector2(0, 21)
+mouse_filter = 0
+text = "Resume"
+label_settings = SubResource("LabelSettings_5ib5w")
+vertical_alignment = 1
+script = ExtResource("2_otmi0")
+
+[node name="Exit" type="Label" parent="."]
+offset_left = 175.0
+offset_top = 788.0
+offset_right = 419.0
+offset_bottom = 857.0
+pivot_offset = Vector2(0, 21)
+mouse_filter = 0
+text = "Exit Game
+"
+label_settings = SubResource("LabelSettings_xfkeo")
+vertical_alignment = 1
+script = ExtResource("2_otmi0")
+
+[node name="Menu" type="Label" parent="."]
+offset_left = 175.0
+offset_top = 638.0
+offset_right = 555.0
+offset_bottom = 707.0
+pivot_offset = Vector2(0, 21)
+mouse_filter = 0
+text = "Return to Menu
+"
+label_settings = SubResource("LabelSettings_rpwns")
+vertical_alignment = 1
+script = ExtResource("2_otmi0")
+
+[connection signal="gui_input" from="Resume" to="." method="resume_gui_event"]
+[connection signal="mouse_entered" from="Resume" to="Resume" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Resume" to="Resume" method="_on_mouse_exited"]
+[connection signal="gui_input" from="Exit" to="." method="exit_gui_event"]
+[connection signal="mouse_entered" from="Exit" to="Exit" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Exit" to="Exit" method="_on_mouse_exited"]
+[connection signal="gui_input" from="Menu" to="." method="menu_gui_event"]
+[connection signal="mouse_entered" from="Menu" to="Menu" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Menu" to="Menu" method="_on_mouse_exited"]
