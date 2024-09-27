@@ -92,9 +92,6 @@ func check_oneway_coupling():
 			#print("True")
 			#fast_particle_array[i]+=Vector2(2,-4).normalized()/Constants.SCALE/15
 			fast_particle_array[i]+=collision_object[2].normalized()/Constants.SCALE
-			
-			
-
 	
 	
 func double_density_relaxation(delta):
