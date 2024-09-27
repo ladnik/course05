@@ -145,9 +145,9 @@ func double_density_relaxation(delta):
 			if q < 1:
 				rij=rij.normalized()
 				var displacement_term:Vector2 =delta**2 * (pressure*(1-q)+pressure_near*(1-q)**2)*rij
-				particleB += displacement_term/2
+				fast_particle_array[j] += displacement_term/2
 				pos_displacement_A -= displacement_term/2
-		particleA += pos_displacement_A
+		fast_particle_array[i] += pos_displacement_A
 				
 		
 			
