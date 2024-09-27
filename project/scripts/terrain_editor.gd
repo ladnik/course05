@@ -10,6 +10,7 @@ var gridNoise = FastNoiseLite.new()
 # Basic functions
 
 static var kernel_radius = 5
+
 func cubic_spline_kernel(x_origin: Vector2, x: Vector2) -> float:
 	var distance = x_origin.distance_to(x)
 	var q = distance / kernel_radius

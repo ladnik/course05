@@ -44,6 +44,17 @@ var triangleCoordinates : PackedVector3Array = []
 const caseLength : Array = [0, 1, 1, 2, 1, 4, 2, 3, 1, 2, 4, 3, 2, 3, 3, 2]
 var cellTriangleIndex : Array[int] = []
 
+var chunk_length = 40
+
+var chunk_just_changed = []
+var chunk_coords = []
+var chunk_indices = []
+
+var width = -1
+var height = -1
+
+var chunks_in_width = -1
+var chunks_in_height = -1
 # needed for collision debug drawing
 @onready var renderer = $"../TerrainRenderer"
 var debug_start_pos = Vector2(0, 0)
@@ -53,13 +64,32 @@ var debug_normal = Vector2(1, 0)
 var debug_collided : bool = false
 
 func visualize(grid : Array):
+
+	# measured on Sascha's PC
+	# Marching squares: 0.3s
+	# Drawing triangles: 0.05s
+
+	# with 8 neighbors:
+	# Marching squares: 0.09s
+
+	# with dynamic neighbors (and chunk_length = 40)
+	# Marching squares: 0.05
+
+	var start_ms = Time.get_unix_time_from_system()
 	marchingSquares(grid)
+	var end_ms = Time.get_unix_time_from_system()
 	triangleMesh()
+	var end_triangle_mesh =  Time.get_unix_time_from_system()
+
+	# print("Marching Squares: ")
+	# print(end_ms - start_ms)
+	# print("Drawing: ")
+	# print(end_triangle_mesh - end_ms)
 	#queue_redraw() 
 
 func _draw():
 	#drawCollision()
-	#drawDebugCollision()
+	drawDebugCollision()
 	pass #drawContours()
 
 # Only for debugging
@@ -103,29 +133,39 @@ func triangleMesh():
 	arr_mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
 	mesh = arr_mesh
 
-func marchingSquares(grid : Array):
+func get_triangles_per_chunk(chunk_idx_x, chunk_idx_y, grid: Array):
 	
-	triangleCoordinates = []
-	cellTriangleIndex = []
-	var height = len(grid)
-	var width = len(grid[0])
+	var chunk_cell_triangle_index : Array[int] = []
+	var chunk_triangle_coords : PackedVector3Array = []
+	
+	# triangleCoordinates = []
+	# cellTriangleIndex = []
+	# var height = len(grid)
+	# var width = len(grid[0])
 	if len(lines_in_cell) == 0:
-		lines_in_cell.resize(height - 1)
-		for i in range(height - 1):
+		lines_in_cell.resize(len(grid) - 1)
+		for i in range(len(grid) - 1):
 			lines_in_cell[i] = []
-			lines_in_cell[i].resize(width - 1)
+			lines_in_cell[i].resize(len(grid[0]) - 1)
 
 	var cellIndex = 0
-	for y in range(height - 1):
-		for x in range(width - 1):
+
+	for y_in_chunk in range(chunk_length):
+		for x_in_chunk in range(chunk_length):
+			
+			var y = y_in_chunk + chunk_idx_y * chunk_length
+			var x = x_in_chunk + chunk_idx_x * chunk_length
+
+			if x >= width - 1 or y >= height - 1:
+				break
+
 			# Determine bit number for cell
-			var cellCase = (int(!!roundf(grid[y][x])) << 3) + (int(!!roundf(grid[y][x+1])) << 2) + (int(!!roundf(grid[y+1][x+1])) << 1) + int(!!roundf(grid[y+1][x]))
+			var cellCase = (int(roundf(grid[y][x])) << 3) + (int(roundf(grid[y][x+1])) << 2) + (int(roundf(grid[y+1][x+1])) << 1) + int(roundf(grid[y+1][x]))
 			var case = cases[cellCase]
-			cellTriangleIndex.append(cellIndex)
+			chunk_cell_triangle_index.append(cellIndex)
 			cellIndex += caseLength[cellCase]
 			for num in case:
-				triangleCoordinates.append(marchingSquaresCoordinate(num, x, y, grid))
-			
+				chunk_triangle_coords.append(marchingSquaresCoordinate(num, x, y, grid))
 			
 			lines_in_cell[y][x] = []
 			var lines_to_add = border_cases[cellCase]
@@ -140,11 +180,89 @@ func marchingSquares(grid : Array):
 				var n : Vector2 = Vector2(d.y, -d.x).normalized()
 				lines_in_cell[y][x].append([ap, bp, n])
 
-	cellTriangleIndex.append(cellIndex)
+	chunk_cell_triangle_index.append(cellIndex)
 
+	return [chunk_cell_triangle_index, chunk_triangle_coords]
+
+func set_chunk_and_neighbors_just_changed(mouse_pos_grid: Vector2, grid: Array, kernel_radius: float):
+
+	var chunk_idx_x = int(mouse_pos_grid.x / chunk_length)
+	var chunk_idx_y = int(mouse_pos_grid.y / chunk_length)
+
+	var pos_from_chunk_x = mouse_pos_grid.x - chunk_idx_x * chunk_length
+	var pos_from_chunk_y = mouse_pos_grid.y - chunk_idx_y * chunk_length 
+
+	chunks_in_width = ceil(len(grid[0]) * 1.0 / chunk_length)
+	chunks_in_height = ceil(len(grid) * 1.0 / chunk_length)
+
+	var y_upper_offset = (2 if pos_from_chunk_y + kernel_radius >= chunk_length else 1)
+	var x_upper_offset = (2 if pos_from_chunk_x + kernel_radius >= chunk_length else 1)
+	var y_lower_offset = (-1 if pos_from_chunk_y - kernel_radius < 0 else 0)
+	var x_lower_offset = (-1 if pos_from_chunk_x - kernel_radius < 0 else 0)
+
+	for i in range(y_lower_offset, y_upper_offset):
+		for j in range(x_lower_offset, x_upper_offset):
+
+			chunk_just_changed[min(chunks_in_height - 1, max(0, chunk_idx_y + i))][min(chunks_in_width - 1, max(0, chunk_idx_x + j))] = 1
+
+
+func marchingSquares(grid : Array):
+
+	chunks_in_width = ceil(len(grid[0]) * 1.0 / chunk_length)
+	chunks_in_height = ceil(len(grid) * 1.0 / chunk_length)
+
+	# create caches
+	if width == -1:
+		
+		for i in range(chunks_in_height):
+
+			var chunk_row = []
+			var chunk_index_row = []
+			var chunk_just_changed_row = []
+
+			for j in range(chunks_in_width):
+
+				chunk_row.append([])
+				chunk_index_row.append([])
+				chunk_just_changed_row.append(true)
+				
+			print(len(chunk_just_changed_row))
+
+			chunk_coords.append(chunk_row)
+			chunk_just_changed.append(chunk_just_changed_row)
+			chunk_indices.append(chunk_index_row)
+
+	width = len(grid[0])
+	height = len(grid)
+
+	triangleCoordinates = []
+	cellTriangleIndex = []
+
+	for chunk_idx_y in range(chunks_in_height):
+		for chunk_idx_x in range(chunks_in_width):
+
+			if chunk_just_changed[chunk_idx_y][chunk_idx_x]:
+
+				var res = get_triangles_per_chunk(chunk_idx_x, chunk_idx_y, grid)
+
+				var chunk_cell_triangle_index = res[0]
+				var chunk_triangle_coords = res[1]
+
+				# write to cache
+				chunk_coords[chunk_idx_y][chunk_idx_x] = chunk_triangle_coords
+				chunk_indices[chunk_idx_y][chunk_idx_x] = chunk_cell_triangle_index
+				
+				chunk_just_changed[chunk_idx_y][chunk_idx_x] = false
+
+			# retrieve from cache
+			triangleCoordinates += chunk_coords[chunk_idx_y][chunk_idx_x]
+
+			# TODO: offset the indices
+			cellTriangleIndex += chunk_indices[chunk_idx_y][chunk_idx_x]
 
 # Transform case into coordinate and add to coordinate list
 func marchingSquaresCoordinate(num : int, x : int , y : int, grid : Array):
+
 	var coord
 	match num:
 		0: 
@@ -163,6 +281,7 @@ func marchingSquaresCoordinate(num : int, x : int , y : int, grid : Array):
 			coord = Vector3(x + 1, y, 0)
 		7: 
 			coord = Vector3(x + pointOffset(grid[y][x], grid[y][x+1]), y, 0)
+	
 	return coord
 
 func pointOffset(x0 : float, y0 : float):
