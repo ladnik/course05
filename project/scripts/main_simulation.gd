@@ -44,4 +44,4 @@ func _draw() -> void:
 			draw_line(SIM.particles[p].position * Constants.SCALE, (SIM.particles[p].position + SIM.particles[p].velocity) * Constants.SCALE, Color(0, 1, 0), 1, false)
 		if Constants.DISPLAY_FORCE:
 			#print(SIM.particles[p].last_force)
-			draw_line(SIM.particles[p].position * Constants.SCALE, (SIM.particles[p].position + SIM.particles[p].last_force) * Constants.SCALE, Color(0, 0, 1), 1, false)
+			draw_line(SIM.fast_particle_array[p] * Constants.SCALE, (SIM.fast_particle_array[p] + SIM.force_array[p]) * Constants.SCALE, Color(0, 0, 1), 1, false)

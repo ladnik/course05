@@ -6,7 +6,7 @@ var Constants = load('res://scripts/simulation_constants.gd')
 var Particle = load('res://scripts/Particle.gd')
 
 var fast_particle_array = PackedVector2Array()
-var fast_particle_array2 = PackedVector2Array()
+var force_array = PackedVector2Array()
 
 var particles : Array = []
 var gravity_vector: Vector2 = Vector2(0, Constants.GRAVITY)
@@ -20,6 +20,8 @@ func _init():
 		var p = Particle.new()
 		p.position = Vector2(randf() * Constants.WIDTH, randf() * Constants.HEIGHT)
 		particles.append(p)
+		fast_particle_array.push_back(p.position)
+		force_array.push_back(Vector2(0,0))
 
 
 
@@ -33,6 +35,7 @@ func update(delta):
 	#calculate_density()
 	#calculate_pressure()
 	#calculate_force_density(draw_mode)
+	reset_forces()
 	calculate_interaction_forces()
 	integration_step(delta)
 	clipToBorder()
@@ -48,9 +51,10 @@ func update(delta):
 
 func integration_step(delta):
 	for i in range(Constants.NUMBER_PARTICLES):
-		particles[i].force = gravity_vector + particles[i].force
-		particles[i].velocity += delta * particles[i].force
+		var force: Vector2 = gravity_vector + force_array[i]
+		particles[i].velocity += delta * force
 		particles[i].position += delta * particles[i].velocity
+		fast_particle_array[i] = particles[i].position
 		particles[i].last_force = particles[i].force
 		particles[i].force = Vector2(0,0)
 		
@@ -59,8 +63,8 @@ func collsison_reflection(normal_vector: Vector2):
 	pass
 	
 
-func interaction_force(particle1, particle2) -> Vector2:
-	var r = particle2.position - particle1.position
+func interaction_force(position1, position2) -> Vector2:
+	var r = position2 - position1
 	if r.length() > 2 * Constants.INTERACTION_RADIUS:
 		return Vector2(0,0)
 	
@@ -71,11 +75,15 @@ func interaction_force(particle1, particle2) -> Vector2:
 	
 func calculate_interaction_forces() -> void:
 	# sum over all particles without double counting
+	for i in range(fast_particle_array.size()):
+		for j in range(i+1, fast_particle_array.size()):
+			var force = interaction_force(fast_particle_array[i], fast_particle_array[j])
+			force_array[i] -= force
+			force_array[j] += force
+
+func reset_forces():
 	for i in range(particles.size()):
-		for j in range(i+1, particles.size()):
-			var force = interaction_force(particles[i], particles[j])
-			particles[i].force -= force
-			particles[j].force += force
+		force_array[i] = Vector2(0,0)
 
 func clipToBorder():
 	for i in range(particles.size()):
