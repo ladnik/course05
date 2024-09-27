@@ -35,7 +35,7 @@ func initialize(grid, scale):
 	gridTexture = ImageTexture.create_from_image(gridImage)
 
 	gridSprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	gridSprite.texture = gridTexture	
+	gridSprite.texture = gridTexture
 	gridSprite.offset = Vector2(_width / 2.0, _height / 2.0)
 
 	update_grid(grid)

@@ -25,7 +25,7 @@ func _process(_delta):
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and editor.on_grid(mouse_pos_grid):
 		editor.apply_kernel(mouse_pos_grid, 1.0)
 		renderer.update_grid(editor.grid)
-		mesh_generator.set_chunk_and_neighbors_just_changed(mouse_pos_grid, editor.grid, editor.kernel_radius)
+		#mesh_generator.set_chunk_and_neighbors_just_changed(mouse_pos_grid, editor.grid, editor.kernel_radius)
 		this_mouse_clicked = true
 
 		if not only_marching_squares_after_drawn:
@@ -34,7 +34,7 @@ func _process(_delta):
 	# remove terrain
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT) and editor.on_grid(mouse_pos_grid):
 		editor.apply_kernel(mouse_pos_grid, 0.0)
-		mesh_generator.set_chunk_and_neighbors_just_changed(mouse_pos_grid, editor.grid, editor.kernel_radius)
+		#mesh_generator.set_chunk_and_neighbors_just_changed(mouse_pos_grid, editor.grid, editor.kernel_radius)
 		renderer.update_grid(editor.grid)
 		this_mouse_clicked = true
 

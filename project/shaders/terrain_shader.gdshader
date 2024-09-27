@@ -1,10 +1,9 @@
 shader_type canvas_item;
 render_mode skip_vertex_transform;
 
-uniform float x_size = 160;
-uniform float y_size = 90;
+uniform float x_size = 1;
+uniform float y_size = 1;
 
-uniform sampler2D grid;
 varying vec2 world_pos;
 
 void vertex() {
@@ -14,13 +13,14 @@ void vertex() {
 
 void fragment() {
 	vec2 sample_pos = world_pos / vec2(x_size, y_size);
-	if (texture(grid, sample_pos).r > .5) {
+	sample_pos = UV;
+	if (texture(TEXTURE, sample_pos).r > .5) {
 		COLOR = vec4(1., 1., 1., 1.);
 	}
 	else {
 		COLOR = vec4(0., 0., 0., 0.);
 	}
-	COLOR = vec4(1., 1., 1., 1.);
+	//COLOR = texture(TEXTURE, sample_pos);
 }
 
 //void light() {

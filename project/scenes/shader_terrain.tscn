@@ -1,0 +1,15 @@
+[gd_scene load_steps=5 format=3 uid="uid://dt2rp2qvj2mad"]
+
+[ext_resource type="Shader" path="res://shaders/terrain_shader.gdshader" id="1_1fvuv"]
+[ext_resource type="Script" path="res://scripts/shader_terrain.gd" id="2_reypt"]
+[ext_resource type="Texture2D" uid="uid://b2nanxuajo0mq" path="res://assets/background_dummy.png" id="2_sq7e8"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_q0xoj"]
+shader = ExtResource("1_1fvuv")
+shader_parameter/x_size = 160.0
+shader_parameter/y_size = 90.0
+
+[node name="ShaderTerrain" type="Sprite2D"]
+material = SubResource("ShaderMaterial_q0xoj")
+texture = ExtResource("2_sq7e8")
+script = ExtResource("2_reypt")

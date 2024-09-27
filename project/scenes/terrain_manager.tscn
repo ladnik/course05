@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://b01cbmum8wacl"]
+[gd_scene load_steps=10 format=3 uid="uid://b01cbmum8wacl"]
 
 [ext_resource type="Script" path="res://scripts/terrain_manager.gd" id="1_thinb"]
 [ext_resource type="Script" path="res://scripts/terrain_renderer.gd" id="2_4xkgq"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" path="res://scenes/pause_menu.tscn" id="5_74eqg"]
 [ext_resource type="Shader" path="res://shaders/mesh_generator.gdshader" id="5_2242j"]
 [ext_resource type="Texture2D" uid="uid://b2nanxuajo0mq" path="res://assets/background_dummy.png" id="6_m0ajo"]
+[ext_resource type="PackedScene" uid="uid://dt2rp2qvj2mad" path="res://scenes/shader_terrain.tscn" id="8_qwgav"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_siu6x"]
 shader = ExtResource("5_2242j")
@@ -23,7 +24,7 @@ script = ExtResource("2_4xkgq")
 [node name="TerrainEditor" type="Node2D" parent="."]
 script = ExtResource("3_5hetr")
 
-[node name="MeshGenerator" parent="." instance=ExtResource("4_uydl6")]
+[node name="MeshGeneratorOff" parent="." instance=ExtResource("4_uydl6")]
 material = SubResource("ShaderMaterial_siu6x")
 scale = Vector2(15, 15)
 texture = ExtResource("6_m0ajo")
@@ -33,3 +34,5 @@ position = Vector2(960, 540)
 
 [node name="Pause_Scene" parent="." instance=ExtResource("5_74eqg")]
 visible = false
+
+[node name="MeshGenerator" parent="." instance=ExtResource("8_qwgav")]
