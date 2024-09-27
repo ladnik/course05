@@ -1,5 +1,7 @@
 extends Node2D
 
+@onready var mesh_generator: MeshInstance2D = $"../MeshGenerator"
+
 var SIM = load('res://scripts/particle_simulation.gd').new()
 var Constants = load('res://scripts/simulation_constants.gd')
 var particle_mat = CanvasItemMaterial.new()
@@ -8,6 +10,7 @@ var particle_mat = CanvasItemMaterial.new()
 func _ready() -> void:
 	#View.size = Vector2(Constants.RENDER_WIDTH, Constants.RENDER_HEIGHT)
 	#OS.window_size = $View.size
+	SIM.mesh_generator = mesh_generator
 	for p in SIM.fast_particle_array:
 			var waterdraw = Sprite2D.new()
 			waterdraw.texture = preload("res://assets/ball.png")
@@ -16,7 +19,8 @@ func _ready() -> void:
 			waterdraw.position = p * Constants.SCALE
 			add_child(waterdraw)
 
-	
+
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
 	SIM.update(delta)

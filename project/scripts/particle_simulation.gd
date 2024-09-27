@@ -10,6 +10,7 @@ var velocities = PackedVector2Array()
 var force_array = PackedVector2Array()
 
 var gravity_vector: Vector2 = Vector2(0, Constants.GRAVITY)
+var mesh_generator: MeshInstance2D
 
 
 
@@ -75,18 +76,22 @@ func reset_forces():
 	for i in range(fast_particle_array.size()):
 		force_array[i] = Vector2(0,0)
 
-func collision_checker(i:int)-> bool:
+func collision_checker(i:int)-> Array:
 	#print(fast_particle_array[i].x /2)
-	if fast_particle_array[i].y >fast_particle_array[i].x /2:
-		return true
-	else:
-		return false
+	#if fast_particle_array[i].y >fast_particle_array[i].x /2:
+		#return true
+	#else:
+		#return false
+	var array_collision = mesh_generator.continuous_collision(fast_particle_array[i],previous_positions[i])
+	return array_collision
+		
 func check_oneway_coupling():
 	for i in range(fast_particle_array.size()):
 		var collision_object = collision_checker(i)
-		if collision_object == true:
+		if collision_object[0] == true:
 			#print("True")
-			fast_particle_array[i]+=Vector2(2,-4).normalized()/Constants.SCALE/15
+			#fast_particle_array[i]+=Vector2(2,-4).normalized()/Constants.SCALE/15
+			fast_particle_array[i]+=collision_object[2].normalized()/Constants.SCALE/15
 			
 			
 
