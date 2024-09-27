@@ -152,3 +152,49 @@ func marchingSquaresCoordinate(num : int, x : int , y : int, grid : Array):
 
 func pointOffset(x0 : float, y0 : float):
 	return (0.5 - x0) / (y0 - x0)
+
+
+# Return a tuple 
+func continuous_collision(start : Vector2, end : Vector2):
+	var t_ss = []
+	var collision_normals = []
+	var x_min = int(min(start.x, end.x))
+	var x_max = int(max(start.x, end.x)) + 1
+	var y_min = int(min(start.y, end.y))
+	var y_max = int(max(start.y, end.y)) + 1
+
+	var v_r : Vector2 = -(end - start)
+	var o_r : Vector2 = start
+
+	for i in range(y_min, y_max):
+		for j in range(x_min, x_max):
+			var lines = lines_in_cell[i][j]
+			for line in lines:
+				var v_s : Vector2 = line[1] - line[0]
+				var o_s : Vector2 = line[0]
+				var b : Vector2 = o_r - o_s
+
+				var tan_vs = v_s.y / v_s.x
+				var t_r = (b.y - tan_vs * b.x) / (v_r.y - tan_vs * v_r.x)
+				var t_s = (b.x - v_r.x * t_r) / v_s.x
+				# Collision occured
+				if t_r >= 0 and t_r <= 1 and t_s >= 0 and t_s <= 1:
+					t_ss.append(t_s)
+					collision_normals.append(line[2])
+	# no collisions occured
+	if len(t_ss) == 0:
+		# return a valid position and normalized normal vector to avoid strange errors
+		return [false, Vector2(0, 0), Vector2(-1, 0)]
+
+	min_index = 0
+	min_distance = t_ss[0]
+	for i in range(1, len(t_ss)):
+		if t_ss[i] < min_distance:
+			min_index = i
+			min_distance = t_ss[i]
+	return [true, o_r - v_r * min_distance, collision_normals[min_index]]
+
+func _unhandled_input(event):
+	if event is InputEventKey:
+		if event.pressed and event.keycode == KEY_C:
+			print("got input")
