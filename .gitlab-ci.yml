@@ -5,7 +5,7 @@ image: ladnikj/godot-cpp-ci:latest
 cache:
   key: "compiled-bindings"
   untracked: true
-  when: 'always'
+  # when: 'always'
 
 stages:
   - import
