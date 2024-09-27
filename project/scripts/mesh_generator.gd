@@ -59,7 +59,7 @@ func visualize(grid : Array):
 
 func _draw():
 	#drawCollision()
-	drawDebugCollision()
+	#drawDebugCollision()
 	pass #drawContours()
 
 # Only for debugging
@@ -88,7 +88,7 @@ func drawCollision():
 
 func drawDebugCollision():
 	var w = .5
-	draw_line(debug_start_pos, debug_end_pos, Color(0, 1, 0), w)
+	draw_line(renderer.to_grid_pos(debug_start_pos), renderer.to_grid_pos(debug_end_pos), Color(0, 1, 0), w)
 	if debug_collided:
 		draw_line(debug_col, debug_col + debug_normal, Color(1, 0, 1), w)
 
@@ -171,6 +171,8 @@ func pointOffset(x0 : float, y0 : float):
 
 # Return a tuple 
 func continuous_collision(start : Vector2, end : Vector2):
+	start = renderer.to_grid_pos(start)
+	end = renderer.to_grid_pos(end)
 	var t_rs = []
 	var collision_normals = []
 	var x_min = int(min(start.x, end.x))
@@ -222,9 +224,9 @@ func continuous_collision(start : Vector2, end : Vector2):
 func _unhandled_input(event):
 	if event is InputEventKey:
 		if event.pressed and event.keycode == KEY_C:
-			debug_start_pos = renderer.to_grid_pos(get_global_mouse_position())
+			debug_start_pos = get_global_mouse_position()
 		if event.pressed and event.keycode == KEY_V:
-			debug_end_pos = renderer.to_grid_pos(get_global_mouse_position())
+			debug_end_pos = get_global_mouse_position()
 			var collision = continuous_collision(debug_start_pos, debug_end_pos)
 			debug_collided = collision[0]
 			debug_col = collision[1]
