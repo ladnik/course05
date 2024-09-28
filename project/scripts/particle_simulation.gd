@@ -203,14 +203,14 @@ func double_density_relaxation(delta) -> void:
 
 func bounceFromBorder() -> void:
 	for i in range(current_positions.size()):
-		if current_positions[i].x < 0:
-			current_positions[i].x = 0
+		if current_positions[i].x - Constants.INTERACTION_RADIUS < 0:
+			current_positions[i].x = Constants.INTERACTION_RADIUS
 			velocities[i].x *= -0.5
-		if current_positions[i].x > Constants.WIDTH:
-			current_positions[i].x = Constants.WIDTH
+		if current_positions[i].x + Constants.INTERACTION_RADIUS > Constants.WIDTH:
+			current_positions[i].x = Constants.WIDTH - Constants.INTERACTION_RADIUS
 			velocities[i].x *= -0.5
-		if current_positions[i].y > Constants.HEIGHT:
-			current_positions[i].y = Constants.HEIGHT
+		if current_positions[i].y +  Constants.INTERACTION_RADIUS > Constants.HEIGHT:
+			current_positions[i].y = Constants.HEIGHT - Constants.INTERACTION_RADIUS
 			velocities[i].y *= -0.5
 
 func get_particle_positions():

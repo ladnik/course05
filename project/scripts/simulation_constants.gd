@@ -8,7 +8,7 @@ const WIDTH = 1920
 const HEIGHT = 1080
 
 # set to -1 to use the water_source
-const NUMBER_PARTICLES = 100
+const NUMBER_PARTICLES = 200
 
 const GRAVITY = 300
 
