@@ -40,6 +40,8 @@ func world_to_grid(pos: Vector2) -> Vector2:
 
 # Build grid based on particle positions
 func build_grid() -> void:
+	grid.clear()
+
 	for i in range(current_positions.size()):
 		var grid_pos = world_to_grid(current_positions[i])
 
@@ -50,8 +52,6 @@ func build_grid() -> void:
 
 
 func grid_search(i:int) -> Array:
-	if grid.is_empty():
-		build_grid()
 
 	var neighbors = []
 
@@ -91,7 +91,8 @@ func update(delta) -> void:
 
 	# reset everything
 	reset_forces()
-	grid.clear()
+
+	build_grid()
 	
 	# calculate the next step
 	calculate_interaction_forces()
