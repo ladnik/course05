@@ -77,7 +77,7 @@ func grid_search(i:int) -> Array:
 
 func random_spawn() -> void:
 	for i in range(Constants.NUMBER_PARTICLES):
-		var position = Vector2(randf() * 200, randf() * 200)
+		var position = Vector2(randf() * 400, randf() * 400)
 		current_positions.push_back(position)
 		previous_positions.push_back(position)
 		velocities.push_back(Vector2(0,0))
@@ -159,13 +159,10 @@ func check_oneway_coupling() -> void:
 	for i in range(current_positions.size()):
 		var collision_object = collision_checker(i)
 		if collision_object[0] == true:
-			#print("True")
-			#current_positions[i]+=Vector2(2,-4).normalized()/Constants.SCALE/15
-			# current_positions.remove_at(i)
-			# previous_positions.remove_at(i)
-			# velocities.remove_at(i)
-			# forces.remove_at(i)
-			current_positions[i]+=collision_object[2].normalized()
+			current_positions[i] += collision_object[2].normalized() * 0.5
+			if collision_checker(i)[0]:
+				current_positions[i] = previous_positions[i]
+
 
 
 func double_density_relaxation(delta) -> void:
@@ -208,16 +205,13 @@ func bounceFromBorder() -> void:
 	for i in range(current_positions.size()):
 		if current_positions[i].x < 0:
 			current_positions[i].x = 0
-			velocities[i].x *= -1
+			velocities[i].x *= -0.5
 		if current_positions[i].x > Constants.WIDTH:
 			current_positions[i].x = Constants.WIDTH
-			velocities[i].x *= -1
-		if current_positions[i].y < 0:
-			current_positions[i].y = 0
-			velocities[i].y *= -1
+			velocities[i].x *= -0.5
 		if current_positions[i].y > Constants.HEIGHT:
 			current_positions[i].y = Constants.HEIGHT
-			velocities[i].y *= -1
+			velocities[i].y *= -0.5
 
 func get_particle_positions():
 	return current_positions
