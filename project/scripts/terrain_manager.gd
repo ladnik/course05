@@ -17,7 +17,7 @@ func _ready():
 	mesh_generator.visualize(editor.grid)
 
 func _process(_delta):
-	var mouse_pos_grid = renderer.to_grid_pos(get_global_mouse_position())
+	var mouse_pos_grid = renderer.to_grid_pos(get_global_mouse_position()) / 8
 
 	this_mouse_clicked = false
 
