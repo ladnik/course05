@@ -18,9 +18,6 @@ var mesh_generator: MeshInstance2D
 var grid: Dictionary = {}
 var density_grid: Dictionary = {}
 
-var neighborsToCheck: Array = [Vector2(-1, 1), Vector2(0, 1), Vector2(1, 1), Vector2(1, 0)]
-
-
 # Called when the node enters the scene tree for the first time.
 func _init(pos_x, dis_x, pos_y, dis_y):
 	if Constants.NUMBER_PARTICLES < 0:
@@ -44,7 +41,10 @@ func build_grid() -> void:
 		else:
 			grid[grid_pos] = [i]
 
-func get_grid_neighbours(grid_pos:Vector2) -> Array: 
+	for key in grid.keys():
+		density_grid[key] = grid[key].size()
+
+func get_grid_neighbours(grid_pos:Vector2) -> Array:
 	var neigbour_cells: Array =[] 
 	for i in range(-1,2):
 		for j in range(-1,2):
@@ -69,13 +69,13 @@ func update(delta) -> void:
 		self.water_source.spawn(delta, current_positions, previous_positions, velocities, forces, particle_valid)
 
 	# reset everything
-	reset_forces()
+	#reset_forces()
 	
 	# calculate the next step
-	calculate_interaction_forces()
+	# calculate_interaction_forces()
 	integration_step(delta)
 	
-	#double_density_relaxation(delta)
+	doubleDensity_test(delta)
 	calculate_next_velocity(delta)
 	check_oneway_coupling()
 
@@ -88,9 +88,8 @@ func integration_step(delta) -> void:
 		previous_positions[i] = current_positions[i]
 		velocities[i] += delta * force
 		current_positions[i] += delta * velocities[i]
-	
 
-	
+
 func calculate_next_velocity(delta) -> void:
 	for i in range(current_positions.size()):
 		#Calculate the new velocity from the previous and current position
@@ -110,7 +109,7 @@ func interaction_force(position1, position2) -> Vector2:
 	var force = Constants.SPRING_CONSTANT * Vector2(forceX, forceY)
 	
 	return force
-	
+
 func calculate_interaction_forces() -> void:
 	# sum over all particles without double counting
 	if not Constants.USE_GRID:
@@ -148,13 +147,8 @@ func reset_forces():
 		forces[i] = Vector2(0,0)
 
 func collision_checker(i:int)-> Array:
-	#print(current_positions[i].x /2)
-	#if current_positions[i].y >current_positions[i].x /2:
-		#return true
-	#else:
-		#return false
-	var array_collision = mesh_generator.continuous_collision(previous_positions[i], current_positions[i])
-	return array_collision
+	return mesh_generator.continuous_collision(previous_positions[i], current_positions[i])
+
 
 func check_oneway_coupling() -> void:
 	for i in range(current_positions.size()):
@@ -162,19 +156,49 @@ func check_oneway_coupling() -> void:
 		var penetration_depth = (current_positions[i]-collision_object[1]).dot(collision_object[2].normalized())
 		if collision_object[0] == true:
 			#set posiion to boundary
-			current_positions[i] += collision_object[2].normalized() * 0.5
+			current_positions[i] += collision_object[2].normalized() *5
 			#new velocity
 			velocities[i]= velocities[i]-1*velocities[i].dot(collision_object[2].normalized())*collision_object[2].normalized()
 			if collision_checker(i)[0]:
 				#respawn particle if it collision fails
-				var spawnPosition = Vector2(randf() * 50 + 600, randf() * 50 + 200)
+				var spawnPosition = Vector2(randf() * 50 + 200, randf() * 50 + 200)
 				current_positions[i]= spawnPosition
 				previous_positions[i]= spawnPosition
 
-func double_density_relaxation_cells(delta):
-	pass
+
+func get_all_neighbour_particles(grid_pos: Vector2):
+	var neighbour_particles = grid[grid_pos]
+	for neighbour in get_grid_neighbours(grid_pos):
+		if grid.has(neighbour):
+			neighbour_particles += grid[neighbour]
+
+	return neighbour_particles
 
 func double_density_relaxation(delta) -> void:
+	build_grid()
+
+	for cell_key in grid.keys():
+		var cell = grid[cell_key]
+		var density = density_grid[cell_key]
+
+		# calculate density_near
+		var density_near = 0
+		var neighbour_count = 0
+
+		var neighbour_cell_keys = get_grid_neighbours(cell_key)
+		for neighbour_cell_key in neighbour_cell_keys:
+			if grid.has(neighbour_cell_key):
+				density_near += density_grid[neighbour_cell_key]
+				neighbour_count += 1
+		
+		density_near /= neighbour_count
+		
+		var pressure = Constants.K * (density - Constants.DENSITY_ZERO)
+		var pressure_near = Constants.KNEAR * density_near
+
+
+func doubleDensity(delta) -> void:
+	# old code
 	for i in range(current_positions.size()):
 		var density = 0
 		var density_near = 0
@@ -208,6 +232,47 @@ func double_density_relaxation(delta) -> void:
 				current_positions[j] += displacement_term/2
 				pos_displacement_A -= displacement_term/2
 		current_positions[i] += pos_displacement_A
+
+func doubleDensity_test(delta) -> void:
+	build_grid()
+
+	for cell_key in grid.keys():
+		# old code
+		for i in grid[cell_key]:
+			var density = 0
+			var density_near = 0
+			var particleA= current_positions[i]
+			var h = 50#Constants.INTERACTION_RADIUS
+			var k = Constants.K
+			var k_near= Constants.KNEAR
+			var density_zero= Constants.DENSITY_ZERO
+			for j in get_all_neighbour_particles(cell_key) :
+				if i==j:
+					continue
+				var particleB=current_positions[j]
+				var rij = particleB-particleA
+				var q=rij.length()/h
+				if q < 1:
+					density+=(1-q)**2
+					density_near+=(1-q)**3
+			#compute Pressure
+			var pressure= k*(density-density_zero)
+			var pressure_near= k_near*density_near
+			var pos_displacement_A = Vector2(0,0)
+			for j in range(current_positions.size()):
+				if i==j:
+					continue
+				var particleB=current_positions[j]
+				var rij = particleB-particleA
+				var q=rij.length()/h
+				if q < 1:
+					rij=rij.normalized()
+					var displacement_term:Vector2 =delta**2 * (pressure*(1-q)+pressure_near*(1-q)**2)*rij
+					# displacement_term = displacement_term*1000
+					current_positions[j] += displacement_term/2
+					pos_displacement_A -= displacement_term/2
+			current_positions[i] += pos_displacement_A
+			#print("Displacement:", pos_displacement_A)
 
 
 func bounceFromBorder() -> void:

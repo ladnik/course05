@@ -27,7 +27,7 @@ func _draw() -> void:
 	# draw the particles
 	const pCol = Color(0, 0, 1)
 	for p in SIM.get_particle_positions():
-		draw_circle(p , 5 , pCol, true)
+		draw_circle(p, 10, pCol, true)
 
 
 	# draw the interaction radius etc for debugging
