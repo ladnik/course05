@@ -1,9 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://bm0vsw4tqpcut"]
+[gd_scene load_steps=4 format=3 uid="uid://b01cbmum8wacl"]
 
+[ext_resource type="Script" path="res://scripts/level1.gd" id="1_mpsgw"]
 [ext_resource type="PackedScene" uid="uid://dm55nq68nldsl" path="res://scenes/pause_menu.tscn" id="2_68yxm"]
 [ext_resource type="PackedScene" uid="uid://bragutgdm43hq" path="res://scenes/terrain_manager.tscn" id="3_ohktt"]
 
 [node name="Level1" type="Node2D"]
+script = ExtResource("1_mpsgw")
 
 [node name="TerrainManager" parent="." instance=ExtResource("3_ohktt")]
 

@@ -1,61 +1,65 @@
 extends Node2D
 
-@onready var mesh_generator: MeshInstance2D = $"../MeshGenerator"
+class_name ParticleSimulation
 
-var SIM = load('res://scripts/particle_simulation.gd').new()
+@onready var mesh_generator: MeshInstance2D = $"../TerrainManager/MeshGenerator"
+
+var SIM 
 var Constants = load('res://scripts/simulation_constants.gd')
 var particle_mat = CanvasItemMaterial.new()
 
+func _init(pos_x, dis_x, pos_y, dis_y):
+	SIM = load('res://scripts/particle_simulation.gd').new(pos_x, dis_x, pos_y, dis_y)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	#View.size = Vector2(Constants.RENDER_WIDTH, Constants.RENDER_HEIGHT)
-	#OS.window_size = $View.size
 	SIM.mesh_generator = mesh_generator
-	'''
-	for p in SIM.fast_particle_array:
-			var waterdraw = Sprite2D.new()
-			waterdraw.add_to_group("water")
-			waterdraw.texture = preload("res://assets/ball.png")
-			waterdraw.scale *= Constants.PARTICLE_SIZE
-			waterdraw.material = particle_mat
-		
-			waterdraw.position = p * Constants.SCALE
-			add_child(waterdraw)
-	'''
-
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
 	SIM.update(delta)
-	#print(SIM.particles[1].position)
-	'''
-	var children = []
-	for child in get_children():
-			if child.is_in_group("water"):
-				children.append(child)
-				
-	print(SIM.fast_particle_array.size())
-	for p in range(SIM.fast_particle_array.size()):
-		var draw_point = children[p]
-		draw_point.position = (SIM.fast_particle_array[p] * Constants.SCALE)
-	'''
 
 	queue_redraw()
-		
-func _draw() -> void:
-	# Draw a rectangle outline
-	#draw_rect(Rect2(Vector2(0, 0), Vector2(Constants.RENDER_WIDTH, Constants.RENDER_HEIGHT)), Color(1, 1, 1), false)
-	#draw_line(Vector2(0,0), Vector2(Constants.RENDER_WIDTH, Constants.RENDER_HEIGHT), Color(1, 1, 0))
 
-	for p in range(SIM.fast_particle_array.size()):
-		draw_circle(SIM.fast_particle_array[p] * Constants.SCALE, 5 * Constants.SCALE, Color(0, 1, 0), true)
-		draw_circle(SIM.fast_particle_array[p] * Constants.SCALE, Constants.INTERACTION_RADIUS * Constants.SCALE, Color(0, 1, 0), false)
-		# draw diagonal line from particle to interaction boundary
-		draw_line(SIM.fast_particle_array[p] * Constants.SCALE, (SIM.fast_particle_array[p] + Vector2(1, 1).normalized() * Constants.INTERACTION_RADIUS) * Constants.SCALE, Color(1, 0, 0), 1, false)
+
+func _draw() -> void:
+
+	# draw the particles
+	const pCol = Color(0, 0, 1)
+	for p in SIM.get_particle_positions():
+		draw_circle(p , 5 , pCol, true)
+
+
+	# draw the interaction radius etc for debugging
+	if Constants.DEBUG:
+
+		# draw the grid
+		if Constants.GRIDSEARCH:
+			const gCol = Color(0, 0, 1)
+			for x in range(0, Constants.WIDTH, Constants.GRID_SIZE):
+				draw_line(Vector2(x, 0) , Vector2(x, Constants.HEIGHT) , gCol, 1, false)
+			for y in range(0, Constants.HEIGHT, Constants.GRID_SIZE):
+				draw_line(Vector2(0, y) , Vector2(Constants.WIDTH, y) , gCol, 1, false)
+
+
+		const dCol = Color(1, 0, 0)
+		var particle_positions = SIM.get_particle_positions()
+		var velocities = []
 		if Constants.DISPLAY_VELOCITY:
-			draw_line(SIM.fast_particle_array[p] * Constants.SCALE, (SIM.fast_particle_array[p] + SIM.velocities[p]) * Constants.SCALE, Color(0, 1, 0), 1, false)
+			velocities = SIM.get_velocities()
+		var forces = []
 		if Constants.DISPLAY_FORCE:
-			#print(SIM.particles[p].last_force)
-			draw_line(SIM.fast_particle_array[p] * Constants.SCALE, (SIM.fast_particle_array[p] + SIM.force_array[p]) * Constants.SCALE, Color(0, 0, 1), 1, false)
+			forces = SIM.get_forces()
+		for p in range(particle_positions.size()):
+			var pos = particle_positions[p]
+			draw_circle(pos , Constants.INTERACTION_RADIUS , pCol, false)
+			
+			# draw diagonal line from particle to interaction boundary
+			draw_line(pos , (pos + Vector2(1, 1).normalized() * Constants.INTERACTION_RADIUS) , dCol, 1, false)
+
+			if Constants.DISPLAY_VELOCITY:
+				draw_line(pos , (pos + velocities[p]) , dCol, 1, false)
+			
+			if Constants.DISPLAY_FORCE:
+				draw_line(pos , (pos + forces[p]) , dCol, 1, false)

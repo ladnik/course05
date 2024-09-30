@@ -6,15 +6,14 @@ const DISPLAY_FORCE = true
 
 const WIDTH = 1920
 const HEIGHT = 1080
-const SCALE = 1
-const RENDER_WIDTH = WIDTH * SCALE
-const RENDER_HEIGHT = HEIGHT * SCALE
 
-const NUMBER_PARTICLES = 50
+# set to -1 to use the water_source
+const NUMBER_PARTICLES = 200
 
-const GRAVITY = 100
+const GRAVITY = 300
 
 const INTERACTION_RADIUS = 10.0
 const SPRING_CONSTANT = 3000 / INTERACTION_RADIUS
 
-const PARTICLE_SIZE = 2
+const GRID_SIZE = 2 * INTERACTION_RADIUS
+const GRIDSEARCH = true

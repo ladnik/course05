@@ -17,6 +17,7 @@ func _process(delta: float) -> void:
 func resume_gui_event(event: InputEvent) -> void:
 	if (event is InputEventMouseButton && event.pressed && event.button_index == 1):
 		visible = false
+		get_tree().paused = not get_tree().paused
 		await get_tree().create_timer(0.3).timeout
 		terrain_manager.editor.terraforming_blocked = not terrain_manager.editor.terraforming_blocked
 
