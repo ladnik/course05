@@ -18,11 +18,6 @@ func _physics_process(delta: float) -> void:
 	SIM.update(delta)
 
 	queue_redraw()
-	time += delta
-	if time > 1.0:
-		time = 0.0
-		for i in range(0, 100):
-			SIM.delete_particle(i)
 
 
 func _draw() -> void:

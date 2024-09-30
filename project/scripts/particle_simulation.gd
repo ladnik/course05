@@ -225,7 +225,14 @@ func get_particle_positions():
 	return particles
 
 func delete_particle(index: int) -> void:
-	particle_valid[index] = false
+	# input is index in array of valid particle positions. Need to find the index in the array of all particles and set the particle to invalid
+	var valid_index = 0
+	for i in range(current_positions.size()):
+		if particle_valid[i]:
+			if valid_index == index:
+				particle_valid[i] = false
+				return
+			valid_index += 1
 
 #### ONLY USED FOR DEBUGGING ####
 func get_velocities():
