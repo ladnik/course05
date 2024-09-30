@@ -78,11 +78,8 @@ func grid_search(i:int) -> Array:
 
 func random_spawn(pos_x, dis_x, pos_y, dis_y) -> void:
 	for i in range(Constants.NUMBER_PARTICLES):
-		var position = Vector2(randf() * 400, randf() * 400)
-		current_positions.push_back(position)
-		
 		var position = Vector2(randf() * dis_x + pos_x, randf() * dis_y + pos_y)
-		fast_particle_array.push_back(position)
+		current_positions.push_back(position)
 		previous_positions.push_back(position)
 		velocities.push_back(Vector2(0,0))
 		forces.push_back(Vector2(0,0))
