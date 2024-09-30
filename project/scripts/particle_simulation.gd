@@ -25,16 +25,6 @@ func _init(pos_x, dis_x, pos_y, dis_y):
 	else:
 		random_spawn(pos_x, dis_x, pos_y, dis_y)
 
-
-func get_neighbors(i:int)-> Array:
-	if Constants.GRIDSEARCH:
-		return grid_search(i)
-	else:
-		return direct_sum(i)
-
-func direct_sum(i:int) -> Array:
-	return range(i + 1, current_positions.size())
-
 # Convert world position to grid position
 func world_to_grid(pos: Vector2) -> Vector2:
 	return Vector2(floor(pos.x / Constants.GRID_SIZE), floor(pos.y / Constants.GRID_SIZE))
@@ -52,28 +42,13 @@ func build_grid() -> void:
 			grid[grid_pos] = [i]
 
 
-func grid_search(i:int) -> Array:
+func get_neighbouring_cells(pos: Vector2) -> Array:
+	var cells = []
+	for i in range(0, 2):
+		for j in range(-1, 2):
+			cells.append(pos + Vector2(i, j))
 
-	var neighbors = []
-
-	var pos = world_to_grid(current_positions[i])
-	var ownCell = grid[pos]
-	var posInOwnCell = ownCell.find(i)
-	# get the neighbors that come after the index of the current particle from the ownCell
-	for j in range(posInOwnCell + 1, ownCell.size()):
-		neighbors.append(ownCell[j])
-	
-	# get the neighbors from the cells to the right and bottom of the current cell
-	for  j in range(0, 2):
-		for k in range(0, 2):
-			if j == 0 and k == 0:
-				continue
-
-			var neighborPos = pos + Vector2(j, k)
-			if grid.has(neighborPos):
-				neighbors += grid[neighborPos]
-
-	return neighbors
+	return cells
 
 
 func random_spawn(pos_x, dis_x, pos_y, dis_y) -> void:
@@ -137,12 +112,29 @@ func interaction_force(position1, position2) -> Vector2:
 	
 func calculate_interaction_forces() -> void:
 	# sum over all particles without double counting
-	for i in range(current_positions.size()):
-		for j in get_neighbors(i):
-			var force = interaction_force(current_positions[i], current_positions[j])
-			forces[i] -= force
-			forces[j] += force
-	
+	if not Constants.USE_GRID:
+		for i in range(current_positions.size()):
+			for j in range(i + 1, current_positions.size()):
+				apply_force(i, j)
+	else:
+		for cell_key in grid.keys():
+			var cell = grid[cell_key]
+
+			for i in range(cell.size()):
+				for j in range(i + 1, cell.size()):
+					apply_force(cell[i], cell[j])
+			
+			for neighbour_cell_key in get_neighbouring_cells(cell_key):
+				if grid.has(neighbour_cell_key):
+					var neighbour_cell = grid[neighbour_cell_key]
+					for i in range(cell.size()):
+						for j in range(neighbour_cell.size()):
+							apply_force(cell[i], neighbour_cell[j])
+
+func apply_force(index1: int, index2: int) -> void:
+	var force = interaction_force(current_positions[index1], current_positions[index2])
+	forces[index1] += force
+	forces[index2] -= force
 
 func reset_forces():
 	for i in range(current_positions.size()):
