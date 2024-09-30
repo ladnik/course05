@@ -4,5 +4,5 @@ extends Node2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	terrain_manager.generate_terrain(0815, FastNoiseLite.TYPE_PERLIN, 4, 0.0075)
-	self.add_child(ParticleSimulation.new(100, 50, 50, 20))
+	terrain_manager.generate_terrain(13, FastNoiseLite.TYPE_PERLIN, 4, 0.0075)
+	self.add_child(ParticleSimulation.new(200, 50, 0, 0))

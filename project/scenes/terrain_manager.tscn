@@ -1,26 +1,18 @@
-[gd_scene load_steps=7 format=3 uid="uid://b01cbmum8wacl"]
+[gd_scene load_steps=5 format=3 uid="uid://bragutgdm43hq"]
 
-[ext_resource type="Script" path="res://scripts/terrain_manager.gd" id="1_thinb"]
-[ext_resource type="Script" path="res://scripts/level1.gd" id="1_ur8di"]
-[ext_resource type="Script" path="res://scripts/terrain_renderer.gd" id="2_4xkgq"]
-[ext_resource type="Script" path="res://scripts/terrain_editor.gd" id="3_5hetr"]
-[ext_resource type="PackedScene" uid="uid://cj0qi5k5eypyk" path="res://scenes/marching_squares.tscn" id="4_uydl6"]
-[ext_resource type="PackedScene" uid="uid://dm55nq68nldsl" path="res://scenes/pause_menu.tscn" id="5_74eqg"]
+[ext_resource type="Script" path="res://scripts/terrain_manager.gd" id="1_tn7tr"]
+[ext_resource type="Script" path="res://scripts/terrain_renderer.gd" id="2_38nxe"]
+[ext_resource type="Script" path="res://scripts/terrain_editor.gd" id="3_vi5fo"]
+[ext_resource type="PackedScene" uid="uid://cj0qi5k5eypyk" path="res://scenes/marching_squares.tscn" id="4_h7kxc"]
 
-[node name="Level1" type="Node2D"]
-script = ExtResource("1_ur8di")
+[node name="TerrainManager" type="Node2D"]
+script = ExtResource("1_tn7tr")
 
-[node name="TerrainManager" type="Node2D" parent="."]
-script = ExtResource("1_thinb")
+[node name="TerrainRenderer" type="Node2D" parent="."]
+script = ExtResource("2_38nxe")
 
-[node name="TerrainRenderer" type="Node2D" parent="TerrainManager"]
-script = ExtResource("2_4xkgq")
+[node name="TerrainEditor" type="Node2D" parent="."]
+script = ExtResource("3_vi5fo")
 
-[node name="TerrainEditor" type="Node2D" parent="TerrainManager"]
-script = ExtResource("3_5hetr")
-
-[node name="MeshGenerator" parent="TerrainManager" instance=ExtResource("4_uydl6")]
+[node name="MeshGenerator" parent="." instance=ExtResource("4_h7kxc")]
 scale = Vector2(15, 15)
-
-[node name="Pause_Scene" parent="." instance=ExtResource("5_74eqg")]
-visible = false

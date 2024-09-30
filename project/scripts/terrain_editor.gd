@@ -9,7 +9,7 @@ var gridNoise = FastNoiseLite.new()
 
 # Basic functions
 
-static var kernel_radius = 5
+static var kernel_radius = 2
 
 func cubic_spline_kernel(x_origin: Vector2, x: Vector2) -> float:
 	var distance = x_origin.distance_to(x)
@@ -50,7 +50,7 @@ func apply_kernel(grid_pos, target_value):
 				grid[grid_pos_kernel.y][grid_pos_kernel.x] = min(1.0, max(0, new_grid_value))
 
 
-func generateGrid(seed, type, octaves, frequency):
+func generateGrid(terrain_seed, type, octaves, frequency):
 	var returnBoundaries : Array[PackedVector2Array] = [] # all boundaries
 	var boundary : PackedVector2Array = [] # current boundary
 
@@ -62,7 +62,7 @@ func generateGrid(seed, type, octaves, frequency):
 		grid.append(grid_row)
 
 	# Initialize noise generator with passed parameters
-	gridNoise.seed = seed;
+	gridNoise.seed = terrain_seed;
 	gridNoise.noise_type = type
 	gridNoise.fractal_octaves = octaves
 	gridNoise.frequency = frequency
