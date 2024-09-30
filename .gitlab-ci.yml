@@ -137,7 +137,7 @@ web:
     - mkdir -v -p $EXPORT_PATH
 
     - section_start "GODOT_EXPORT" "Export Godot project with $TEMPLATE"
-    - export_godot "Web" $EXPORT_PATH/$index.html
+    - export_godot "Web" $EXPORT_PATH/index.html
     - section_end "GODOT_EXPORT"
   needs: ["unit-test", "integration-test"]
   allow_failure: true
