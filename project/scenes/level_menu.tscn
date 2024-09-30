@@ -200,6 +200,7 @@ script = ExtResource("2_f0v4j")
 [connection signal="gui_input" from="Level1" to="." method="_on_level1_gui_input"]
 [connection signal="mouse_entered" from="Level1" to="Level1" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="Level1" to="Level1" method="_on_mouse_exited"]
+[connection signal="gui_input" from="Level2" to="." method="_on_level_2_gui_input"]
 [connection signal="mouse_entered" from="Level2" to="Level2" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="Level2" to="Level2" method="_on_mouse_exited"]
 [connection signal="mouse_entered" from="Level3" to="Level3" method="_on_mouse_entered"]

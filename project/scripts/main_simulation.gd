@@ -1,12 +1,15 @@
 extends Node2D
 
-@onready var mesh_generator: MeshInstance2D = $"../MeshGenerator"
+class_name ParticleSimulation
 
-var SIM = load('res://scripts/particle_simulation.gd').new()
+@onready var mesh_generator: MeshInstance2D = $"../TerrainManager/MeshGenerator"
+
+var SIM 
 var Constants = load('res://scripts/simulation_constants.gd')
 var particle_mat = CanvasItemMaterial.new()
 
-var time = 0.0
+func _init(pos_x, dis_x, pos_y, dis_y):
+	SIM = load('res://scripts/particle_simulation.gd').new(pos_x, dis_x, pos_y, dis_y)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

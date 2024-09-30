@@ -19,11 +19,11 @@ var grid: Dictionary = {}
 
 
 # Called when the node enters the scene tree for the first time.
-func _init():
+func _init(pos_x, dis_x, pos_y, dis_y):
 	if Constants.NUMBER_PARTICLES < 0:
-		self.water_source = WATER_SOURCE.new(Vector2(100, 20), Vector2(0, 10), 10, 10, 0.2, 2, 0.0, 4.0)
+		self.water_source = WATER_SOURCE.new(Vector2(pos_x, pos_y), Vector2(0, 10), 10, 10, 0.2, 2, 0.0, 4.0)
 	else:
-		random_spawn()
+		random_spawn(pos_x, dis_x, pos_y, dis_y)
 
 
 func get_neighbors(i:int)-> Array:
@@ -76,10 +76,13 @@ func grid_search(i:int) -> Array:
 	return neighbors
 
 
-func random_spawn() -> void:
+func random_spawn(pos_x, dis_x, pos_y, dis_y) -> void:
 	for i in range(Constants.NUMBER_PARTICLES):
 		var position = Vector2(randf() * 400, randf() * 400)
 		current_positions.push_back(position)
+		
+		var position = Vector2(randf() * dis_x + pos_x, randf() * dis_y + pos_y)
+		fast_particle_array.push_back(position)
 		previous_positions.push_back(position)
 		velocities.push_back(Vector2(0,0))
 		forces.push_back(Vector2(0,0))
@@ -93,7 +96,6 @@ func update(delta) -> void:
 
 	# reset everything
 	reset_forces()
-
 	build_grid()
 	
 	# calculate the next step

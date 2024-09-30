@@ -11,10 +11,12 @@ var this_mouse_clicked = false
 
 var only_marching_squares_after_drawn = false
 
-func _ready():
-	editor.generateGrid()
+# called by Level with level params
+func generate_terrain(seed, type, octaves, frequency):
+	editor.generateGrid(seed, type, octaves, frequency)
 	renderer.initialize(editor.grid, mesh_generator.scale)
 	mesh_generator.visualize(editor.grid)
+	
 
 func _process(_delta):
 	var mouse_pos_grid = renderer.to_grid_pos(get_global_mouse_position())
