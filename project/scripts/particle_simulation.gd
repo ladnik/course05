@@ -183,7 +183,10 @@ func double_density_relaxation(delta) -> void:
 		for i in grid[cell_key]:
 			var density = 0
 			var density_near = 0
-			for j in get_all_neighbour_particles(cell_key) :
+
+			var neighbors = get_all_neighbour_particles(cell_key)
+
+			for j in neighbors:
 				if i==j:
 					continue
 				var rij = current_positions[j] - current_positions[i]
@@ -195,7 +198,8 @@ func double_density_relaxation(delta) -> void:
 			var pressure= Constants.K*(density-Constants.DENSITY_ZERO)
 			var pressure_near= Constants.KNEAR*density_near
 			var pos_displacement_A = Vector2(0,0)
-			for j in range(current_positions.size()):
+
+			for j in neighbors:
 				if i==j:
 					continue
 				var rij = current_positions[j] - current_positions[i]
