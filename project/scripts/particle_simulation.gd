@@ -44,7 +44,7 @@ func build_grid() -> void:
 		else:
 			grid[grid_pos] = [i]
 
-func get_grid_neighbours(grid_pos:Vector2) -> Array:
+func get_grid_neighbours(grid_pos:Vector2) -> Array: 
 	var neigbour_cells: Array =[] 
 	for i in range(-1,2):
 		for j in range(-1,2):
@@ -76,9 +76,9 @@ func update(delta) -> void:
 	integration_step(delta)
 	
 	#double_density_relaxation(delta)
-	check_oneway_coupling()
 	calculate_next_velocity(delta)
-	
+	check_oneway_coupling()
+
 	bounceFromBorder()
 
 func integration_step(delta) -> void:
@@ -159,11 +159,15 @@ func collision_checker(i:int)-> Array:
 func check_oneway_coupling() -> void:
 	for i in range(current_positions.size()):
 		var collision_object = collision_checker(i)
+		var penetration_depth = (current_positions[i]-collision_object[1]).dot(collision_object[2].normalized())
 		if collision_object[0] == true:
+			#set posiion to boundary
 			current_positions[i] += collision_object[2].normalized() * 0.5
+			#new velocity
+			velocities[i]= velocities[i]-1*velocities[i].dot(collision_object[2].normalized())*collision_object[2].normalized()
 			if collision_checker(i)[0]:
-				#current_positions[i] = previous_positions[i]
-				var spawnPosition = Vector2(randf() * 50 + 200, randf() * 50 + 200)
+				#respawn particle if it collision fails
+				var spawnPosition = Vector2(randf() * 50 + 600, randf() * 50 + 200)
 				current_positions[i]= spawnPosition
 				previous_positions[i]= spawnPosition
 
