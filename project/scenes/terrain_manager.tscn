@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://btgq3f6ewa184" path="res://scenes/marching_squares.tscn" id="4_uydl6"]
 [ext_resource type="PackedScene" uid="uid://dm55nq68nldsl" path="res://scenes/pause_menu.tscn" id="5_74eqg"]
 [ext_resource type="PackedScene" uid="uid://c0e3foelw7jbm" path="res://scenes/particle_simulation.tscn" id="6_02jwq"]
-[ext_resource type="PackedScene" uid="uid://clnsltc1hu10p" path="res://scenes/power_plant.tscn" id="7_ptt5m"]
+[ext_resource type="PackedScene" uid="uid://bnr846xlgucmi" path="res://scenes/power_plant.tscn" id="7_ptt5m"]
 
 [node name="TerrainManager" type="Node2D"]
 script = ExtResource("1_thinb")

@@ -3,8 +3,7 @@ extends CanvasLayer
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
-
+	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -14,8 +13,9 @@ func _process(delta: float) -> void:
 
 func resume_gui_event(event: InputEvent) -> void:
 	if (event is InputEventMouseButton && event.pressed && event.button_index == 1):
-		get_tree().paused = false
 		visible = false
+		get_tree().paused = false
+		
 
 func exit_gui_event(event: InputEvent) -> void:
 	if (event is InputEventMouseButton && event.pressed && event.button_index == 1):
@@ -25,3 +25,9 @@ func menu_gui_event(event: InputEvent) -> void:
 	if (event is InputEventMouseButton && event.pressed && event.button_index == 1):
 		get_tree().paused = false
 		TransitionScene.transition_effect("res://scenes/menu.tscn")
+
+
+func _on_replay_gui_input(event: InputEvent) -> void:
+	if (event is InputEventMouseButton && event.pressed && event.button_index == 1):
+		get_tree().paused = false
+		TransitionScene.transition_effect_for_reload()
