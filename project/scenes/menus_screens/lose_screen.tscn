@@ -1,12 +1,12 @@
 [gd_scene load_steps=9 format=3 uid="uid://dnrige6o8for2"]
 
-[ext_resource type="Script" path="res://scripts/winlose_screen.gd" id="1_7846u"]
-[ext_resource type="Texture2D" uid="uid://b2nanxuajo0mq" path="res://assets/background_dummy.png" id="2_5pr8o"]
-[ext_resource type="Script" path="res://scripts/menu_item.gd" id="2_f0v4j"]
-[ext_resource type="Shader" path="res://shaders/pause_menu.gdshader" id="2_f44fp"]
+[ext_resource type="Script" path="res://scripts/menus_screens/winlose_screen.gd" id="1_g8fbq"]
+[ext_resource type="Texture2D" uid="uid://b2nanxuajo0mq" path="res://assets/background_dummy.png" id="2_4berb"]
+[ext_resource type="Shader" path="res://shaders/pause_menu.gdshader" id="3_uxs5v"]
+[ext_resource type="Script" path="res://scripts/menus_screens/menu_item.gd" id="4_mr4b1"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xa568"]
-shader = ExtResource("2_f44fp")
+shader = ExtResource("3_uxs5v")
 shader_parameter/lod = 4.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_ovxh0"]
@@ -34,7 +34,7 @@ shadow_color = Color(0, 0, 0, 1)
 shadow_offset = Vector2(4, 1)
 
 [node name="lose_screen" type="CanvasLayer"]
-script = ExtResource("1_7846u")
+script = ExtResource("1_g8fbq")
 
 [node name="Background" type="TextureRect" parent="."]
 anchors_preset = 15
@@ -42,7 +42,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_5pr8o")
+texture = ExtResource("2_4berb")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 material = SubResource("ShaderMaterial_xa568")
@@ -51,7 +51,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_5pr8o")
+texture = ExtResource("2_4berb")
 
 [node name="Title" type="Label" parent="."]
 anchors_preset = 5
@@ -84,7 +84,7 @@ text = "Replay"
 label_settings = SubResource("LabelSettings_5hf8s")
 horizontal_alignment = 1
 vertical_alignment = 1
-script = ExtResource("2_f0v4j")
+script = ExtResource("4_mr4b1")
 
 [node name="mainmenu" type="Label" parent="."]
 anchors_preset = 8
@@ -104,7 +104,7 @@ text = "Main Menu"
 label_settings = SubResource("LabelSettings_nas8m")
 horizontal_alignment = 1
 vertical_alignment = 1
-script = ExtResource("2_f0v4j")
+script = ExtResource("4_mr4b1")
 
 [connection signal="gui_input" from="replay" to="." method="_on_replay_gui_input"]
 [connection signal="mouse_entered" from="replay" to="replay" method="_on_mouse_entered"]

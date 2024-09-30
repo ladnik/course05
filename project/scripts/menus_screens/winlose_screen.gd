@@ -14,14 +14,14 @@ func _process(delta: float) -> void:
 func _on_nextlevel_gui_input(event: InputEvent) -> void:
 	if (event is InputEventMouseButton && event.pressed && event.button_index == 1):
 		print(get_tree().get_current_scene())
-		TransitionScene.transition_effect("res://scenes/level2.tscn")
+		TransitionScene.transition_effect("res://scenes/levels/level2.tscn")
 
 
 func _on_replay_gui_input(event: InputEvent) -> void:
 	if (event is InputEventMouseButton && event.pressed && event.button_index == 1):
-		TransitionScene.transition_effect("res://scenes/level1.tscn")
+		TransitionScene.transition_effect("res://scenes/levels/level1.tscn")
 
 
 func _on_mainmenu_gui_input(event: InputEvent) -> void:
 	if (event is InputEventMouseButton && event.pressed && event.button_index == 1):
-		TransitionScene.transition_effect("res://scenes/menu.tscn")
+		TransitionScene.transition_effect("res://scenes/menus_screens/menu.tscn")
