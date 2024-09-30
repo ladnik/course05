@@ -16,7 +16,7 @@ var gravity_vector: Vector2 = Vector2(0, Constants.GRAVITY)
 var mesh_generator: MeshInstance2D
 
 var grid: Dictionary = {}
-
+var simulator: Simulator
 
 # Called when the node enters the scene tree for the first time.
 func _init(pos_x, dis_x, pos_y, dis_y):
@@ -24,6 +24,8 @@ func _init(pos_x, dis_x, pos_y, dis_y):
 		self.water_source = WATER_SOURCE.new(Vector2(pos_x, pos_y), Vector2(0, 10), 10, 10, 0.2, 2, 0.0, 4.0)
 	else:
 		random_spawn(pos_x, dis_x, pos_y, dis_y)
+	simulator = Simulator.new()
+	
 
 # Convert world position to grid position
 func world_to_grid(pos: Vector2) -> Vector2:
@@ -66,19 +68,20 @@ func update(delta) -> void:
 	if Constants.NUMBER_PARTICLES < 0:
 		self.water_source.spawn(delta, current_positions, previous_positions, velocities, forces, particle_valid)
 
+	current_positions = simulator.update(delta, current_positions)
 	# reset everything
-	reset_forces()
-	build_grid()
+	#reset_forces()
+	#build_grid()
 	
 	# calculate the next step
-	calculate_interaction_forces()
-	integration_step(delta)
+	#calculate_interaction_forces()
+	#integration_step(delta)
 	
 	#double_density_relaxation(delta)
-	check_oneway_coupling()
-	calculate_next_velocity(delta)
+	#check_oneway_coupling()
+	#calculate_next_velocity(delta)
 	
-	bounceFromBorder()
+	#bounceFromBorder()
 
 func integration_step(delta) -> void:
 	for i in range(current_positions.size()):
