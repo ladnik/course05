@@ -1,8 +1,8 @@
 [gd_scene load_steps=9 format=3 uid="uid://da1vo1e18ruta"]
 
-[ext_resource type="Script" path="res://scripts/tutorial.gd" id="1_k3oof"]
+[ext_resource type="Script" path="res://scripts/menus_screens/tutorial.gd" id="1_k3oof"]
 [ext_resource type="Texture2D" uid="uid://b2nanxuajo0mq" path="res://assets/background_dummy.png" id="2_5pr8o"]
-[ext_resource type="Script" path="res://scripts/menu_item.gd" id="2_f0v4j"]
+[ext_resource type="Script" path="res://scripts/menus_screens/menu_item.gd" id="2_f0v4j"]
 [ext_resource type="Shader" path="res://shaders/pause_menu.gdshader" id="2_f44fp"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xa568"]

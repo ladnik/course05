@@ -33,6 +33,6 @@ func produce_power():
 	score += 1
 	print("Your score: " + str(score))
 	if score > power_needed:
-		TransitionScene.transition_effect("res://scenes/win_screen.tscn")
+		TransitionScene.transition_effect("res://scenes/menus_screens/win_screen.tscn")
 		queue_free()
 	
