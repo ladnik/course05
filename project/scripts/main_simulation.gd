@@ -15,13 +15,12 @@ func _init(pos_x, dis_x, pos_y, dis_y):
 func _ready() -> void:
 	SIM.mesh_generator = mesh_generator
 
+func _process(delta: float) -> void:
+	queue_redraw()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
 	SIM.update(delta)
-
-	queue_redraw()
-
 
 func _draw() -> void:
 
@@ -35,7 +34,7 @@ func _draw() -> void:
 	if Constants.DEBUG:
 
 		# draw the grid
-		if Constants.GRIDSEARCH:
+		if Constants.USE_GRID:
 			const gCol = Color(0, 0, 1)
 			for x in range(0, Constants.WIDTH, Constants.GRID_SIZE):
 				draw_line(Vector2(x, 0) , Vector2(x, Constants.HEIGHT) , gCol, 1, false)
