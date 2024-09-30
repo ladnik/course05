@@ -1,13 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://da1vo1e18ruta"]
+[gd_scene load_steps=8 format=3 uid="uid://wbswaxg8amh1"]
 
-[ext_resource type="Script" path="res://scripts/menus_screens/tutorial.gd" id="1_k3oof"]
+[ext_resource type="Script" path="res://scripts/menus_screens/level_menu.gd" id="1_nqtrb"]
 [ext_resource type="Texture2D" uid="uid://b2nanxuajo0mq" path="res://assets/background_dummy.png" id="2_5pr8o"]
 [ext_resource type="Script" path="res://scripts/menus_screens/menu_item.gd" id="2_f0v4j"]
-[ext_resource type="Shader" path="res://shaders/pause_menu.gdshader" id="2_f44fp"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_xa568"]
-shader = ExtResource("2_f44fp")
-shader_parameter/lod = 4.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_ovxh0"]
 font_size = 90
@@ -25,7 +20,14 @@ shadow_size = 10
 shadow_color = Color(0, 0, 0, 1)
 shadow_offset = Vector2(4, 1)
 
-[sub_resource type="LabelSettings" id="LabelSettings_nu7sw"]
+[sub_resource type="LabelSettings" id="LabelSettings_qlhul"]
+font_size = 32
+outline_size = 5
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 20
+shadow_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_cg7ux"]
 font_size = 55
 outline_size = 3
 outline_color = Color(0, 0, 0, 1)
@@ -33,19 +35,10 @@ shadow_size = 10
 shadow_color = Color(0, 0, 0, 1)
 shadow_offset = Vector2(4, 1)
 
-[node name="tutorial" type="CanvasLayer"]
-script = ExtResource("1_k3oof")
+[node name="Tutorial" type="CanvasLayer"]
+script = ExtResource("1_nqtrb")
 
 [node name="Background" type="TextureRect" parent="."]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("2_5pr8o")
-
-[node name="TextureRect" type="TextureRect" parent="."]
-material = SubResource("ShaderMaterial_xa568")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -62,11 +55,11 @@ offset_top = 191.0
 offset_right = 435.0
 offset_bottom = 334.0
 grow_horizontal = 2
-text = "Tutorial"
+text = "How To Play"
 label_settings = SubResource("LabelSettings_ovxh0")
 horizontal_alignment = 1
 
-[node name="play" type="Label" parent="."]
+[node name="backtomainmenu" type="Label" parent="."]
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
@@ -80,29 +73,46 @@ grow_horizontal = 2
 grow_vertical = 0
 pivot_offset = Vector2(150, 23)
 mouse_filter = 0
-text = "Play!"
+text = "Back to Main Menu"
 label_settings = SubResource("LabelSettings_pfcbe")
+vertical_alignment = 1
+script = ExtResource("2_f0v4j")
+
+[node name="Instructions" type="Label" parent="."]
+offset_left = 371.0
+offset_top = 369.0
+offset_right = 1523.0
+offset_bottom = 730.0
+text = "Generate as much hydropower as possible by adding and removing terrain.
+
+Generate: Mouse Left
+Remove: Mouse Right"
+label_settings = SubResource("LabelSettings_qlhul")
+horizontal_alignment = 1
+
+[node name="play" type="Label" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -149.0
+offset_top = -302.0
+offset_right = 151.0
+offset_bottom = -226.0
+grow_horizontal = 2
+grow_vertical = 0
+pivot_offset = Vector2(150, 23)
+mouse_filter = 0
+text = "Play!"
+label_settings = SubResource("LabelSettings_cg7ux")
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("2_f0v4j")
 
-[node name="Content" type="Label" parent="."]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -777.0
-offset_top = -146.0
-offset_right = 769.0
-offset_bottom = 267.0
-grow_horizontal = 2
-grow_vertical = 2
-pivot_offset = Vector2(150, 23)
-mouse_filter = 0
-text = "content goes here "
-label_settings = SubResource("LabelSettings_nu7sw")
-
+[connection signal="gui_input" from="backtomainmenu" to="." method="_on_backtomainmenu_gui_input"]
+[connection signal="mouse_entered" from="backtomainmenu" to="backtomainmenu" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="backtomainmenu" to="backtomainmenu" method="_on_mouse_exited"]
 [connection signal="gui_input" from="play" to="." method="_on_play_gui_input"]
 [connection signal="mouse_entered" from="play" to="play" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="play" to="play" method="_on_mouse_exited"]
