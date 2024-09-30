@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://dunxynwncbaxm"]
+
+[ext_resource type="PackedScene" uid="uid://bragutgdm43hq" path="res://scenes/terrain_manager.tscn" id="2_caxs8"]
+[ext_resource type="PackedScene" uid="uid://dm55nq68nldsl" path="res://scenes/pause_menu.tscn" id="3_xyjmi"]
+
+[node name="Level2" type="Node2D"]
+
+[node name="TerrainManager" parent="." instance=ExtResource("2_caxs8")]
+
+[node name="Pause_Scene" parent="." node_paths=PackedStringArray("terrain_manager") instance=ExtResource("3_xyjmi")]
+visible = false
+terrain_manager = NodePath("../TerrainManager")
