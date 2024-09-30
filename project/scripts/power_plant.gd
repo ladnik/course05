@@ -1,31 +1,38 @@
 extends Node2D
 
-@onready var particle_simulation: Node2D = $"../ParticleSimulation"
-var SIM
-var score : int = 0
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	SIM = particle_simulation.get("SIM")
-	pass # Replace with function body.
+class_name PowerPlant
 
+var particle_simulation
+var score : int = 0
+@export var power_needed: int
+
+
+func _ready() -> void:
+	score = 0
+
+func set_particle_simulation(_particle_simulation : ParticleSimulation):
+	particle_simulation = _particle_simulation.SIM
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	var particles = SIM.get_particle_positions()
+	if particle_simulation == null:
+		return
+	var particles = particle_simulation.get_particle_positions()
 	var to_remove = Array()
 
 	var i = 0
 	for p in particles:
 		if $TextureRect.get_global_rect().has_point(p):
-			producePower()
+			produce_power()
 			to_remove.append(i)
 		i += 1
 	for j in to_remove.size():
-		SIM.remove_particle(to_remove[j])
+		particle_simulation.delete_particle(to_remove[j])
 
-func producePower():
+func produce_power():
 	score += 1
 	print("Your score: " + str(score))
-	if score > 35:
+	if score > power_needed:
 		TransitionScene.transition_effect("res://scenes/win_screen.tscn")
+		queue_free()
 	
