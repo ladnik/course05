@@ -9,5 +9,6 @@ script = ExtResource("1_msv74")
 
 [node name="TerrainManager" parent="." instance=ExtResource("2_caxs8")]
 
-[node name="Pause_Scene" parent="." instance=ExtResource("3_xyjmi")]
+[node name="Pause_Scene" parent="." node_paths=PackedStringArray("terrain_manager") instance=ExtResource("3_xyjmi")]
 visible = false
+terrain_manager = NodePath("../TerrainManager")
