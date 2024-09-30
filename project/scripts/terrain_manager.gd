@@ -17,9 +17,14 @@ func _ready():
 	renderer.initialize(editor.grid, mesh_generator.scale)
 	mesh_generator.visualize(editor.grid)
 
-	background.initialize(Vector2(0.1,0.1))
-	background.update_grid()
+	var backgroundTexture = background.create_texture(0) #Vector2(0.1,0.1))
+	var backgroundSprite = mesh_generator.get_node("TerrainBackground")
+	backgroundSprite.texture = backgroundTexture
 	
+	var waterTexture = background.create_texture(1)
+	var waterSprite = mesh_generator.get_node("WaterBackground")
+	waterSprite.texture = waterTexture
+	waterSprite.scale *= Vector2(0.5, 0.5)
 
 func _process(_delta):
 
