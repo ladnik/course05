@@ -16,15 +16,15 @@ var mesh_generator: MeshInstance2D
 
 # Called when the node enters the scene tree for the first time.
 
-func _init():
+func _init(pos_x, dis_x, pos_y, dis_y):
 	# randomly spawn particles inside of HEIGHT and WIDTH
 	for i in range(Constants.NUMBER_PARTICLES):
-		var position = Vector2(randf() * 50+100, randf() * 0)
+		
+		var position = Vector2(randf() * dis_x + pos_x, randf() * dis_y + pos_y)
 		fast_particle_array.push_back(position)
 		previous_positions.push_back(position)
 		velocities.push_back(Vector2(0,0))
 		force_array.push_back(Vector2(0,0))
-
 
 
 func update(delta):
