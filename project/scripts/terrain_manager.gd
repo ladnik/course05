@@ -3,6 +3,7 @@ extends Node2D
 @onready var editor = $TerrainEditor
 @onready var renderer = $TerrainRenderer
 @onready var mesh_generator = $MeshGenerator
+@onready var background = $TerrainBackground
 
 # Godot functions
 
@@ -16,7 +17,12 @@ func _ready():
 	renderer.initialize(editor.grid, mesh_generator.scale)
 	mesh_generator.visualize(editor.grid)
 
+	background.initialize(Vector2(0.1,0.1))
+	background.update_grid()
+	
+
 func _process(_delta):
+
 	var mouse_pos_grid = renderer.to_grid_pos(get_global_mouse_position())
 
 	this_mouse_clicked = false
