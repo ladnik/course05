@@ -18,6 +18,8 @@ const SPRING_CONSTANT = 3000 / INTERACTION_RADIUS
 const GRID_SIZE = 2 * INTERACTION_RADIUS
 const USE_GRID = true
 
+const PARTICLE_RADIUS = 20
+
 # for double density
 const K = 30
 const DENSITY_ZERO = 1

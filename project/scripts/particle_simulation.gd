@@ -202,8 +202,7 @@ func double_density_relaxation(delta) -> void:
 				var q=rij.length()/Constants.INTERACTION_RADIUS
 				if q < 1:
 					rij=rij.normalized()
-					var displacement_term:Vector2 =delta**2 * (pressure*(1-q)+pressure_near*(1-q)**2)*rij
-					displacement_term = displacement_term*10
+					var displacement_term:Vector2 =delta**2 * (pressure*(1-q)+pressure_near*(1-q))*rij
 					current_positions[j] += displacement_term/2
 					pos_displacement_A -= displacement_term/2
 			current_positions[i] += pos_displacement_A
@@ -211,14 +210,14 @@ func double_density_relaxation(delta) -> void:
 
 func bounceFromBorder() -> void:
 	for i in range(current_positions.size()):
-		if current_positions[i].x - Constants.INTERACTION_RADIUS < 0:
-			current_positions[i].x = Constants.INTERACTION_RADIUS
+		if current_positions[i].x - Constants.PARTICLE_RADIUS < 0:
+			current_positions[i].x = Constants.PARTICLE_RADIUS
 			velocities[i].x *= -0.5
-		if current_positions[i].x + Constants.INTERACTION_RADIUS > Constants.WIDTH:
-			current_positions[i].x = Constants.WIDTH - Constants.INTERACTION_RADIUS
+		if current_positions[i].x + Constants.PARTICLE_RADIUS > Constants.WIDTH:
+			current_positions[i].x = Constants.WIDTH - Constants.PARTICLE_RADIUS
 			velocities[i].x *= -0.5
-		if current_positions[i].y +  Constants.INTERACTION_RADIUS > Constants.HEIGHT:
-			current_positions[i].y = Constants.HEIGHT - Constants.INTERACTION_RADIUS
+		if current_positions[i].y +  Constants.PARTICLE_RADIUS > Constants.HEIGHT:
+			current_positions[i].y = Constants.HEIGHT - Constants.PARTICLE_RADIUS
 			velocities[i].y *= -0.5
 
 func get_particle_positions():
