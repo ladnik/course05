@@ -10,6 +10,7 @@ var current_positions: PackedVector2Array = PackedVector2Array()
 var previous_positions: PackedVector2Array = PackedVector2Array()
 var velocities: PackedVector2Array = PackedVector2Array() 
 var forces: PackedVector2Array = PackedVector2Array()
+var particle_valid: Array = Array()
 
 var gravity_vector: Vector2 = Vector2(0, Constants.GRAVITY)
 var mesh_generator: MeshInstance2D
@@ -82,12 +83,13 @@ func random_spawn() -> void:
 		previous_positions.push_back(position)
 		velocities.push_back(Vector2(0,0))
 		forces.push_back(Vector2(0,0))
+		particle_valid.push_back(true)
 
 
 
 func update(delta) -> void:
 	if Constants.NUMBER_PARTICLES < 0:
-		self.water_source.spawn(delta, current_positions, previous_positions, velocities, forces)
+		self.water_source.spawn(delta, current_positions, previous_positions, velocities, forces, particle_valid)
 
 	# reset everything
 	reset_forces()
@@ -141,6 +143,7 @@ func calculate_interaction_forces() -> void:
 			var force = interaction_force(current_positions[i], current_positions[j])
 			forces[i] -= force
 			forces[j] += force
+	
 
 func reset_forces():
 	for i in range(current_positions.size()):
@@ -214,4 +217,29 @@ func bounceFromBorder() -> void:
 			velocities[i].y *= -0.5
 
 func get_particle_positions():
-	return current_positions
+	var particles = PackedVector2Array()
+	for i in range(current_positions.size()):
+		if particle_valid[i]:
+			particles.push_back(current_positions[i])
+
+	return particles
+
+func delete_particle(index: int) -> void:
+	particle_valid[index] = false
+
+#### ONLY USED FOR DEBUGGING ####
+func get_velocities():
+	var valid_velocities = PackedVector2Array()
+	for i in range(current_positions.size()):
+		if particle_valid[i]:
+			valid_velocities.push_back(velocities[i])
+
+	return valid_velocities
+
+func get_forces():
+	var valid_forces = PackedVector2Array()
+	for i in range(current_positions.size()):
+		if particle_valid[i]:
+			valid_forces.push_back(forces[i])
+
+	return valid_forces

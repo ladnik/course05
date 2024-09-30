@@ -29,7 +29,7 @@ func _init(source_position: Vector2, direction: Vector2, velocity: float, width:
 func _ready() -> void:
 	pass # Replace with function body.
 
-func spawn(delta: float, particle_positions, previous_positions, velocities, forces) -> void:
+func spawn(delta: float, particle_positions, previous_positions, velocities, forces, particle_valid) -> void:
 	timer += delta
 	global_time += delta
 	if timer > spawn_interval and global_time > start_time and global_time < stop_time:
@@ -41,6 +41,8 @@ func spawn(delta: float, particle_positions, previous_positions, velocities, for
 			previous_positions.push_back(particle_position)
 			velocities.push_back(self.direction * initial_velocity)
 			forces.push_back(Vector2(0,0))
+			particle_valid.push_back(true)
+			
 
 func _draw() -> void:
 	draw_line(position - normal * width / 2.0, position + normal * width / 2.0, Color(1, 0, 0), 1, false)

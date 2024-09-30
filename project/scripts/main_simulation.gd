@@ -6,6 +6,7 @@ var SIM = load('res://scripts/particle_simulation.gd').new()
 var Constants = load('res://scripts/simulation_constants.gd')
 var particle_mat = CanvasItemMaterial.new()
 
+var time = 0.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -17,14 +18,19 @@ func _physics_process(delta: float) -> void:
 	SIM.update(delta)
 
 	queue_redraw()
+	time += delta
+	if time > 1.0:
+		time = 0.0
+		for i in range(0, 100):
+			SIM.delete_particle(i)
 
 
 func _draw() -> void:
 
 	# draw the particles
 	const pCol = Color(0, 0, 1)
-	for p in range(SIM.current_positions.size()):
-		draw_circle(SIM.current_positions[p] , 5 , pCol, true)
+	for p in SIM.get_particle_positions():
+		draw_circle(p , 5 , pCol, true)
 
 
 	# draw the interaction radius etc for debugging
@@ -40,15 +46,22 @@ func _draw() -> void:
 
 
 		const dCol = Color(1, 0, 0)
-		for p in range(SIM.current_positions.size()):
-			var pos = SIM.current_positions[p]
+		var particle_positions = SIM.get_particle_positions()
+		var velocities = []
+		if Constants.DISPLAY_VELOCITY:
+			velocities = SIM.get_velocities()
+		var forces = []
+		if Constants.DISPLAY_FORCE:
+			forces = SIM.get_forces()
+		for p in range(particle_positions.size()):
+			var pos = particle_positions[p]
 			draw_circle(pos , Constants.INTERACTION_RADIUS , pCol, false)
 			
 			# draw diagonal line from particle to interaction boundary
 			draw_line(pos , (pos + Vector2(1, 1).normalized() * Constants.INTERACTION_RADIUS) , dCol, 1, false)
 
 			if Constants.DISPLAY_VELOCITY:
-				draw_line(pos , (pos + SIM.velocities[p]) , dCol, 1, false)
+				draw_line(pos , (pos + velocities[p]) , dCol, 1, false)
 			
 			if Constants.DISPLAY_FORCE:
-				draw_line(pos , (pos + SIM.forces[p]) , dCol, 1, false)
+				draw_line(pos , (pos + forces[p]) , dCol, 1, false)
