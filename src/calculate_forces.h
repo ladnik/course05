@@ -24,8 +24,6 @@ class Simulator : public Node2D {
 		Vector2 world_to_grid(Vector2 pos);
 		void build_grid();
 
-
-
 	public:
 		Simulator();
 		~Simulator();
