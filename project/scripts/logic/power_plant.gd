@@ -33,7 +33,24 @@ func _process(delta: float) -> void:
 func produce_power():
 	score += 1
 	print("Your score: " + str(score))
+
 	if score > power_needed:
 		done = true
-		TransitionScene.transition_effect("res://scenes/menus_screens/win_screen.tscn")
+		# Check the previous scene from TransitionScene
+		var prev_scene = TransitionScene.prevscene
+
+		# Print the previous scene for debugging
+		print("Previous Scene: " + prev_scene)
+
+		# Determine what to do based on the previous scene
+		if prev_scene == "res://scenes/levels/level1.tscn":
+			print("Transitioning from Level 1 to Win Screen")
+			TransitionScene.transition_effect("res://scenes/menus_screens/win_screen.tscn")
+		elif prev_scene == "res://scenes/levels/level2.tscn":
+			print("Transitioning from Level 2 to Win Screen")
+			TransitionScene.transition_effect("res://scenes/menus_screens/win_screen.tscn")
+		elif prev_scene == "res://scenes/levels/level3.tscn":
+			print("Transitioning from Level 3 to After Final Level Screen")
+			TransitionScene.transition_effect("res://scenes/menus_screens/after_final_level.tscn")
+		
 	

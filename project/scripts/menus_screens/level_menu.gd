@@ -14,6 +14,10 @@ func _on_level_2_gui_input(event: InputEvent) -> void:
 		TransitionScene.transition_effect("res://scenes/levels/level2.tscn")
 
 
+func _on_level_3_gui_input(event: InputEvent) -> void:
+	if (event is InputEventMouseButton && event.pressed && event.button_index == 1):
+		TransitionScene.transition_effect("res://scenes/levels/level3.tscn")
+
 func _on_play_gui_input(event: InputEvent) -> void:
 	if (event is InputEventMouseButton && event.pressed && event.button_index == 1):
 		TransitionScene.transition_effect("res://scenes/levels/level1.tscn")
