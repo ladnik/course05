@@ -15,12 +15,13 @@ func _init(pos_x, dis_x, pos_y, dis_y):
 func _ready() -> void:
 	SIM.mesh_generator = mesh_generator
 
+func _process(delta: float) -> void:
+	queue_redraw()
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
 	SIM.update(delta)
-
-	queue_redraw()
 
 
 func _draw() -> void:

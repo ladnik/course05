@@ -45,7 +45,7 @@ func build_grid() -> void:
 func get_neighbouring_cells(pos: Vector2) -> Array:
 	var cells = []
 	for i in range(0, 2):
-		for j in range(-1, 2):
+		for j in range(0, 2):
 			cells.append(pos + Vector2(i, j))
 
 	return cells
