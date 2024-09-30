@@ -23,4 +23,3 @@ func _process(delta: float) -> void:
 		i += 1
 	for j in to_remove.size():
 		SIM.remove_particle(to_remove[j])
-
