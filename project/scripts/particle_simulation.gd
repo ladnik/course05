@@ -16,8 +16,10 @@ var gravity_vector: Vector2 = Vector2(0, Constants.GRAVITY)
 var mesh_generator: MeshInstance2D
 
 var grid: Dictionary = {}
+var density_grid: Dictionary = {}
 
 var neighborsToCheck: Array = [Vector2(-1, 1), Vector2(0, 1), Vector2(1, 1), Vector2(1, 0)]
+
 
 # Called when the node enters the scene tree for the first time.
 func _init(pos_x, dis_x, pos_y, dis_y):
@@ -42,7 +44,16 @@ func build_grid() -> void:
 		else:
 			grid[grid_pos] = [i]
 
-
+func get_grid_neighbours(grid_pos:Vector2) -> Array:
+	var neigbour_cells: Array =[] 
+	for i in range(-1,2):
+		for j in range(-1,2):
+			if i==0 and j==0:
+				continue
+			else:
+				neigbour_cells.append(grid_pos+Vector2(i,j))
+	return neigbour_cells
+	
 func random_spawn(pos_x, dis_x, pos_y, dis_y) -> void:
 	for i in range(Constants.NUMBER_PARTICLES):
 		var spawnPosition = Vector2(randf() * dis_x + pos_x, randf() * dis_y + pos_y)
@@ -115,14 +126,12 @@ func calculate_interaction_forces() -> void:
 
 			# apply forces within the cell
 			for i in range(cell.size()):
-				for j in range(i + 1, cell.size()):
+				for j in range(0, cell.size()):
 					apply_force(cell[i], cell[j])
 			
 			# apply forces to neighbouring cells
-			for neighbour in neighborsToCheck:
-				# calculate the key of the neighbour cell
-				var neighbour_cell_key = cell_key + neighbour
-
+			for neighbour_cell_key in get_grid_neighbours(cell_key):
+				
 				if grid.has(neighbour_cell_key):
 					var neighbour_cell = grid[neighbour_cell_key]
 					for i in range(cell.size()):
@@ -153,9 +162,13 @@ func check_oneway_coupling() -> void:
 		if collision_object[0] == true:
 			current_positions[i] += collision_object[2].normalized() * 0.5
 			if collision_checker(i)[0]:
-				current_positions[i] = previous_positions[i]
+				#current_positions[i] = previous_positions[i]
+				var spawnPosition = Vector2(randf() * 50 + 200, randf() * 50 + 200)
+				current_positions[i]= spawnPosition
+				previous_positions[i]= spawnPosition
 
-
+func double_density_relaxation_cells(delta):
+	pass
 
 func double_density_relaxation(delta) -> void:
 	for i in range(current_positions.size()):
@@ -166,7 +179,7 @@ func double_density_relaxation(delta) -> void:
 		var k = 0.1 
 		var k_near= 0.2
 		var density_zero= 10
-		for j in range(current_positions.size()):
+		for j in range(current_positions.size()) :
 			if i==j:
 				continue
 			var particleB=current_positions[j]
