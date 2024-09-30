@@ -15,6 +15,5 @@ visible = false
 terrain_manager = NodePath("../TerrainManager")
 
 [node name="PowerPlant" parent="." instance=ExtResource("4_vr4jk")]
-position = Vector2(11, 562)
+position = Vector2(1270, 276)
 scale = Vector2(33.72, 33.72)
-power_needed = 10

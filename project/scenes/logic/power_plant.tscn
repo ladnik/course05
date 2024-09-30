@@ -11,3 +11,8 @@ offset_right = 13.0
 offset_bottom = 11.0
 texture = ExtResource("2_hnehl")
 expand_mode = 1
+
+[node name="FlowTimer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="FlowTimer" to="." method="_on_flow_timer_timeout"]
