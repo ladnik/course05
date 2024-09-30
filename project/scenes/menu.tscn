@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dnl58hkj3wo1d"]
+[gd_scene load_steps=9 format=3 uid="uid://dnl58hkj3wo1d"]
 
 [ext_resource type="Script" path="res://scripts/menu.gd" id="1_tvu83"]
 [ext_resource type="Script" path="res://scripts/menu_item.gd" id="2_81w3j"]
@@ -22,6 +22,14 @@ shadow_color = Color(0, 0, 0, 1)
 shadow_offset = Vector2(4, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_03i3h"]
+font_size = 60
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 10
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(4, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_os8q4"]
 font_size = 60
 outline_size = 3
 outline_color = Color(0, 0, 0, 1)
@@ -63,9 +71,9 @@ anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 200.0
-offset_top = -426.0
+offset_top = -565.0
 offset_right = 341.0
-offset_bottom = -343.0
+offset_bottom = -482.0
 grow_vertical = 0
 pivot_offset = Vector2(0, 21)
 mouse_filter = 0
@@ -79,9 +87,9 @@ anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 200.0
-offset_top = -175.0
+offset_top = -235.0
 offset_right = 312.0
-offset_bottom = -92.0
+offset_bottom = -152.0
 grow_vertical = 0
 pivot_offset = Vector2(0, 21)
 mouse_filter = 0
@@ -96,15 +104,32 @@ anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 200.0
-offset_top = -308.0
+offset_top = -455.0
 offset_right = 380.0
-offset_bottom = -225.0
+offset_bottom = -372.0
 grow_vertical = 0
 pivot_offset = Vector2(0, 21)
 mouse_filter = 0
 text = "Levels
 "
 label_settings = SubResource("LabelSettings_03i3h")
+vertical_alignment = 1
+script = ExtResource("2_81w3j")
+
+[node name="Tutorial" type="Label" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 200.0
+offset_top = -345.0
+offset_right = 380.0
+offset_bottom = -262.0
+grow_vertical = 0
+pivot_offset = Vector2(0, 21)
+mouse_filter = 0
+text = "How To Play
+"
+label_settings = SubResource("LabelSettings_os8q4")
 vertical_alignment = 1
 script = ExtResource("2_81w3j")
 
@@ -117,3 +142,6 @@ script = ExtResource("2_81w3j")
 [connection signal="gui_input" from="Level" to="." method="level_gui"]
 [connection signal="mouse_entered" from="Level" to="Level" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="Level" to="Level" method="_on_mouse_exited"]
+[connection signal="gui_input" from="Tutorial" to="." method="tutorial_gui"]
+[connection signal="mouse_entered" from="Tutorial" to="Tutorial" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Tutorial" to="Tutorial" method="_on_mouse_exited"]

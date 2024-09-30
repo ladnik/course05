@@ -1,0 +1,87 @@
+[gd_scene load_steps=7 format=3 uid="uid://d3rgtwbacu68y"]
+
+[ext_resource type="Script" path="res://scripts/level_menu.gd" id="1_fxvx5"]
+[ext_resource type="Texture2D" uid="uid://b2nanxuajo0mq" path="res://assets/background_dummy.png" id="2_nfkbm"]
+[ext_resource type="Script" path="res://scripts/menu_item.gd" id="3_6x1qi"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ovxh0"]
+font_size = 90
+outline_size = 11
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 12
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(4, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_pfcbe"]
+font_size = 55
+outline_size = 3
+outline_color = Color(1, 0, 0, 1)
+shadow_size = 10
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(4, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_qlhul"]
+font_size = 32
+outline_size = 5
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 20
+shadow_color = Color(0, 0, 0, 1)
+
+[node name="LevelMenu" type="CanvasLayer"]
+script = ExtResource("1_fxvx5")
+
+[node name="Background" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_nfkbm")
+
+[node name="Title" type="Label" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -454.0
+offset_top = 191.0
+offset_right = 435.0
+offset_bottom = 334.0
+grow_horizontal = 2
+text = "How To Play"
+label_settings = SubResource("LabelSettings_ovxh0")
+horizontal_alignment = 1
+
+[node name="backtomainmenu" type="Label" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -148.0
+offset_top = -165.0
+offset_right = 152.0
+offset_bottom = -119.0
+grow_horizontal = 2
+grow_vertical = 0
+pivot_offset = Vector2(150, 23)
+mouse_filter = 0
+text = "Back to Main Menu"
+label_settings = SubResource("LabelSettings_pfcbe")
+vertical_alignment = 1
+script = ExtResource("3_6x1qi")
+
+[node name="Label" type="Label" parent="."]
+offset_left = 371.0
+offset_top = 369.0
+offset_right = 1523.0
+offset_bottom = 730.0
+text = "Generate as much hydropower as possible by adding and removing terrain.
+
+Generate: Mouse Left
+Remove: Mouse Right"
+label_settings = SubResource("LabelSettings_qlhul")
+horizontal_alignment = 1
+
+[connection signal="gui_input" from="backtomainmenu" to="." method="_on_backtomainmenu_gui_input"]
+[connection signal="mouse_entered" from="backtomainmenu" to="backtomainmenu" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="backtomainmenu" to="backtomainmenu" method="_on_mouse_exited"]
