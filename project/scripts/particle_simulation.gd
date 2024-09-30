@@ -17,6 +17,7 @@ var mesh_generator: MeshInstance2D
 
 var grid: Dictionary = {}
 
+var neighborsToCheck: Array = [Vector2(-1, 1), Vector2(0, 1), Vector2(1, 1), Vector2(1, 0)]
 
 # Called when the node enters the scene tree for the first time.
 func _init(pos_x, dis_x, pos_y, dis_y):
@@ -42,24 +43,14 @@ func build_grid() -> void:
 			grid[grid_pos] = [i]
 
 
-func get_neighbouring_cells(pos: Vector2) -> Array:
-	var cells = []
-	for i in range(0, 2):
-		for j in range(0, 2):
-			cells.append(pos + Vector2(i, j))
-
-	return cells
-
-
 func random_spawn(pos_x, dis_x, pos_y, dis_y) -> void:
 	for i in range(Constants.NUMBER_PARTICLES):
-		var position = Vector2(randf() * dis_x + pos_x, randf() * dis_y + pos_y)
-		current_positions.push_back(position)
-		previous_positions.push_back(position)
+		var spawnPosition = Vector2(randf() * dis_x + pos_x, randf() * dis_y + pos_y)
+		current_positions.push_back(spawnPosition)
+		previous_positions.push_back(spawnPosition)
 		velocities.push_back(Vector2(0,0))
 		forces.push_back(Vector2(0,0))
 		particle_valid.push_back(true)
-
 
 
 func update(delta) -> void:
@@ -68,7 +59,6 @@ func update(delta) -> void:
 
 	# reset everything
 	reset_forces()
-	build_grid()
 	
 	# calculate the next step
 	calculate_interaction_forces()
@@ -117,14 +107,22 @@ func calculate_interaction_forces() -> void:
 			for j in range(i + 1, current_positions.size()):
 				apply_force(i, j)
 	else:
+
+		build_grid()
+
 		for cell_key in grid.keys():
 			var cell = grid[cell_key]
 
+			# apply forces within the cell
 			for i in range(cell.size()):
 				for j in range(i + 1, cell.size()):
 					apply_force(cell[i], cell[j])
 			
-			for neighbour_cell_key in get_neighbouring_cells(cell_key):
+			# apply forces to neighbouring cells
+			for neighbour in neighborsToCheck:
+				# calculate the key of the neighbour cell
+				var neighbour_cell_key = cell_key + neighbour
+
 				if grid.has(neighbour_cell_key):
 					var neighbour_cell = grid[neighbour_cell_key]
 					for i in range(cell.size()):
@@ -133,8 +131,8 @@ func calculate_interaction_forces() -> void:
 
 func apply_force(index1: int, index2: int) -> void:
 	var force = interaction_force(current_positions[index1], current_positions[index2])
-	forces[index1] += force
-	forces[index2] -= force
+	forces[index1] -= force
+	forces[index2] += force
 
 func reset_forces():
 	for i in range(current_positions.size()):

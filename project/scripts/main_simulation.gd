@@ -18,11 +18,9 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	queue_redraw()
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
 	SIM.update(delta)
-
 
 func _draw() -> void:
 
