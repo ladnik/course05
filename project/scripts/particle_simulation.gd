@@ -68,17 +68,19 @@ func update(delta) -> void:
 	if Constants.NUMBER_PARTICLES < 0:
 		self.water_source.spawn(delta, current_positions, previous_positions, velocities, forces, particle_valid)
 
-	# reset everything
-	#reset_forces()
-	
-	# calculate the next step
-	# calculate_interaction_forces()
+	# gravity
 	integration_step(delta)
+
+	# spring forces
+	# reset_forces()
+	# calculate_interaction_forces
 	
+	# double density relaxation
 	double_density_relaxation(delta)
 	calculate_next_velocity(delta)
-	check_oneway_coupling()
 
+	# terrain/boundary conditions
+	check_oneway_coupling()
 	bounceFromBorder()
 
 func integration_step(delta) -> void:
@@ -153,7 +155,6 @@ func collision_checker(i:int)-> Array:
 func check_oneway_coupling() -> void:
 	for i in range(current_positions.size()):
 		var collision_object = collision_checker(i)
-		var penetration_depth = (current_positions[i]-collision_object[1]).dot(collision_object[2].normalized())
 		if collision_object[0] == true:
 			#set posiion to boundary
 			current_positions[i] += collision_object[2].normalized() *5
@@ -175,45 +176,37 @@ func get_all_neighbour_particles(grid_pos: Vector2):
 	return neighbour_particles
 
 
-func double_density(delta) -> void:
+func double_density_relaxation(delta) -> void:
 	build_grid()
 
 	for cell_key in grid.keys():
 		for i in grid[cell_key]:
 			var density = 0
 			var density_near = 0
-			var particleA= current_positions[i]
-			var h = Constants.INTERACTION_RADIUS
-			var k = Constants.K
-			var k_near= Constants.KNEAR
-			var density_zero= Constants.DENSITY_ZERO
 			for j in get_all_neighbour_particles(cell_key) :
 				if i==j:
 					continue
-				var particleB=current_positions[j]
-				var rij = particleB-particleA
-				var q=rij.length()/h
+				var rij = current_positions[j] - current_positions[i]
+				var q=rij.length()/Constants.INTERACTION_RADIUS
 				if q < 1:
 					density+=(1-q)**2
 					density_near+=(1-q)**3
 			#compute Pressure
-			var pressure= k*(density-density_zero)
-			var pressure_near= k_near*density_near
+			var pressure= Constants.K*(density-Constants.DENSITY_ZERO)
+			var pressure_near= Constants.KNEAR*density_near
 			var pos_displacement_A = Vector2(0,0)
 			for j in range(current_positions.size()):
 				if i==j:
 					continue
-				var particleB=current_positions[j]
-				var rij = particleB-particleA
-				var q=rij.length()/h
+				var rij = current_positions[j] - current_positions[i]
+				var q=rij.length()/Constants.INTERACTION_RADIUS
 				if q < 1:
 					rij=rij.normalized()
 					var displacement_term:Vector2 =delta**2 * (pressure*(1-q)+pressure_near*(1-q)**2)*rij
-					# displacement_term = displacement_term*1000
+					displacement_term = displacement_term*10
 					current_positions[j] += displacement_term/2
 					pos_displacement_A -= displacement_term/2
 			current_positions[i] += pos_displacement_A
-			#print("Displacement:", pos_displacement_A)
 
 
 func bounceFromBorder() -> void:
@@ -236,8 +229,8 @@ func get_particle_positions():
 
 	return particles
 
+# delete particle at the translated index from the valid particle list
 func delete_particle(index: int) -> void:
-	# input is index in array of valid particle positions. Need to find the index in the array of all particles and set the particle to invalid
 	var valid_index = 0
 	for i in range(current_positions.size()):
 		if particle_valid[i]:
