@@ -5,11 +5,11 @@ class_name ParticleSimulation
 @onready var mesh_generator: MeshInstance2D = $"../TerrainManager/MeshGenerator"
 
 var SIM 
-var Constants = load('res://scripts/simulation_constants.gd')
+var Constants = load('res://scripts/simulation/simulation_constants.gd')
 var particle_mat = CanvasItemMaterial.new()
 
 func _init(pos_x, dis_x, pos_y, dis_y):
-	SIM = load('res://scripts/particle_simulation.gd').new(pos_x, dis_x, pos_y, dis_y)
+	SIM = load('res://scripts/simulation/particle_simulation.gd').new(pos_x, dis_x, pos_y, dis_y)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

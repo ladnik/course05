@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://c0e3foelw7jbm"]
 
-[ext_resource type="Script" path="res://scripts/main_simulation.gd" id="1_o6y8g"]
+[ext_resource type="Script" path="res://scripts/simulation/main_simulation.gd" id="1_o6y8g"]
 
 [node name="ParticleSimulation" type="Node2D"]
 script = ExtResource("1_o6y8g")

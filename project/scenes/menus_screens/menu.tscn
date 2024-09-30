@@ -1,7 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://dnl58hkj3wo1d"]
+[gd_scene load_steps=10 format=3 uid="uid://dnl58hkj3wo1d"]
 
-[ext_resource type="Script" path="res://scripts/menu.gd" id="1_tvu83"]
-[ext_resource type="Script" path="res://scripts/menu_item.gd" id="2_81w3j"]
+[ext_resource type="Script" path="res://scripts/menus_screens/menu.gd" id="1_tvu83"]
+[ext_resource type="Script" path="res://scripts/menus_screens/menu_item.gd" id="2_81w3j"]
 [ext_resource type="Texture2D" uid="uid://b2nanxuajo0mq" path="res://assets/background_dummy.png" id="2_mtjmp"]
 [ext_resource type="LabelSettings" uid="uid://conwdpenxmpc3" path="res://assets/label_settings/menu_item.tres" id="3_p483l"]
 
@@ -22,6 +22,22 @@ shadow_color = Color(0, 0, 0, 1)
 shadow_offset = Vector2(4, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_03i3h"]
+font_size = 60
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 10
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(4, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_r7ws6"]
+font_size = 60
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 10
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(4, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_os8q4"]
 font_size = 60
 outline_size = 3
 outline_color = Color(0, 0, 0, 1)
@@ -63,9 +79,9 @@ anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 200.0
-offset_top = -426.0
+offset_top = -550.0
 offset_right = 341.0
-offset_bottom = -343.0
+offset_bottom = -467.0
 grow_vertical = 0
 pivot_offset = Vector2(0, 21)
 mouse_filter = 0
@@ -79,9 +95,9 @@ anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 200.0
-offset_top = -175.0
+offset_top = -150.0
 offset_right = 312.0
-offset_bottom = -92.0
+offset_bottom = -67.0
 grow_vertical = 0
 pivot_offset = Vector2(0, 21)
 mouse_filter = 0
@@ -96,15 +112,48 @@ anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 200.0
-offset_top = -308.0
+offset_top = -450.0
 offset_right = 380.0
-offset_bottom = -225.0
+offset_bottom = -367.0
 grow_vertical = 0
 pivot_offset = Vector2(0, 21)
 mouse_filter = 0
 text = "Levels
 "
 label_settings = SubResource("LabelSettings_03i3h")
+vertical_alignment = 1
+script = ExtResource("2_81w3j")
+
+[node name="Credits" type="Label" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 200.0
+offset_top = -250.0
+offset_right = 405.0
+offset_bottom = -167.0
+grow_vertical = 0
+pivot_offset = Vector2(0, 21)
+mouse_filter = 0
+text = "Credits
+"
+label_settings = SubResource("LabelSettings_r7ws6")
+script = ExtResource("2_81w3j")
+
+[node name="Tutorial" type="Label" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 200.0
+offset_top = -350.0
+offset_right = 553.0
+offset_bottom = -267.0
+grow_vertical = 0
+pivot_offset = Vector2(0, 21)
+mouse_filter = 0
+text = "How To Play
+"
+label_settings = SubResource("LabelSettings_os8q4")
 vertical_alignment = 1
 script = ExtResource("2_81w3j")
 
@@ -117,3 +166,9 @@ script = ExtResource("2_81w3j")
 [connection signal="gui_input" from="Level" to="." method="level_gui"]
 [connection signal="mouse_entered" from="Level" to="Level" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="Level" to="Level" method="_on_mouse_exited"]
+[connection signal="gui_input" from="Credits" to="." method="_on_credits_gui_input"]
+[connection signal="mouse_entered" from="Credits" to="Credits" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Credits" to="Credits" method="_on_mouse_exited"]
+[connection signal="gui_input" from="Tutorial" to="." method="tutorial_gui"]
+[connection signal="mouse_entered" from="Tutorial" to="Tutorial" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Tutorial" to="Tutorial" method="_on_mouse_exited"]

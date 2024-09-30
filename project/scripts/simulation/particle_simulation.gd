@@ -2,8 +2,8 @@ extends Node2D
 
 # import terrrain manager script to access the terrain data
 #var TERRAIN_MANAGER = load("res://scripts/terrain_manager.gd")
-var Constants = load('res://scripts/simulation_constants.gd')
-var WATER_SOURCE = load('res://scripts/water_source.gd')
+var Constants = load('res://scripts/simulation/simulation_constants.gd')
+var WATER_SOURCE = load('res://scripts/simulation/water_source.gd')
 var water_source: Node2D
 
 var current_positions: PackedVector2Array = PackedVector2Array()

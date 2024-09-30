@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://c7v40bm7xjofs"]
 
-[ext_resource type="Script" path="res://scripts/mesh_generator.gd" id="1_wdgqf"]
+[ext_resource type="Script" path="res://scripts/visualisation/mesh_generator.gd" id="1_wdgqf"]
 
 [node name="MeshGenerator" type="MeshInstance2D"]
 script = ExtResource("1_wdgqf")
