@@ -26,13 +26,35 @@ func create_texture(paletteNumber : int) -> Texture2D:
 	var backgroundImage = Image.create(_width, _height, false, Image.FORMAT_RGB8)
 	var backgroundTexture = ImageTexture.create_from_image(backgroundImage)
 
+	var noiseImage = Image.create(_width, _height, false, Image.FORMAT_RF)
+	var transformationImage = Image.create(_width, _height, false, Image.FORMAT_RF)
+
 	var currentPalette = palette if paletteNumber == 0 else waterPalette
+
 	for y in range(_height):
 		for x in range(_width):
 			var value = (backgroundNoise.get_noise_2d(x / 10.0, y / 10.0) + 1) / 2
-			value = clamp(value, 0.0, 1.0)
+			value = clamp(value, 0.0, 1)
+
+			noiseImage.set_pixel(x, y, Color(value, 0, 0))
 			
-			var val : int = value * 255
+			var currTransformation = -1
+
+			if noiseImage.get_pixel(x, max(0, y - 1)).r == value:
+				currTransformation = transformationImage.get_pixel(x, max(0, y - 1)).r
+				
+			elif value == noiseImage.get_pixel(max(0, x - 1), y).r:
+				currTransformation = transformationImage.get_pixel(max(0, x - 1), y).r
+
+			# invent new
+			else:
+				# TODO: change transformation
+				currTransformation = ((x + y) * 1.0 / (_width + _height))
+			
+			value = (currTransformation**3 * value)**(1.0 / 4)
+			transformationImage.set_pixel(x, y, Color(currTransformation, 0, 0))
+			
+			#var val : int = value * 255
 			var color
 			#color = Color8(val, val, val, 255) 
 			color = currentPalette[int(roundf(value * 7.0))]
