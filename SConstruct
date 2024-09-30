@@ -8,7 +8,7 @@ def validate_parent_dir(key, val, env):
     if not os.path.isdir(normalize_path(os.path.dirname(val), env)):
         raise ValueError("'%s' is not a directory: %s" % (key, os.path.dirname(val)))
 
-libname = "libgdexample"
+libnames = ["liba", "libb"] # add additional libraries here
 projectdir = "project"
 
 localEnv = Environment(tools=["default"], PLATFORM="")
@@ -50,17 +50,20 @@ env.Append(CPPPATH=["src/"])
 sources = Glob("src/*.cpp")
 
 targetPath = "{}/bin/".format(projectdir)
-file = "{}{}{}".format(libname, env["suffix"], env["SHLIBSUFFIX"])
 
-libraryfile = "{}/{}".format(targetPath, file)
-library = env.SharedLibrary(
-    libraryfile,
-    source=sources,
-)
+for libname in libnames:
+    file = "{}{}{}".format(libname, env["suffix"], env["SHLIBSUFFIX"])
+    print(f"Building file {file}")
 
-copy = env.InstallAs("{}/bin/lib{}".format(projectdir, file), library)
+    libraryfile = "{}/{}".format(targetPath, file)
+    library = env.SharedLibrary(
+        libraryfile,
+        source=sources,
+    )
+    print(f"Installing as {projectdir}/bin/lib{file}")
+    copy = env.InstallAs("{}/bin/lib{}".format(projectdir, file), library)
 
-default_args = [library, copy]
-if localEnv.get("compiledb", False):
-    default_args += [compilation_db]
-Default(*default_args)
+    default_args = [library, copy]
+    if localEnv.get("compiledb", False):
+        default_args += [compilation_db]
+    Default(*default_args)

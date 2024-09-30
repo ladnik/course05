@@ -1,0 +1,37 @@
+[gd_scene load_steps=6 format=3 uid="uid://bragutgdm43hq"]
+
+[ext_resource type="Script" path="res://scripts/visualisation/terrain_manager.gd" id="1_thinb"]
+[ext_resource type="Script" path="res://scripts/visualisation/terrain_renderer.gd" id="2_4xkgq"]
+[ext_resource type="Script" path="res://scripts/visualisation/terrain_background.gd" id="2_jim8g"]
+[ext_resource type="Script" path="res://scripts/visualisation/terrain_editor.gd" id="3_5hetr"]
+[ext_resource type="PackedScene" uid="uid://btgq3f6ewa184" path="res://scenes/visualisation/marching_squares.tscn" id="4_uydl6"]
+
+[node name="TerrainManager" type="Node2D"]
+script = ExtResource("1_thinb")
+
+[node name="TerrainBackground" type="Node2D" parent="."]
+scale = Vector2(15, 15)
+script = ExtResource("2_jim8g")
+
+[node name="TerrainRenderer" type="Node2D" parent="."]
+script = ExtResource("2_4xkgq")
+
+[node name="TerrainEditor" type="Node2D" parent="."]
+script = ExtResource("3_5hetr")
+
+[node name="MeshGenerator" parent="." instance=ExtResource("4_uydl6")]
+clip_children = 2
+scale = Vector2(15, 15)
+
+[node name="TerrainBackground" type="Sprite2D" parent="MeshGenerator"]
+texture_repeat = 2
+scale = Vector2(0.067, 0.067)
+centered = false
+
+[node name="WaterBackground" type="Sprite2D" parent="MeshGenerator"]
+texture_repeat = 2
+scale = Vector2(0.067, 0.067)
+centered = false
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(960, 540)
