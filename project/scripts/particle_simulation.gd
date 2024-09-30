@@ -16,7 +16,6 @@ var gravity_vector: Vector2 = Vector2(0, Constants.GRAVITY)
 var mesh_generator: MeshInstance2D
 
 var grid: Dictionary = {}
-var simulator: Simulator
 var neighborsToCheck: Array = [Vector2(-1, 1), Vector2(0, 1), Vector2(1, 1), Vector2(1, 0)]
 
 # Called when the node enters the scene tree for the first time.
@@ -25,7 +24,6 @@ func _init(pos_x, dis_x, pos_y, dis_y):
 		self.water_source = WATER_SOURCE.new(Vector2(pos_x, pos_y), Vector2(0, 10), 10, 10, 0.2, 2, 0.0, 4.0)
 	else:
 		random_spawn(pos_x, dis_x, pos_y, dis_y)
-	simulator = Simulator.new()
 	
 
 # Convert world position to grid position
