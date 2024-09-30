@@ -6,3 +6,4 @@ godot-cpp.diff
 .godot/
 .DS_Store
 cache/
+libfreenect/
