@@ -9,3 +9,4 @@ cache/
 project/bin/*.so
 src/*.os
 .sconsign.dblite
+libfreenect/
