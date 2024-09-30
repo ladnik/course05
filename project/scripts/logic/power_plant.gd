@@ -10,6 +10,7 @@ var flow_counts = []
 @export var timeframes_to_monitor = 5
 @export var flow_threshold = 15
 
+signal enough_water_flow
 
 func set_particle_simulation(_particle_simulation : ParticleSimulation):
 	particle_simulation = _particle_simulation.SIM
@@ -39,7 +40,6 @@ func is_flow_sufficient() -> bool:
 
 
 func _on_flow_timer_timeout() -> void:
-	print(flow_count)
 	flow_counts.append(flow_count)
 	flow_count = 0  
 
@@ -48,4 +48,9 @@ func _on_flow_timer_timeout() -> void:
 
 	if flow_counts.size() == timeframes_to_monitor:
 		if is_flow_sufficient():
-			TransitionScene.transition_effect("res://scenes/menus_screens/win_screen.tscn")
+			done = true
+			print(str(self) + " done")
+			emit_signal("enough_water_flow")
+		else:
+			done = false
+			print(str(self) + " not done")
