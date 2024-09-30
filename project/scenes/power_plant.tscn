@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://bjynr6xsuhe2v"]
+[gd_scene load_steps=3 format=3 uid="uid://bnr846xlgucmi"]
 
 [ext_resource type="Script" path="res://scripts/power_plant.gd" id="1_6tb8a"]
 [ext_resource type="Texture2D" uid="uid://cdectj0l54qer" path="res://assets/levelBackground_dummy.png" id="2_hnehl"]

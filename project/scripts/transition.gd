@@ -23,3 +23,8 @@ func transition_effect(scene):
 	#get_tree().paused = true
 	await fade_to_normal()
 	#get_tree().paused = false
+	
+func transition_effect_for_reload():
+	await fade_to_black()
+	get_tree().reload_current_scene()
+	await fade_to_normal()

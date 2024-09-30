@@ -17,9 +17,15 @@ func _process(delta: float) -> void:
 	var i = 0
 	for p in particles:
 		if $TextureRect.get_global_rect().has_point(p):
-			score += 1
-			print("Your score: " + str(score))
+			producePower()
 			to_remove.append(i)
 		i += 1
 	for j in to_remove.size():
 		SIM.remove_particle(to_remove[j])
+
+func producePower():
+	score += 1
+	print("Your score: " + str(score))
+	if score > 35:
+		TransitionScene.transition_effect("res://scenes/win_screen.tscn")
+	
