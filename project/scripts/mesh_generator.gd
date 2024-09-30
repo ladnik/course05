@@ -45,6 +45,7 @@ const caseLength : Array = [0, 1, 1, 2, 1, 4, 2, 3, 1, 2, 4, 3, 2, 3, 3, 2]
 var cellTriangleIndex : Array[int] = []
 
 var chunk_length = 40
+var round_int_chunk : Array = []
 
 var chunk_just_changed = []
 var chunk_coords = []
@@ -63,6 +64,12 @@ var debug_col = Vector2(0, 0)
 var debug_normal = Vector2(1, 0)
 var debug_collided : bool = false
 
+func _ready():
+	for i in range(chunk_length + 1):
+		var row : Array = []
+		row.resize(chunk_length + 1)
+		round_int_chunk.append(row)
+
 func visualize(grid : Array):
 
 	# measured on Sascha's PC
@@ -73,7 +80,10 @@ func visualize(grid : Array):
 	# Marching squares: 0.09s
 
 	# with dynamic neighbors (and chunk_length = 40)
-	# Marching squares: 0.05
+	# Marching squares: 0.05s
+	
+	# with int(roundf) extracted in front
+	# Marching squares: 0.03s
 
 	var start_ms = Time.get_unix_time_from_system()
 	marchingSquares(grid)
@@ -134,10 +144,10 @@ func triangleMesh():
 	mesh = arr_mesh
 
 func get_triangles_per_chunk(chunk_idx_x, chunk_idx_y, grid: Array):
-	
+
 	var chunk_cell_triangle_index : Array[int] = []
 	var chunk_triangle_coords : PackedVector3Array = []
-	
+
 	# triangleCoordinates = []
 	# cellTriangleIndex = []
 	# var height = len(grid)
@@ -150,9 +160,19 @@ func get_triangles_per_chunk(chunk_idx_x, chunk_idx_y, grid: Array):
 
 	var cellIndex = 0
 
+	for y_in_chunk in range(chunk_length + 1):
+		for x_in_chunk in range(chunk_length + 1):
+			var y = y_in_chunk + chunk_idx_y * chunk_length
+			var x = x_in_chunk + chunk_idx_x * chunk_length
+
+			if x >= width - 1 or y >= height - 1:
+				break
+
+			round_int_chunk[y_in_chunk][x_in_chunk] = int(roundf(grid[y][x]))
+
 	for y_in_chunk in range(chunk_length):
 		for x_in_chunk in range(chunk_length):
-			
+
 			var y = y_in_chunk + chunk_idx_y * chunk_length
 			var x = x_in_chunk + chunk_idx_x * chunk_length
 
@@ -160,7 +180,7 @@ func get_triangles_per_chunk(chunk_idx_x, chunk_idx_y, grid: Array):
 				break
 
 			# Determine bit number for cell
-			var cellCase = (int(roundf(grid[y][x])) << 3) + (int(roundf(grid[y][x+1])) << 2) + (int(roundf(grid[y+1][x+1])) << 1) + int(roundf(grid[y+1][x]))
+			var cellCase = ((round_int_chunk[y_in_chunk][x_in_chunk]) << 3) + ((round_int_chunk[y_in_chunk][x_in_chunk+1]) << 2) + ((round_int_chunk[y_in_chunk+1][x_in_chunk+1]) << 1) + round_int_chunk[y_in_chunk+1][x_in_chunk]
 			var case = cases[cellCase]
 			chunk_cell_triangle_index.append(cellIndex)
 			cellIndex += caseLength[cellCase]
@@ -207,7 +227,6 @@ func set_chunk_and_neighbors_just_changed(mouse_pos_grid: Vector2, grid: Array, 
 
 
 func marchingSquares(grid : Array):
-
 	chunks_in_width = ceil(len(grid[0]) * 1.0 / chunk_length)
 	chunks_in_height = ceil(len(grid) * 1.0 / chunk_length)
 
