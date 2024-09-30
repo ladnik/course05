@@ -1,8 +1,8 @@
 [gd_scene load_steps=10 format=3 uid="uid://cmlspjx6adgkb"]
 
-[ext_resource type="Script" path="res://scripts/level_menu.gd" id="1_2eyd3"]
+[ext_resource type="Script" path="res://scripts/menus_screens/level_menu.gd" id="1_3yakb"]
 [ext_resource type="Texture2D" uid="uid://b2nanxuajo0mq" path="res://assets/background_dummy.png" id="2_5pr8o"]
-[ext_resource type="Script" path="res://scripts/menu_item.gd" id="2_f0v4j"]
+[ext_resource type="Script" path="res://scripts/menus_screens/menu_item.gd" id="3_0n5d2"]
 [ext_resource type="Shader" path="res://shaders/pause_menu.gdshader" id="3_uqk0s"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4csmy"]
@@ -44,7 +44,7 @@ shadow_color = Color(0, 0, 0, 1)
 shadow_offset = Vector2(4, 1)
 
 [node name="credits" type="CanvasLayer"]
-script = ExtResource("1_2eyd3")
+script = ExtResource("1_3yakb")
 
 [node name="Background" type="TextureRect" parent="."]
 anchors_preset = 15
@@ -59,6 +59,8 @@ material = SubResource("ShaderMaterial_4csmy")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = 4.0
+offset_bottom = 4.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_5pr8o")
@@ -94,7 +96,7 @@ text = "Close"
 label_settings = SubResource("LabelSettings_pfcbe")
 horizontal_alignment = 1
 vertical_alignment = 1
-script = ExtResource("2_f0v4j")
+script = ExtResource("3_0n5d2")
 
 [node name="PM" type="ColorRect" parent="."]
 anchors_preset = 8

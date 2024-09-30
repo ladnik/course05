@@ -4,6 +4,7 @@ class_name PowerPlant
 
 var particle_simulation
 var score : int = 0
+var done : bool = false
 @export var power_needed: int
 
 
@@ -15,7 +16,7 @@ func set_particle_simulation(_particle_simulation : ParticleSimulation):
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	if particle_simulation == null:
+	if particle_simulation == null or done:
 		return
 	var particles = particle_simulation.get_particle_positions()
 	var to_remove = Array()
@@ -33,6 +34,6 @@ func produce_power():
 	score += 1
 	print("Your score: " + str(score))
 	if score > power_needed:
+		done = true
 		TransitionScene.transition_effect("res://scenes/menus_screens/win_screen.tscn")
-		queue_free()
 	
