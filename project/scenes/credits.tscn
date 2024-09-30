@@ -1,0 +1,448 @@
+[gd_scene load_steps=10 format=3 uid="uid://cmlspjx6adgkb"]
+
+[ext_resource type="Script" path="res://scripts/level_menu.gd" id="1_2eyd3"]
+[ext_resource type="Texture2D" uid="uid://b2nanxuajo0mq" path="res://assets/background_dummy.png" id="2_5pr8o"]
+[ext_resource type="Script" path="res://scripts/menu_item.gd" id="2_f0v4j"]
+[ext_resource type="Shader" path="res://shaders/pause_menu.gdshader" id="3_uqk0s"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4csmy"]
+shader = ExtResource("3_uqk0s")
+shader_parameter/lod = 4.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_2t846"]
+font_size = 90
+outline_size = 11
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 12
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(4, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_pfcbe"]
+font_size = 55
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 10
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(4, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_vquif"]
+line_spacing = -10.0
+font_size = 42
+font_color = Color(0.380392, 0.721569, 0.886275, 1)
+outline_size = 11
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 12
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(4, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_xu42d"]
+font_size = 34
+outline_size = 11
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 12
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(4, 1)
+
+[node name="credits" type="CanvasLayer"]
+script = ExtResource("1_2eyd3")
+
+[node name="Background" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_5pr8o")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_4csmy")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_5pr8o")
+
+[node name="Title" type="Label" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -454.0
+offset_top = 63.0
+offset_right = 435.0
+offset_bottom = 206.0
+grow_horizontal = 2
+text = "Credits"
+label_settings = SubResource("LabelSettings_2t846")
+horizontal_alignment = 1
+
+[node name="backtomainmenu" type="Label" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -253.0
+offset_top = -169.0
+offset_right = 257.0
+offset_bottom = -93.0
+grow_horizontal = 2
+grow_vertical = 0
+pivot_offset = Vector2(150, 23)
+mouse_filter = 0
+text = "Close"
+label_settings = SubResource("LabelSettings_pfcbe")
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("2_f0v4j")
+
+[node name="PM" type="ColorRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -387.0
+offset_top = -310.0
+offset_right = -13.0
+offset_bottom = -13.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.403922)
+
+[node name="Text" type="Label" parent="PM"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -148.5
+offset_top = 17.0
+offset_right = 149.5
+offset_bottom = 123.0
+grow_horizontal = 2
+text = "Project
+Management"
+label_settings = SubResource("LabelSettings_vquif")
+horizontal_alignment = 1
+
+[node name="Text2" type="Label" parent="PM"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -127.5
+offset_top = 132.0
+offset_right = 254.5
+offset_bottom = 310.0
+grow_horizontal = 2
+text = "-  Eya Chouaib
+-  Malin Wen Xia
+-  Nicolas Hanna"
+label_settings = SubResource("LabelSettings_xu42d")
+
+[node name="PhySim" type="ColorRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -2.0
+offset_top = -310.0
+offset_right = 445.0
+offset_bottom = -15.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.403922)
+
+[node name="Text" type="Label" parent="PhySim"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -229.5
+offset_top = 17.0
+offset_right = 223.5
+offset_bottom = 96.0
+grow_horizontal = 2
+text = "Physics & Simulation"
+label_settings = SubResource("LabelSettings_vquif")
+horizontal_alignment = 1
+
+[node name="Text2" type="Label" parent="PhySim"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -161.5
+offset_top = 85.0
+offset_right = 220.5
+offset_bottom = 282.0
+grow_horizontal = 2
+text = "-  Simon Grimm
+-  Ingo Sternberg
+-  Jan Claar
+-  Nuo Xu"
+label_settings = SubResource("LabelSettings_xu42d")
+
+[node name="SciViz" type="ColorRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 454.0
+offset_top = -310.0
+offset_right = 935.0
+offset_bottom = 44.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.403922)
+
+[node name="Text" type="Label" parent="SciViz"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -229.5
+offset_top = 17.0
+offset_right = 223.5
+offset_bottom = 93.0
+grow_horizontal = 2
+text = "Scientific Visualization"
+label_settings = SubResource("LabelSettings_vquif")
+horizontal_alignment = 1
+
+[node name="Text2" type="Label" parent="SciViz"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -161.5
+offset_top = 85.0
+offset_right = 220.5
+offset_bottom = 332.0
+grow_horizontal = 2
+text = "-  Damian Hattler
+-  Daniel Schenk
+-  Sascha Hofmann
+-  Seraphina Laske
+-  Tobias Pflüger"
+label_settings = SubResource("LabelSettings_xu42d")
+
+[node name="Music" type="ColorRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -934.0
+offset_top = -5.0
+offset_right = -472.0
+offset_bottom = 400.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.403922)
+
+[node name="Text" type="Label" parent="Music"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -172.5
+offset_top = 17.0
+offset_right = 176.5
+offset_bottom = 93.0
+grow_horizontal = 2
+text = "Music"
+label_settings = SubResource("LabelSettings_vquif")
+horizontal_alignment = 1
+
+[node name="Text2" type="Label" parent="Music"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -161.5
+offset_top = 85.0
+offset_right = 180.5
+offset_bottom = 332.0
+grow_horizontal = 2
+text = "-  names"
+label_settings = SubResource("LabelSettings_xu42d")
+
+[node name="INput" type="ColorRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -461.0
+offset_top = -6.0
+offset_right = -56.0
+offset_bottom = 314.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.403922)
+
+[node name="Text" type="Label" parent="INput"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -230.5
+offset_top = 17.0
+offset_right = 222.5
+offset_bottom = 93.0
+grow_horizontal = 2
+text = "Input & Controls"
+label_settings = SubResource("LabelSettings_vquif")
+horizontal_alignment = 1
+
+[node name="Text2" type="Label" parent="INput"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -175.5
+offset_top = 85.0
+offset_right = 206.5
+offset_bottom = 332.0
+grow_horizontal = 2
+text = "-  Alexander Bergthold
+-  Christian Krinitsin
+-  Fabian Lehr
+-  Marc Herrer"
+label_settings = SubResource("LabelSettings_xu42d")
+
+[node name="Soft Eng" type="ColorRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -45.0
+offset_top = -4.0
+offset_right = 444.0
+offset_bottom = 265.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.403922)
+
+[node name="Text" type="Label" parent="Soft Eng"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -230.5
+offset_top = 17.0
+offset_right = 222.5
+offset_bottom = 93.0
+grow_horizontal = 2
+text = "Software Engineering"
+label_settings = SubResource("LabelSettings_vquif")
+horizontal_alignment = 1
+
+[node name="Text2" type="Label" parent="Soft Eng"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -212.0
+offset_top = 85.0
+offset_right = 222.0
+offset_bottom = 256.0
+grow_horizontal = 2
+text = "-  Yevhenii Karpushchenko
+-  Charlotte Brandt
+-  Rohit Kalla"
+label_settings = SubResource("LabelSettings_xu42d")
+
+[node name="Soft Eng2" type="ColorRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 454.0
+offset_top = 52.0
+offset_right = 935.0
+offset_bottom = 321.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.403922)
+
+[node name="Text" type="Label" parent="Soft Eng2"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -230.5
+offset_top = 17.0
+offset_right = 222.5
+offset_bottom = 93.0
+grow_horizontal = 2
+text = "Dev Ops"
+label_settings = SubResource("LabelSettings_vquif")
+horizontal_alignment = 1
+
+[node name="Text2" type="Label" parent="Soft Eng2"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -211.0
+offset_top = 85.0
+offset_right = 223.0
+offset_bottom = 256.0
+grow_horizontal = 2
+text = "-  Niklas Ladurner
+-  Youyi Zhang"
+label_settings = SubResource("LabelSettings_xu42d")
+
+[node name="PM2" type="ColorRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -933.0
+offset_top = -310.0
+offset_right = -396.0
+offset_bottom = -15.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.4)
+
+[node name="Text" type="Label" parent="PM2"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -229.5
+offset_top = 17.0
+offset_right = 223.5
+offset_bottom = 99.0
+grow_horizontal = 2
+text = "Organizers"
+label_settings = SubResource("LabelSettings_vquif")
+horizontal_alignment = 1
+
+[node name="Text2" type="Label" parent="PM2"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -245.5
+offset_top = 85.0
+offset_right = 252.5
+offset_bottom = 282.0
+grow_horizontal = 2
+text = "-  Prof. Hans-Joachim Bungartz
+-  Prof. Harald Köstler
+-  M.Sc. Christoph Alt
+-  M.Sc. Manish Mishra"
+label_settings = SubResource("LabelSettings_xu42d")
+
+[connection signal="gui_input" from="backtomainmenu" to="." method="_on_backtomainmenu_gui_input"]
+[connection signal="mouse_entered" from="backtomainmenu" to="backtomainmenu" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="backtomainmenu" to="backtomainmenu" method="_on_mouse_exited"]
