@@ -1,7 +1,6 @@
 extends Node2D
 
 @onready var terrain_manager: Node2D = $TerrainManager
-@onready var power_plant: Node2D = $PowerPlant
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
