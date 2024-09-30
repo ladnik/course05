@@ -72,10 +72,45 @@ func whole_level_distances(start, end, delta):
 
 # helper function to be called on points in the same cell
 func continuous_collision_local(start, end):
-	var center_point = (start + end) / 2
-	var cell_i = floor(center_point.y)
-	var cell_j = floor(center_point.x)
+	var center = (start + end) / 2
+	var x_low = min(max(floor(center.x), 0), len(stored_grid[0]) - 2)
+	var x_high = max(min(ceil(center.x), len(stored_grid[0]) - 1), 1)
+	if x_high == x_low:
+		x_high = x_high + 1
+	var y_low = min(max(floor(center.y), 0), len(stored_grid) - 2)
+	var y_high = max(min(ceil(center.y), len(stored_grid) - 1), 1)
+	if y_high == y_low:
+		y_high = y_high + 1
 
+	var a = stored_grid[y_low][x_low]
+	var b = stored_grid[y_low][x_high]
+	var c = stored_grid[y_high][x_high]
+	var d = stored_grid[y_high][x_low]
+	var e = b - a
+	var f = c - d
+
+	var o_x = start.x - x_low
+	var o_y = start.y - y_low
+	var otilde_y = 1 - o_y
+	var delta = end - start
+	var delta_x = delta.x
+	var delta_y = delta.y
+	
+
+	var A = delta_x * delta_y * (f - e)
+	var B = delta_x * (otilde_y * e + o_y * f) + delta_y * (d + f * o_x - a - e * o_x)
+	var C = otilde_y * a + otilde_y * e * o_x + o_y * d + o_y * f * o_x
+
+	for t_step in range(5):
+		var t = t_step / 4.
+		var sample_pos = start + delta * t
+		print("")
+		print(sample_pos)
+		print([x_low, y_low, x_high, y_high])
+		print([Vector2(o_x, o_y), delta])
+		print(Vector2(bilinear(sample_pos), t * t * A + t * b + C))
+
+	return [false]
 
 func continuous_collision(start : Vector2, end : Vector2):
 	var delta = end - start
@@ -83,13 +118,15 @@ func continuous_collision(start : Vector2, end : Vector2):
 	var vertical_plane_distances = whole_level_distances(start.x, end.x, delta.x)
 	var all_distances = [0] + horizontal_plane_distances + vertical_plane_distances + [1]
 	all_distances.sort()
+	print(all_distances)
 
 	var local_start = start
 	for segment in range(len(all_distances) - 1):
-		local_end = start + all_distances[segment + 1] * delta
-		collision = continuous_collision_local(local_start, local_end)
+		var local_end = start + all_distances[segment + 1] * delta
+		var collision = continuous_collision_local(local_start, local_end)
 		if collision[0]:
 			return collision
+		local_start = local_end
 
 	return [false, Vector2(0, 0), Vector2(1, 0)]
 
