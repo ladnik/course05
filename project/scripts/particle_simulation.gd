@@ -75,7 +75,7 @@ func update(delta) -> void:
 	# calculate_interaction_forces()
 	integration_step(delta)
 	
-	doubleDensity_test(delta)
+	double_density_relaxation(delta)
 	calculate_next_velocity(delta)
 	check_oneway_coupling()
 
@@ -174,75 +174,16 @@ func get_all_neighbour_particles(grid_pos: Vector2):
 
 	return neighbour_particles
 
-func double_density_relaxation(delta) -> void:
+
+func double_density(delta) -> void:
 	build_grid()
 
 	for cell_key in grid.keys():
-		var cell = grid[cell_key]
-		var density = density_grid[cell_key]
-
-		# calculate density_near
-		var density_near = 0
-		var neighbour_count = 0
-
-		var neighbour_cell_keys = get_grid_neighbours(cell_key)
-		for neighbour_cell_key in neighbour_cell_keys:
-			if grid.has(neighbour_cell_key):
-				density_near += density_grid[neighbour_cell_key]
-				neighbour_count += 1
-		
-		density_near /= neighbour_count
-		
-		var pressure = Constants.K * (density - Constants.DENSITY_ZERO)
-		var pressure_near = Constants.KNEAR * density_near
-
-
-func doubleDensity(delta) -> void:
-	# old code
-	for i in range(current_positions.size()):
-		var density = 0
-		var density_near = 0
-		var particleA= current_positions[i]
-		var h = 30 #cut-off radius
-		var k = 0.1 
-		var k_near= 0.2
-		var density_zero= 10
-		for j in range(current_positions.size()) :
-			if i==j:
-				continue
-			var particleB=current_positions[j]
-			var rij = particleB-particleA
-			var q=rij.length()/h
-			if q < 1:
-				density+=(1-q)**2
-				density_near+=(1-q)**3
-		#compute Pressure
-		var pressure= k*(density-density_zero)
-		var pressure_near= k_near*density_near
-		var pos_displacement_A = Vector2(0,0)
-		for j in range(current_positions.size()):
-			if i==j:
-				continue
-			var particleB=current_positions[j]
-			var rij = particleB-particleA
-			var q=rij.length()/h
-			if q < 1:
-				rij=rij.normalized()
-				var displacement_term:Vector2 =delta**2 * (pressure*(1-q)+pressure_near*(1-q)**2)*rij
-				current_positions[j] += displacement_term/2
-				pos_displacement_A -= displacement_term/2
-		current_positions[i] += pos_displacement_A
-
-func doubleDensity_test(delta) -> void:
-	build_grid()
-
-	for cell_key in grid.keys():
-		# old code
 		for i in grid[cell_key]:
 			var density = 0
 			var density_near = 0
 			var particleA= current_positions[i]
-			var h = 50#Constants.INTERACTION_RADIUS
+			var h = Constants.INTERACTION_RADIUS
 			var k = Constants.K
 			var k_near= Constants.KNEAR
 			var density_zero= Constants.DENSITY_ZERO
