@@ -24,4 +24,4 @@ func exit_gui_event(event: InputEvent) -> void:
 func menu_gui_event(event: InputEvent) -> void:
 	if (event is InputEventMouseButton && event.pressed && event.button_index == 1):
 		get_tree().paused = false
-		get_tree().change_scene_to_file("res://scenes/menu.tscn")
+		TransitionScene.transition_effect("res://scenes/menu.tscn")
