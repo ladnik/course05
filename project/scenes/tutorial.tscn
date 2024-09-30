@@ -27,7 +27,7 @@ outline_color = Color(0, 0, 0, 1)
 shadow_size = 20
 shadow_color = Color(0, 0, 0, 1)
 
-[node name="LevelMenu" type="CanvasLayer"]
+[node name="Tutorial" type="CanvasLayer"]
 script = ExtResource("1_fxvx5")
 
 [node name="Background" type="TextureRect" parent="."]
@@ -70,7 +70,7 @@ label_settings = SubResource("LabelSettings_pfcbe")
 vertical_alignment = 1
 script = ExtResource("3_6x1qi")
 
-[node name="Label" type="Label" parent="."]
+[node name="Instructions" type="Label" parent="."]
 offset_left = 371.0
 offset_top = 369.0
 offset_right = 1523.0
