@@ -97,7 +97,7 @@ void Simulator::calculate_next_velocity(float delta) {
 }
 
 // Function to calculate interaction force between two particles
-Vector2 interaction_force(const Vector2 &position1, const Vector2 &position2) {
+Vector2 Simulator::interaction_force(const Vector2 &position1, const Vector2 &position2) {
     Vector2 r = position2 - position1;
     
     if (r.length() > 2 * SimulationConstants::INTERACTION_RADIUS) {
@@ -155,14 +155,14 @@ void Simulator::calculate_interaction_forces(PackedVector2Array &current_positio
 }
 
 // Function to apply force between two particles
-void apply_force(int index1, int index2, PackedVector2Array &current_positions, PackedVector2Array &forces) {
+void Simulator::apply_force(int index1, int index2, PackedVector2Array &current_positions, PackedVector2Array &forces) {
     Vector2 force = interaction_force(current_positions[index1], current_positions[index2]);
     forces[index1] = forces[index1] - force;
     forces[index2] = forces[index2] + force;
 }
 
 // Function to reset forces for all particles
-void reset_forces(PackedVector2Array &forces) {
+void Simulator::reset_forces(PackedVector2Array &forces) {
     for (int i = 0; i < forces.size(); ++i) {
         forces[i] = Vector2(0, 0);
     }
@@ -193,7 +193,7 @@ void check_oneway_coupling(PackedVector2Array &current_positions, PackedVector2A
 */
 
 // Function for double-density relaxation
-void double_density_relaxation(float delta, PackedVector2Array &current_positions) {
+void Simulator::double_density_relaxation(float delta, PackedVector2Array &current_positions) {
     for (int i = 0; i < current_positions.size(); ++i) {
         float density = 0;
         float density_near = 0;
@@ -238,7 +238,7 @@ void double_density_relaxation(float delta, PackedVector2Array &current_position
 }
 
 // Function to check if particles collide with borders and apply bounce effects
-void bounceFromBorder(PackedVector2Array current_positions, PackedVector2Array velocities) {
+void Simulator::bounceFromBorder(PackedVector2Array &current_positions, PackedVector2Array &velocities) {
     for (int i = 0; i < current_positions.size(); ++i) {
         if (current_positions[i].x - SimulationConstants::INTERACTION_RADIUS < 0) {
             current_positions[i].x = SimulationConstants::INTERACTION_RADIUS;
