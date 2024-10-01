@@ -45,7 +45,7 @@ void Simulator::_init(float pos_x, float dis_x, float pos_y, float dis_y) {
         random_spawn(pos_x, dis_x, pos_y, dis_y);
 }
 
-Vector2 world_to_grid(Vector2 pos) {
+Vector2 Simulator::world_to_grid(Vector2 pos) {
 	float grid_size = SimulationConstants::GRID_SIZE;
 	return Vector2(Math::floor(pos.x / grid_size), Math::floor(pos.y / grid_size));
 }
