@@ -96,6 +96,9 @@ func calculate_next_velocity(delta) -> void:
 	for i in range(current_positions.size()):
 		#Calculate the new velocity from the previous and current position
 		var velocity : Vector2 = (current_positions[i] - previous_positions[i]) / delta
+		if velocity.y < -200:
+			velocity.y = -200
+
 		velocities[i] = velocity
 
 func interaction_force(position1, position2) -> Vector2:

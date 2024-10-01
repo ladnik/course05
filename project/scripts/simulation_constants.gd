@@ -8,7 +8,7 @@ const WIDTH = 1920
 const HEIGHT = 1080
 
 # set to -1 to use the water_source
-const NUMBER_PARTICLES = 100
+const NUMBER_PARTICLES = 200
 
 const GRAVITY = 1000
 
@@ -21,6 +21,6 @@ const USE_GRID = true
 const PARTICLE_RADIUS = 10
 
 # for double density
-const K = 3000
+const K = 2000
 const DENSITY_ZERO = 0.5
-const KNEAR = 50000
+const KNEAR = 20000
