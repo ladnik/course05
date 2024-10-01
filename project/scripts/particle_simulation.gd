@@ -46,12 +46,8 @@ func build_grid() -> void:
 
 func get_grid_neighbours(grid_pos:Vector2) -> Array:
 	var neigbour_cells: Array =[] 
-	for i in range(-1,2):
-		for j in range(-1,2):
-			if i==0 and j==0:
-				continue
-			else:
-				neigbour_cells.append(grid_pos+Vector2(i,j))
+	for displacement in [Vector2(1,0), Vector2(-1,0), Vector2(0, 1), Vector2(0, -1)]:
+		neigbour_cells.append(grid_pos+displacement)
 	return neigbour_cells
 	
 func random_spawn(pos_x, dis_x, pos_y, dis_y) -> void:
@@ -76,7 +72,7 @@ func update(delta) -> void:
 	# calculate_interaction_forces
 	
 	# double density relaxation
-	double_density_relaxation(delta)
+	cell_pressure_relaxation(delta)
 	calculate_next_velocity(delta)
 
 	# terrain/boundary conditions
@@ -178,8 +174,29 @@ func get_all_neighbour_particles(grid_pos: Vector2):
 
 	return neighbour_particles
 
+func cell_pressure_relaxation(delta) -> void:
+	build_grid()
 
-func double_density_relaxation(delta) -> void:
+	for cell_key in grid.keys():
+		var cell = grid[cell_key]
+
+		var neighbour_cell_keys = get_grid_neighbours(cell_key)
+		for neighbour_cell_key in neighbour_cell_keys:
+			if grid.has(neighbour_cell_key):
+
+				
+
+
+				var pressureDiff = (density_grid[cell_key] - density_grid[neighbour_cell_key]) * Constants.PRESSURE_CONSTANT / Constants.INTERACTION_RADIUS
+				
+				var dx : Vector2 = (delta ** 2) * pressureDiff * (neighbour_cell_key - cell_key)
+
+				for particleIndex in grid[neighbour_cell_key]:
+					current_positions[particleIndex] += dx
+
+
+"""
+func cell_pressure_relaxation(delta) -> void:
 	build_grid()
 
 	for cell_key in grid.keys():
@@ -213,7 +230,7 @@ func double_density_relaxation(delta) -> void:
 					current_positions[j] += displacement_term/2
 					pos_displacement_A -= displacement_term/2
 			current_positions[i] += pos_displacement_A
-
+"""
 
 func bounceFromBorder() -> void:
 	for i in range(current_positions.size()):
@@ -223,6 +240,9 @@ func bounceFromBorder() -> void:
 		if current_positions[i].x + Constants.PARTICLE_RADIUS > Constants.WIDTH:
 			current_positions[i].x = Constants.WIDTH - Constants.PARTICLE_RADIUS
 			velocities[i].x *= -0.5
+		if current_positions[i].y - Constants.PARTICLE_RADIUS < 0:
+			current_positions[i].y = Constants.PARTICLE_RADIUS
+			velocities[i].y *= -0.5
 		if current_positions[i].y +  Constants.PARTICLE_RADIUS > Constants.HEIGHT:
 			current_positions[i].y = Constants.HEIGHT - Constants.PARTICLE_RADIUS
 			velocities[i].y *= -0.5
