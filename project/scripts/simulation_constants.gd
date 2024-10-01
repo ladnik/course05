@@ -1,7 +1,7 @@
 extends RefCounted
 
 const DEBUG = false
-const DISPLAY_VELOCITY = false
+const DISPLAY_VELOCITY = true
 const DISPLAY_FORCE = true
 
 const WIDTH = 1920

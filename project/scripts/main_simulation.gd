@@ -11,6 +11,7 @@ var particle_mat = CanvasItemMaterial.new()
 func _init(pos_x, dis_x, pos_y, dis_y):
 	#SIM = load('res://scripts/particle_simulation.gd').new(pos_x, dis_x, pos_y, dis_y)
 	SIM = Simulator.new()
+	SIM._init(50, 50, 500, 500)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -48,10 +49,10 @@ func _draw() -> void:
 		var particle_positions = SIM.get_particle_positions()
 		var velocities = []
 		if Constants.DISPLAY_VELOCITY:
-			velocities = SIM.get_velocities()
+			velocities = SIM.get_particle_velocities()
 		var forces = []
 		if Constants.DISPLAY_FORCE:
-			forces = SIM.get_forces()
+			forces = SIM.get_particle_forces()
 		for p in range(particle_positions.size()):
 			var pos = particle_positions[p]
 			draw_circle(pos , Constants.INTERACTION_RADIUS , pCol, false)

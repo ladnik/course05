@@ -10,7 +10,7 @@ namespace SimulationConstants {
     constexpr int HEIGHT = 1080;
 
     // set to -1 to use the water_source
-    constexpr int NUMBER_PARTICLES = 1000;
+    constexpr int NUMBER_PARTICLES = 2000;
 
     constexpr int GRAVITY = 300;
 
