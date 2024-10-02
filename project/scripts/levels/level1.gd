@@ -7,5 +7,6 @@ extends Node2D
 func _ready() -> void:
 	terrain_manager.generate_terrain(0815, FastNoiseLite.TYPE_PERLIN, 4, 0.0075)
 	var particle_simulation = ParticleSimulation.new(100, 200, 100, 200)
+	terrain_manager.pass_simulation(particle_simulation)
 	self.add_child(particle_simulation)
 	$PowerPlant.set_particle_simulation(particle_simulation)

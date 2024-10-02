@@ -35,22 +35,19 @@ func on_grid(grid_pos):
 
 
 # Editor functions
-
 func apply_kernel(grid_pos, target_value):
 	if !terraforming_blocked:
 		var kernel_multiplier = 100
 		for i in range(-kernel_radius - 1, kernel_radius + 1):
 			for j in range(-kernel_radius - 1, kernel_radius + 1):
 				var grid_pos_kernel = Vector2(grid_pos.x + j, grid_pos.y + i)
-				
 				if on_grid(grid_pos_kernel):
 					var kernel_value = kernel_multiplier * cubic_spline_kernel(grid_pos, grid_pos_kernel)
-					
-					kernel_value = min(1.0, max(0, kernel_value))
-					
+					kernel_value = clampf(kernel_value, 0.0, 1.0)
+
 					var new_grid_value = (1 - kernel_value) * grid[grid_pos_kernel.y][grid_pos_kernel.x] + kernel_value * target_value
-					
-					grid[grid_pos_kernel.y][grid_pos_kernel.x] = min(1.0, max(0, new_grid_value))
+
+					grid[grid_pos_kernel.y][grid_pos_kernel.x] = clampf(new_grid_value, 0.0, 1.0)
 
 
 func generateGrid(terrain_seed, type, octaves, frequency):

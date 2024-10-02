@@ -3,6 +3,7 @@ extends Node2D
 class_name ParticleSimulation
 
 @onready var mesh_generator: MeshInstance2D = $"../TerrainManager/MeshGenerator"
+@onready var renderer = $"../TerrainManager/TerrainRenderer"
 
 var SIM 
 var Constants = load('res://scripts/simulation/simulation_constants.gd')
@@ -23,7 +24,6 @@ func _physics_process(delta: float) -> void:
 	SIM.update(delta)
 
 func _draw() -> void:
-
 	# draw the particles
 	const pCol = Color(0, 0, 1)
 	for p in SIM.get_particle_positions():

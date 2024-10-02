@@ -8,6 +8,7 @@ extends Node2D
 
 var last_mouse_clicked = false
 var this_mouse_clicked = false
+var particle_simulation : ParticleSimulation = null
 
 var only_marching_squares_after_drawn = false
 
@@ -16,7 +17,9 @@ func generate_terrain(seed, type, octaves, frequency):
 	editor.generateGrid(seed, type, octaves, frequency)
 	renderer.initialize(editor.grid, mesh_generator.scale)
 	mesh_generator.visualize(editor.grid)
-	
+
+func pass_simulation(simulation : ParticleSimulation):
+	particle_simulation = simulation
 
 func _process(_delta):
 	var mouse_pos_grid = renderer.to_grid_pos(get_global_mouse_position())
@@ -29,6 +32,12 @@ func _process(_delta):
 		renderer.update_grid(editor.grid)
 		mesh_generator.set_chunk_and_neighbors_just_changed(mouse_pos_grid, editor.grid, editor.kernel_radius)
 		this_mouse_clicked = true
+		
+		for p in particle_simulation.SIM.get_particle_positions():
+			var gridPoint = renderer.to_grid_pos(p)
+			if editor.grid[gridPoint.y][gridPoint.x] >= 0.5:
+				# TODO respawn particle
+				print(p)
 
 		if not only_marching_squares_after_drawn:
 			mesh_generator.visualize(editor.grid)
