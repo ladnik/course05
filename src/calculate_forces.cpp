@@ -27,7 +27,11 @@ void Simulator::_bind_methods() {
 
 Simulator::Simulator() {
 	grid = Dictionary();
-	neighborsToCheck = Array();
+	neighborsToCheck = PackedVector2Array();
+	neighborsToCheck.push_back(Vector2(-1, 1));
+	neighborsToCheck.push_back(Vector2(0, 1));
+	neighborsToCheck.push_back(Vector2(1, 1));
+	neighborsToCheck.push_back(Vector2(1, 0));
 	gravity_vector = Vector2(0, SimulationConstants::GRAVITY);
 	current_positions = PackedVector2Array();
 	previous_positions = PackedVector2Array();
@@ -45,9 +49,9 @@ void Simulator::update(float delta) {
 	reset_forces();
 	calculate_interaction_forces();
 	integration_step(delta);
-	//calculate_next_velocity(delta);
 	//check_oneway_coupling(current_positions, previous_positions, mesh_generator);
 	//double_density_relaxation(delta);
+	//calculate_next_velocity(delta);
 	bounce_from_border();
 }
 
@@ -246,46 +250,55 @@ void Simulator::bounce_from_border() {
 
 // Function for double-density relaxation
 void Simulator::double_density_relaxation(float delta) {
-    for (int i = 0; i < current_positions.size(); ++i) {
-        float density = 0;
-        float density_near = 0;
-        Vector2 particleA = current_positions[i];
-        float h = SimulationConstants::INTERACTION_RADIUS; // Cut-off radius
-        float k = 3000.0f;
-        float k_near = 30000.0f;
-        float density_zero = .5f;
+	 build_grid();
 
-        // Calculate densities
-        for (int j = 0; j < current_positions.size(); ++j) {
-            if (i == j) continue;
-            Vector2 particleB = current_positions[j];
-            Vector2 rij = particleB - particleA;
-            float q = rij.length() / h;
-            if (q < 1) {
-                density += pow(1 - q, 2);
-                density_near += pow(1 - q, 3);
+	Array keys = grid.keys();
+    for (int i = 0; i < keys.size(); ++i) {
+        Array cell = grid[keys[i]];
+
+        for (int i = 0; i < cell.size(); ++i) {
+            int particle_i = cell[i];
+            float density = 0;
+            float density_near = 0;
+
+            Array neighbors = get_all_neighbour_particles(keys[i]);
+
+            // Compute density and near density
+            for (int j = 0; j < neighbors.size(); ++j) {
+                int particle_j = neighbors[j];
+                if (particle_i == particle_j) continue;
+
+                Vector2 rij = current_positions[particle_j] - current_positions[particle_i];
+                float q = rij.length() / SimulationConstants::INTERACTION_RADIUS;
+
+                if (q < 1) {
+                    density += pow(1 - q, 2);
+                    density_near += pow(1 - q, 3);
+                }
             }
-        }
 
-        // Compute pressures
-        float pressure = k * (density - density_zero);
-        float pressure_near = k_near * density_near;
-        Vector2 pos_displacement_A(0, 0);
+            // Compute pressure and pressure near
+            float pressure = SimulationConstants::K * (density - SimulationConstants::DENSITY_ZERO);
+            float pressure_near = SimulationConstants::K_NEAR * density_near;
+            Vector2 pos_displacement_A(0, 0);
 
-        // Calculate displacements
-        for (int j = 0; j < current_positions.size(); ++j) {
-            if (i == j) continue;
-            Vector2 particleB = current_positions[j];
-            Vector2 rij = particleB - particleA;
-            float q = rij.length() / h;
-            if (q < 1) {
-                rij = rij.normalized();
-                Vector2 displacement_term = pow(delta, 2) * (pressure * (1 - q) + pressure_near * pow(1 - q, 2)) * rij;
-                current_positions[j] = current_positions[j] + displacement_term / 2;
-                pos_displacement_A -= displacement_term / 2;
+            // Apply displacements
+            for (int j = 0; j < neighbors.size(); ++j) {
+                int particle_j = neighbors[j];
+                if (particle_i == particle_j) continue;
+
+                Vector2 rij = current_positions[particle_j] - current_positions[particle_i];
+                float q = rij.length() / SimulationConstants::INTERACTION_RADIUS;
+
+                if (q < 1) {
+                    rij = rij.normalized();
+                    Vector2 displacement_term = pow(delta, 2) * (pressure * (1 - q) + pressure_near * (1 - q)) * rij;
+                    current_positions[particle_j] = current_positions[particle_j] + displacement_term / 2;
+                    pos_displacement_A -= displacement_term / 2;
+                }
             }
+            current_positions[particle_i] = current_positions[particle_i] + pos_displacement_A;
         }
-        current_positions[i] = current_positions[i] + pos_displacement_A;
     }
 }
 
@@ -299,6 +312,22 @@ PackedInt32Array Simulator::get_neighbors(int index) {
 				Array neighbor_cell = grid[neighbor_pos];
 				for (int k = 0; k < neighbor_cell.size(); k++) {
 					neighbors.push_back(neighbor_cell[k]);
+				}
+			}
+		}
+	}
+	return neighbors;
+}
+
+PackedInt32Array Simulator::get_all_neighbour_particles(Vector2 cell_key) {
+	PackedInt32Array neighbors;
+	for (int i = -1; i <= 1; i++) {
+		for (int j = -1; j <= 1; j++) {
+			Vector2 neighbor_cell_key = cell_key + Vector2(i, j);
+			if (grid.has(neighbor_cell_key)) {
+				Array neighbor_cell = grid[neighbor_cell_key];
+				for (int k = 0; k < neighbor_cell.size(); k++) {
+					neighbors.append(neighbor_cell[k]);
 				}
 			}
 		}

@@ -39,6 +39,7 @@ class Simulator : public Node2D {
 		void bounce_from_border();
 		void double_density_relaxation(float delta);
 		PackedInt32Array get_neighbors(int index);
+		PackedInt32Array get_all_neighbour_particles(Vector2 cell_key);
 
 	protected:
 		static void _bind_methods();
