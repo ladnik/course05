@@ -101,9 +101,9 @@ func continuous_collision_local(start, end):
 	var B = delta_x * (otilde_y * e + o_y * f) + delta_y * (d + f * o_x - a - e * o_x)
 	var C = otilde_y * a + otilde_y * e * o_x + o_y * d + o_y * f * o_x - .5
 	if A != 0:
-		var determinant = B * B - 4 * A * C
-		print([A, B, C, determinant])
-		if determinant < 0:
+		var discriminant = B * B - 4 * A * C
+		print([A, B, C, discriminant])
+		if discriminant < 0:
 			return [false, Vector2(0, 0), Vector2(1, 0)]
 		var rt = pow(B * B - 4 * A * C, .5)
 		var solution_small = (-B - rt) / 2 / A
@@ -114,7 +114,7 @@ func continuous_collision_local(start, end):
 			return [true, start + solution_large * delta, Vector2(1, 0)]
 		return [false, Vector2(0, 0), Vector2(1, 0)]
 
-	var t = -C / b
+	var t = -C / B
 	if t >= 0 and t <= 1:
 		return [true, start + t * delta, Vector2(1, 0)]
 	return [false, Vector2(0, 0), Vector2(1, 0)]
