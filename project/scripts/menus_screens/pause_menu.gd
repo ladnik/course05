@@ -2,6 +2,7 @@ extends CanvasLayer
 
 @export var terrain_manager: Node2D
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass
@@ -41,3 +42,8 @@ func _on_replay_gui_input(event: InputEvent) -> void:
 func _on_kinect_gui_input(event: InputEvent) -> void:
 	if (event is InputEventMouseButton && event.pressed && event.button_index == 1):
 		terrain_manager.kinect_enabled = not terrain_manager.kinect_enabled
+		if terrain_manager.kinect_enabled:
+			$Kinect.self_modulate = Color.WHITE
+		else:
+			$Kinect.self_modulate = Color.DIM_GRAY
+		

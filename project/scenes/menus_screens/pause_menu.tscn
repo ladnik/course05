@@ -83,6 +83,7 @@ text = "Pause"
 label_settings = SubResource("LabelSettings_qmjsm")
 
 [node name="Kinect" type="Label" parent="."]
+self_modulate = Color(0.412, 0.412, 0.412, 1)
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
