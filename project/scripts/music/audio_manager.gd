@@ -9,14 +9,14 @@ var dig_music : AudioStreamPlayer = null
 var water_music : AudioStreamPlayer = null
 var build_music : AudioStreamPlayer = null
 
-var click_sound_path : String = "res://music/click_music.mp3"
-var main_menu_music_path : String = "res://music/menu_music.mp3"
-var level_music_path : String = "res://music/level_music.mp3"
-var win_music_path : String = "res://music/win_music.mp3"
-var lose_music_path : String = "res://music/lose_music.mp3"
-var dig_music_path : String = "res://music/dig_music.mp3"
-var water_music_path : String = "res://music/water_music.mp3"
-var build_music_path : String = "res://music/build_music.mp3"
+var click_sound_path : String = "res://assets/music/click_music.mp3"
+var main_menu_music_path : String = "res://assets/music/menu_music.mp3"
+var level_music_path : String = "res://assets/music/level_music.mp3"
+var win_music_path : String = "res://assets/music/win_music.mp3"
+var lose_music_path : String = "res://assets/music/lose_music.mp3"
+var dig_music_path : String = "res://assets/music/dig_music.mp3"
+var water_music_path : String = "res://assets/music/water_music.mp3"
+var build_music_path : String = "res://assets/music/build_music.mp3"
 
 var is_digging: bool = false  # Track if the RMB is pressed
 var is_building: bool = false  # Track if the RMB is pressed
