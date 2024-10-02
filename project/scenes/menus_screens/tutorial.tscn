@@ -24,7 +24,7 @@ shadow_offset = Vector2(4, 1)
 font_size = 32
 outline_size = 5
 outline_color = Color(0, 0, 0, 1)
-shadow_size = 20
+shadow_size = 15
 shadow_color = Color(0, 0, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_cg7ux"]
@@ -83,10 +83,14 @@ offset_left = 371.0
 offset_top = 369.0
 offset_right = 1523.0
 offset_bottom = 730.0
-text = "Generate as much hydropower as possible by adding and removing terrain.
+text = "Oh no, the lights went out in Sarntal! 
+Generate as much hydropower as possible by adding and removing terrain.
+Be careful to protect the villages!
 
 Generate: Mouse Left
-Remove: Mouse Right"
+Remove: Mouse Right
+
+Press escape to pause the game."
 label_settings = SubResource("LabelSettings_qlhul")
 horizontal_alignment = 1
 
@@ -104,7 +108,7 @@ grow_horizontal = 2
 grow_vertical = 0
 pivot_offset = Vector2(150, 23)
 mouse_filter = 0
-text = "Play!"
+text = "I'm ready!"
 label_settings = SubResource("LabelSettings_cg7ux")
 horizontal_alignment = 1
 vertical_alignment = 1

@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://brhqwc6q0a0qm"]
+
+[ext_resource type="Script" path="res://scripts/logic/village.gd" id="1_ieecj"]
+[ext_resource type="Texture2D" uid="uid://doyhv31txhlto" path="res://assets/village_hut.png" id="2_ybhs3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qejot"]
+size = Vector2(74, 48)
+
+[node name="Village" type="Node2D"]
+script = ExtResource("1_ieecj")
+
+[node name="FlowTimer" type="Timer" parent="."]
+autostart = true
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(53, 80)
+shape = SubResource("RectangleShape2D_qejot")
+
+[node name="VillageHut" type="Sprite2D" parent="Area2D"]
+position = Vector2(53, 52)
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("2_ybhs3")
+
+[connection signal="timeout" from="FlowTimer" to="." method="_on_flow_timer_timeout"]

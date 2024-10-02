@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cqfj7i2bmnmaw"]
+[gd_scene load_steps=10 format=3 uid="uid://cfdqnp5hhom3k"]
 
 [ext_resource type="Script" path="res://scripts/menus_screens/winlose_screen.gd" id="1_7846u"]
 [ext_resource type="Texture2D" uid="uid://b2nanxuajo0mq" path="res://assets/background_dummy.png" id="2_5pr8o"]
