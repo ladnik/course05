@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://dklgk8beu3lob"]
 
 [ext_resource type="Texture2D" uid="uid://cdectj0l54qer" path="res://assets/levelBackground_dummy.png" id="1_c3b2r"]
-[ext_resource type="PackedScene" uid="uid://dm55nq68nldsl" path="res://scenes/pause_menu.tscn" id="2_11xq2"]
+[ext_resource type="PackedScene" uid="uid://bemyujlrr006h" path="res://scenes/pause_menu.tscn" id="2_11xq2"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_blv0q"]
 font_size = 51
