@@ -63,6 +63,19 @@ func random_spawn(pos_x, dis_x, pos_y, dis_y) -> void:
 		forces.push_back(Vector2(0,0))
 		particle_valid.push_back(true)
 
+func respawn_particle(particle_index: int, pos: Vector2, vel: Vector2, scale_area: float)-> void:
+	var spawnPosition = Vector2(randf()*scale_area+pos.x,randf()*scale_area+pos.y)
+	current_positions[particle_index]= spawnPosition
+	previous_positions[particle_index]= spawnPosition
+	velocities[particle_index]= vel
+	forces[particle_index]= Vector2(0,0)
+	particle_valid[particle_index]= true
+
+func respawn_particle_at_source(particle_index: int)->void:
+	var pos = Vector2(200,200)
+	var vel = Vector2(0,0)
+	var distribution = 50
+	respawn_particle(particle_index,pos,vel,distribution)
 
 func update(delta) -> void:
 	if Constants.NUMBER_PARTICLES < 0:
@@ -80,9 +93,9 @@ func update(delta) -> void:
 	calculate_next_velocity(delta)
 
 	# terrain/boundary conditions
-	check_oneway_coupling()
 	bounceFromBorder()
-
+	check_oneway_coupling()
+	
 func integration_step(delta) -> void:
 	for i in range(current_positions.size()):
 		var force: Vector2 = gravity_vector + forces[i]
@@ -165,10 +178,7 @@ func check_oneway_coupling() -> void:
 			velocities[i]= velocities[i]-1*velocities[i].dot(collision_object[2].normalized())*collision_object[2].normalized()
 			if collision_checker(i)[0]:
 				#respawn particle if it collision fails
-				var spawnPosition = Vector2(randf() * 50 + 200, randf() * 50 + 200)
-				current_positions[i]= spawnPosition
-				previous_positions[i]= spawnPosition
-
+				respawn_particle_at_source(i)
 
 func get_all_neighbour_particles(grid_pos: Vector2):
 	var neighbour_particles = grid[grid_pos]
@@ -217,15 +227,12 @@ func double_density_relaxation(delta) -> void:
 
 func bounceFromBorder() -> void:
 	for i in range(current_positions.size()):
-		if current_positions[i].x - Constants.PARTICLE_RADIUS < 0:
-			current_positions[i].x = Constants.PARTICLE_RADIUS
-			velocities[i].x *= -0.5
-		if current_positions[i].x + Constants.PARTICLE_RADIUS > Constants.WIDTH:
-			current_positions[i].x = Constants.WIDTH - Constants.PARTICLE_RADIUS
-			velocities[i].x *= -0.5
-		if current_positions[i].y +  Constants.PARTICLE_RADIUS > Constants.HEIGHT:
-			current_positions[i].y = Constants.HEIGHT - Constants.PARTICLE_RADIUS
-			velocities[i].y *= -0.5
+		if current_positions[i].x  < 0:
+			respawn_particle_at_source(i)
+		if current_positions[i].x > Constants.WIDTH:
+			respawn_particle_at_source(i)
+		if current_positions[i].y> Constants.HEIGHT:
+			respawn_particle_at_source(i)
 
 func get_particle_positions():
 	var particles = PackedVector2Array()
