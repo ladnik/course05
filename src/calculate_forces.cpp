@@ -319,7 +319,9 @@ PackedInt32Array Simulator::get_all_neighbour_particles(Vector2 cell_key) {
 			if (grid.has(neighbor_cell_key)) {
 				Array neighbor_cell = grid[neighbor_cell_key];
 				for (int k = 0; k < neighbor_cell.size(); k++) {
-					neighbors.push_back(neighbor_cell[k]);
+                    if (particle_valid[neighbor_cell[k]].operator bool()) {
+					    neighbors.push_back(neighbor_cell[k]);
+                    }
 				}
 			}
 		}
