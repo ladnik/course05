@@ -44,7 +44,7 @@ color = Color(1, 0, 0, 0.392157)
 z_index = 2
 
 [node name="Village1" parent="Villages" instance=ExtResource("4_y5vkv")]
-position = Vector2(330, 317)
+position = Vector2(1065, 423)
 timeframes_to_monitor = 3
 flow_threshold = 10
 
@@ -52,7 +52,7 @@ flow_threshold = 10
 z_index = 2
 
 [node name="PowerPlant1" parent="PowerPlants" instance=ExtResource("2_ictpf")]
-position = Vector2(1537, 394)
+position = Vector2(1617, 579)
 scale = Vector2(0.2, 0.2)
 timeframes_to_monitor = 2
 flow_threshold = 5

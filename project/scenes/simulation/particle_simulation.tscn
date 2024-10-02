@@ -11,6 +11,7 @@ shader_parameter/y_size = 1.0
 shader_parameter/particle_positions = null
 shader_parameter/num_particles = 0
 shader_parameter/kernel_radius = 80.0
+shader_parameter/voronoi_centers = null
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_k0tvt"]
 

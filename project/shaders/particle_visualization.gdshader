@@ -10,6 +10,9 @@ uniform float kernel_radius = 80.;
 
 varying vec2 world_pos;
 
+uniform vec2 voronoi_centers[128];
+uniform sampler2D voronoi_colors;
+
 void vertex() {
 	VERTEX = (MODEL_MATRIX * vec4(VERTEX, 0.0, 1.0)).xy;
 	world_pos = VERTEX;
@@ -21,7 +24,16 @@ void fragment() {
 	vec2 sample_pos = world_pos / vec2(x_size, y_size);
 	sample_pos = UV;
 	if (texture(TEXTURE, sample_pos).r > .5) {
-		COLOR = vec4(1., 1, 0., 1.);
+		float closest = 10000.;
+		int closest_index = 0;
+		for(int i = 0; i < 128; i++){
+			float distance = length(voronoi_centers[i] - world_pos);
+			if(distance < closest){
+				closest = distance;
+				closest_index = i;
+			}
+		}
+		COLOR = texture(voronoi_colors, vec2(float(closest_index) / 127.,0.0));
 	}
 	else {
 		float acc = 0.;
