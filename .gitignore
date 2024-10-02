@@ -8,5 +8,6 @@ godot-cpp.diff
 cache/
 project/bin/*.so
 src/*.os
+src/*.o
 .sconsign.dblite
 libfreenect/
