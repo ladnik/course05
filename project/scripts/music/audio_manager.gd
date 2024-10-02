@@ -8,6 +8,7 @@ var lose_music : AudioStreamPlayer = null
 var dig_music : AudioStreamPlayer = null
 var water_music : AudioStreamPlayer = null
 var build_music : AudioStreamPlayer = null
+var elec_music : AudioStreamPlayer = null
 
 var click_sound_path : String = "res://assets/music/click_music.mp3"
 var main_menu_music_path : String = "res://assets/music/menu_music.mp3"
@@ -17,9 +18,11 @@ var lose_music_path : String = "res://assets/music/lose_music.mp3"
 var dig_music_path : String = "res://assets/music/dig_music.mp3"
 var water_music_path : String = "res://assets/music/water_music.mp3"
 var build_music_path : String = "res://assets/music/build_music.mp3"
+var elec_music_path : String = "res://assets/music/elec_music.mp3"
 
 var is_digging: bool = false  # Track if the RMB is pressed
 var is_building: bool = false  # Track if the RMB is pressed
+var is_elec: bool = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -32,6 +35,7 @@ func _ready() -> void:
 	dig_music = AudioStreamPlayer.new()
 	water_music = AudioStreamPlayer.new()
 	build_music = AudioStreamPlayer.new()
+	elec_music = AudioStreamPlayer.new()
 	
 	# Assign the audio buses
 	click_sound.bus = "sfx"  # Set to 'sfx' bus
@@ -42,6 +46,7 @@ func _ready() -> void:
 	dig_music.bus = "sfx"
 	water_music.bus = "sfx"
 	build_music.bus = "sfx"
+	elec_music.bus = "sfx"
 	
 	# Load the audio files
 	click_sound.stream = load(click_sound_path)
@@ -52,9 +57,11 @@ func _ready() -> void:
 	dig_music.stream = load(dig_music_path)
 	water_music.stream = load(water_music_path)
 	build_music.stream = load(build_music_path)
+	elec_music.stream = load(elec_music_path)
 	
 	dig_music.stream.loop = false  # Ensure loop is disabled
 	build_music.stream.loop = false  # Ensure loop is disabled
+	elec_music.stream.loop = false  # Ensure loop is disabled
 	
 	# Set the volume for main menu music
 	main_menu_music.volume_db = -10
@@ -62,9 +69,10 @@ func _ready() -> void:
 	level_music.volume_db = -20
 	win_music.volume_db = -10
 	lose_music.volume_db = -10
-	dig_music.volume_db = 0
+	dig_music.volume_db = 10
 	water_music.volume_db = -10
 	build_music.volume_db = 10
+	elec_music.volume_db = 0
 
 	# Add them to the scene tree
 	add_child(click_sound)
@@ -75,6 +83,7 @@ func _ready() -> void:
 	add_child(dig_music)
 	add_child(water_music)
 	add_child(build_music)
+	add_child(elec_music)
 
 # Function to play click sound
 func play_click_sound() -> void:
@@ -216,8 +225,28 @@ func force_stop_all_sounds() -> void:
 	is_building = false
 	
 	
+	if elec_music.playing:
+		elec_music.stop()
+	is_elec = false
 	
 	
+	
+	
+	
+	# Function to play electric sound once or loop if held
+func start_electricity() -> void:
+	if not is_elec:
+		is_elec = true
+		elec_music.stream.loop = true  # Set loop while the button is held
+		if not elec_music.playing:
+			elec_music.play()
+
+# Function to stop looping but allow electric to finish
+func stop_electricity() -> void:
+	if is_elec:
+		is_elec = false
+		elec_music.stream.loop = false  # Stop looping
+		# Let the music finish its current cycle but not loop further
 	
 	
 	
