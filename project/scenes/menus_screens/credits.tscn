@@ -183,7 +183,7 @@ grow_horizontal = 2
 text = "-  Simon Grimm
 -  Ingo Sternberg
 -  Jan Claar
--  Nuo Xu"
+-  Xu Nuo"
 label_settings = SubResource("LabelSettings_xu42d")
 
 [node name="SciViz" type="ColorRect" parent="."]
@@ -398,7 +398,7 @@ offset_right = 223.0
 offset_bottom = 256.0
 grow_horizontal = 2
 text = "-  Niklas Ladurner
--  Youyi Zhang"
+-  Zhang Youyi "
 label_settings = SubResource("LabelSettings_xu42d")
 
 [node name="PM2" type="ColorRect" parent="."]

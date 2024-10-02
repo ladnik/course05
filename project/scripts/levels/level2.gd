@@ -6,7 +6,7 @@ extends Node2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	terrain_manager.generate_terrain(13, FastNoiseLite.TYPE_PERLIN, 4, 0.0075)
+	terrain_manager.generate_terrain(733, FastNoiseLite.TYPE_PERLIN, 4, 0.0075)
 	
 	var particle_simulation = ParticleSimulation.new(200, 50, 0, 0)
 	self.add_child(particle_simulation)
@@ -21,17 +21,4 @@ func _on_enough_water() -> void:
 	if power_plant.done and power_plant_2.done:
 		# Check the previous scene from TransitionScene
 		var prev_scene = TransitionScene.prevscene
-
-		# Print the previous scene for debugging
-		print("Previous Scene: " + prev_scene)
-
-		# Determine what to do based on the previous scene
-		if prev_scene == "res://scenes/levels/level1.tscn":
-			print("Transitioning from Level 1 to Win Screen")
-			TransitionScene.transition_effect("res://scenes/menus_screens/win_screen.tscn")
-		elif prev_scene == "res://scenes/levels/level2.tscn":
-			print("Transitioning from Level 2 to Win Screen")
-			TransitionScene.transition_effect("res://scenes/menus_screens/win_screen.tscn")
-		elif prev_scene == "res://scenes/levels/level3.tscn":
-			print("Transitioning from Level 3 to After Final Level Screen")
-			TransitionScene.transition_effect("res://scenes/menus_screens/after_final_level.tscn")
+		TransitionScene.transition_effect("res://scenes/menus_screens/win_screen.tscn")

@@ -49,8 +49,6 @@ func _on_flow_timer_timeout() -> void:
 	if flow_counts.size() == timeframes_to_monitor:
 		if is_flow_sufficient():
 			done = true
-			print(str(self) + " done")
 			emit_signal("enough_water_flow")
 		else:
 			done = false
-			print(str(self) + " not done")
