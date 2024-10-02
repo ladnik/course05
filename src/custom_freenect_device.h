@@ -2,7 +2,6 @@
 #define CUSOTM_FREENECT_DEVICE_H
 
 #include <libfreenect.hpp>
-#include <opencv2/opencv.hpp>
 #include <vector>
 #include <mutex>
 #include <optional>

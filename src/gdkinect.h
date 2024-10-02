@@ -8,7 +8,6 @@
 #include <godot_cpp/classes/image.hpp>
 #include <godot_cpp/classes/image_texture.hpp>
 #include "libfreenect.hpp"
-#include <opencv2/opencv.hpp>
 #include <functional>
 #include <optional>
 
