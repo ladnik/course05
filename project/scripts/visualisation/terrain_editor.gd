@@ -4,6 +4,8 @@ var _width = 160
 var _height = 90
 
 var grid : Array = []
+#An array that contains bool for each cell. true = terrain is immovable, false = terrain is movable
+var gridImmovable : Array = []
 var gridNoise = FastNoiseLite.new()
 
 var terraforming_blocked = false
@@ -34,6 +36,10 @@ func on_grid(grid_pos):
 	return 0 <= grid_pos.x and grid_pos.x < len(grid[0]) and 0 <= grid_pos.y and grid_pos.y < len(grid)
 
 
+func on_rect(rect: Array, grid_pos_x, grid_pos_y):
+	return grid_pos_x >= rect[0].x and grid_pos_x < rect[1].x and grid_pos_y >= rect[0].y and grid_pos_y < rect[1].y
+
+
 # Editor functions
 
 func apply_kernel(grid_pos, target_value):
@@ -48,21 +54,33 @@ func apply_kernel(grid_pos, target_value):
 					
 					kernel_value = min(1.0, max(0, kernel_value))
 					
-					var new_grid_value = (1 - kernel_value) * grid[grid_pos_kernel.y][grid_pos_kernel.x] + kernel_value * target_value
+					var new_grid_value =  min(1.0, max(0, 
+					(1 - kernel_value) * grid[grid_pos_kernel.y][grid_pos_kernel.x] + kernel_value * target_value))
 					
-					grid[grid_pos_kernel.y][grid_pos_kernel.x] = min(1.0, max(0, new_grid_value))
+					
+					if !gridImmovable[grid_pos_kernel.y][grid_pos_kernel.x]:
+						grid[grid_pos_kernel.y][grid_pos_kernel.x] = new_grid_value
+					
 
 
-func generateGrid(terrain_seed, type, octaves, frequency):
+func generateGrid(terrain_seed, type, octaves, frequency, immovable_rects: Array):
 	var returnBoundaries : Array[PackedVector2Array] = [] # all boundaries
 	var boundary : PackedVector2Array = [] # current boundary
 
 	# Generate grid array
 	for y in range(_height):
 		var grid_row = []
+		var gridImmovable_row = []
 		for x in range(_width):
 			grid_row.append(0)
+			for rect in immovable_rects:
+				if on_rect(rect, x, y):
+					gridImmovable_row.append(true)
+				else: 
+					gridImmovable_row.append(false)
+
 		grid.append(grid_row)
+		gridImmovable.append(gridImmovable_row)
 
 	# Initialize noise generator with passed parameters
 	gridNoise.seed = terrain_seed;
