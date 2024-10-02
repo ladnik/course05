@@ -10,7 +10,10 @@ uniform float kernel_radius = 80.;
 
 varying vec2 world_pos;
 
-uniform vec2 voronoi_centers[128];
+#define N_VORONOI_CELLS 576
+
+uniform vec2 voronoi_centers[N_VORONOI_CELLS];
+uniform vec2 voronoi_center_colors[N_VORONOI_CELLS];
 uniform sampler2D voronoi_colors;
 
 void vertex() {
@@ -26,14 +29,15 @@ void fragment() {
 	if (texture(TEXTURE, sample_pos).r > .5) {
 		float closest = 10000.;
 		int closest_index = 0;
-		for(int i = 0; i < 128; i++){
+		for(int i = 0; i < N_VORONOI_CELLS; i++){
 			float distance = length(voronoi_centers[i] - world_pos);
 			if(distance < closest){
 				closest = distance;
 				closest_index = i;
 			}
 		}
-		COLOR = texture(voronoi_colors, vec2(float(closest_index) / 127.,0.0));
+		//COLOR = texture(voronoi_colors, vec2(float(closest_index) / (float(N_VORONOI_CELLS) - 1.),0.0));
+		COLOR = texture(voronoi_colors, voronoi_center_colors[closest_index]);
 	}
 	else {
 		float acc = 0.;
