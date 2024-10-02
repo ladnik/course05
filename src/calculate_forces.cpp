@@ -43,11 +43,11 @@ Simulator::~Simulator() {
 // Function to update the simulation
 void Simulator::update(float delta) {
 	reset_forces();
-	//calculate_interaction_forces();
+	calculate_interaction_forces();
 	integration_step(delta);
-	calculate_next_velocity(delta);
+	//calculate_next_velocity(delta);
 	//check_oneway_coupling(current_positions, previous_positions, mesh_generator);
-	double_density_relaxation(delta);
+	//double_density_relaxation(delta);
 	bounce_from_border();
 }
 
@@ -287,4 +287,21 @@ void Simulator::double_density_relaxation(float delta) {
         }
         current_positions[i] = current_positions[i] + pos_displacement_A;
     }
+}
+
+PackedInt32Array Simulator::get_neighbors(int index) {
+	PackedInt32Array neighbors;
+	Vector2 grid_pos = world_to_grid(current_positions[index]);
+	for (int i = -1; i <= 1; i++) {
+		for (int j = -1; j <= 1; j++) {
+			Vector2 neighbor_pos = grid_pos + Vector2(i, j);
+			if (grid.has(neighbor_pos)) {
+				Array neighbor_cell = grid[neighbor_pos];
+				for (int k = 0; k < neighbor_cell.size(); k++) {
+					neighbors.push_back(neighbor_cell[k]);
+				}
+			}
+		}
+	}
+	return neighbors;
 }

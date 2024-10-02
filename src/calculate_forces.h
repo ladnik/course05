@@ -38,6 +38,7 @@ class Simulator : public Node2D {
 		void calculate_next_velocity(float delta);
 		void bounce_from_border();
 		void double_density_relaxation(float delta);
+		PackedInt32Array get_neighbors(int index);
 
 	protected:
 		static void _bind_methods();
