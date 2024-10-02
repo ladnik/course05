@@ -6,5 +6,4 @@ godot-cpp.diff
 .godot/
 .DS_Store
 cache/
-.sconsign.dblite
 libfreenect/
