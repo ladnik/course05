@@ -142,6 +142,6 @@ web:
   needs: ["unit-test", "integration-test"]
   allow_failure: true
   artifacts:
-    name: $EXPORT_NAME-$CI_JOB_NAMEl
+    name: $EXPORT_NAME-$CI_JOB_NAME
     paths:
       - $PROJECT_PATH/$EXPORT_PATH/*

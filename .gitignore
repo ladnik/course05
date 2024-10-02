@@ -12,3 +12,28 @@ src/*.o
 .sconsign.dblite
 libfreenect/
 src/*.obj
+# Godot 4+ specific ignores
+project/.godot/*
+project/android/*
+project/godot-cpp.diff
+
+# C++ related stuff
+*.dblite
+/cache/*
+/godot-cpp/*
+src/opencv-4.x/*
+src/opencv_contrib-4.x/*
+src/*.os
+src/*.o
+project/bin/*.so
+project/bin/*.dll
+project/build/*
+project/cache/*
+
+# Kinect
+libfreenect/*
+
+# IDE/OS files
+/.vscode/*
+/.history/*
+*.DS_Store

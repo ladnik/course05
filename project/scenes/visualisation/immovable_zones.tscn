@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://c6h6ysuv5oa8l"]
+
+[node name="ImmovableZones" type="Node2D"]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = 154.0
+offset_top = 222.0
+offset_right = 194.0
+offset_bottom = 262.0
+scale = Vector2(12.9278, 5.2641)
+color = Color(1, 0, 0, 0.313726)
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+offset_left = 883.0
+offset_top = 203.0
+offset_right = 923.0
+offset_bottom = 243.0
+scale = Vector2(11.2078, 11.7841)
+color = Color(1, 0, 0, 0.313726)
