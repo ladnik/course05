@@ -9,5 +9,5 @@ func _ready() -> void:
 	print(video_feed)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	video_feed.texture = kinect.get_texture()

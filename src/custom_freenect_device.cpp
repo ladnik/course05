@@ -1,5 +1,12 @@
 #include "custom_freenect_device.h"
+#include <cstdint>
 #include <godot_cpp/variant/utility_functions.hpp>
+
+#define LOWEST_DEPTH 5000
+#define KINECT_WIDTH 640
+#define KINECT_HEIGHT 480
+#define SQUARE_SIZE 30
+#define SEARCH_RADIUS 15
 
 using namespace godot;
 
@@ -10,7 +17,6 @@ CustomFreenectDevice::CustomFreenectDevice(freenect_context *_ctx, int _index)
     m_gamma(2048),
     m_new_rgb_frame(false),
     m_new_depth_frame(false),
-    depthMat(cv::Size(640, 480), CV_16UC1),
     rgbMat(cv::Size(640, 480), CV_8UC3, cv::Scalar(0)),
     ownMat(cv::Size(640, 480), CV_8UC3, cv::Scalar(0)) {
 
@@ -30,8 +36,8 @@ void CustomFreenectDevice::VideoCallback(void* _rgb, uint32_t timestamp) {
 
 void CustomFreenectDevice::DepthCallback(void* _depth, uint32_t timestamp) {
     std::unique_lock lock{m_depth_mutex};
-    uint16_t* depth = static_cast<uint16_t*>(_depth);
-    depthMat.data = (uchar*) depth;
+    uint16_t *depth = static_cast<uint16_t*>(_depth);
+    depthMat = static_cast<uint16_t*>(_depth);
     m_new_depth_frame = true;
 }
 
@@ -47,15 +53,15 @@ bool CustomFreenectDevice::getVideo(cv::Mat& output) {
     return false;
 }
 
-bool CustomFreenectDevice::getDepth(cv::Mat& output) {
+bool CustomFreenectDevice::getDepth(uint16_t *output) {
     std::unique_lock lock{m_depth_mutex};
 
     if(m_new_depth_frame) {
-	depthMat.copyTo(output);
+	std::memcpy(output, depthMat, KINECT_WIDTH * KINECT_HEIGHT * sizeof(uint16_t));
 	m_new_depth_frame = false;
-	m_depth_mutex.unlock();
 	return true;
     }
 
     return false;
 }
+
