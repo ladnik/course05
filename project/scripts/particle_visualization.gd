@@ -4,9 +4,11 @@ extends Sprite2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	print("visualization exists")
+	pass
+	#print("visualization exists")
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	print(simulation.SIM.get_particle_positions())
+	pass
+	#print(simulation.SIM.get_particle_positions())
