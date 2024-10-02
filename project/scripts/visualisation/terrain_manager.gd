@@ -36,20 +36,19 @@ func _process(_delta):
 		mesh_generator.set_chunk_and_neighbors_just_changed(mouse_pos_grid, editor.grid, editor.kernel_radius)
 		this_mouse_clicked = true
 		
-		var quadratic_kernel_radius = editor.kernel_radius ** 2
-		var i = 0
-		for p in particle_simulation.SIM.get_particle_positions():
-			var gridPoint = renderer.to_grid_pos(p)
-			
-			#var in_radius = quadratic_euclidean_distance(gridPoint, mouse_pos_grid) <= quadratic_kernel_radius
-			var y = int(gridPoint.y)
-			var x = int(gridPoint.x)
-			var in_grid = editor.grid[y][x] >= 0.5 and editor.grid[y+1][x] >= 0.5 and editor.grid[y][x+1] >= 0.5 and editor.grid[y-1][x] >= 0.5 and editor.grid[y][x-1] >= 0.5
-
-			if in_grid:
-				particle_simulation.SIM.respawn_particle_at_source(i)
-			
-			i = i + 1
+		#var quadratic_kernel_radius = editor.kernel_radius ** 2
+		#var i = 0
+		#for p in particle_simulation.SIM.get_particle_positions():
+			#var gridPoint = renderer.to_grid_pos(p)
+			#
+			##var in_radius = quadratic_euclidean_distance(gridPoint, mouse_pos_grid) <= quadratic_kernel_radius
+			#var y = int(gridPoint.y)
+			#var x = int(gridPoint.x)
+			#var in_grid = editor.grid[y][x] >= 0.5 and editor.grid[y+1][x] >= 0.5 and editor.grid[y][x+1] >= 0.5 and editor.grid[y-1][x] >= 0.5 and editor.grid[y][x-1] >= 0.5
+#
+			#if in_grid:
+				#particle_simulation.SIM.respawn_particle_at_source(i)
+			#i = i + 1
 
 		if not only_marching_squares_after_drawn:
 			mesh_generator.visualize(editor.grid)
