@@ -16,8 +16,7 @@ var gravity_vector: Vector2 = Vector2(0, Constants.GRAVITY)
 var mesh_generator: MeshInstance2D
 
 var grid: Dictionary = {}
-
-var neighborsToCheck: Array = [Vector2(-1, 1), Vector2(0, 1), Vector2(1, 1), Vector2(1, 0)]
+var density_grid: Dictionary = {}
 
 # Called when the node enters the scene tree for the first time.
 func _init(pos_x, dis_x, pos_y, dis_y):
@@ -42,7 +41,19 @@ func build_grid() -> void:
 		else:
 			grid[grid_pos] = [i]
 
+	for key in grid.keys():
+		density_grid[key] = grid[key].size()
 
+func get_grid_neighbours(grid_pos:Vector2) -> Array:
+	var neigbour_cells: Array =[] 
+	for i in range(-1,2):
+		for j in range(-1,2):
+			if i==0 and j==0:
+				continue
+			else:
+				neigbour_cells.append(grid_pos+Vector2(i,j))
+	return neigbour_cells
+	
 func random_spawn(pos_x, dis_x, pos_y, dis_y) -> void:
 	for i in range(Constants.NUMBER_PARTICLES):
 		var spawnPosition = Vector2(randf() * dis_x + pos_x, randf() * dis_y + pos_y)
@@ -52,24 +63,39 @@ func random_spawn(pos_x, dis_x, pos_y, dis_y) -> void:
 		forces.push_back(Vector2(0,0))
 		particle_valid.push_back(true)
 
+func respawn_particle(particle_index: int, pos: Vector2, vel: Vector2, scale_area: float)-> void:
+	var spawnPosition = Vector2(randf()*scale_area+pos.x,randf()*scale_area+pos.y)
+	current_positions[particle_index]= spawnPosition
+	previous_positions[particle_index]= spawnPosition
+	velocities[particle_index]= vel
+	forces[particle_index]= Vector2(0,0)
+	particle_valid[particle_index]= true
+
+func respawn_particle_at_source(particle_index: int)->void:
+	var pos = Vector2(200,200)
+	var vel = Vector2(0,0)
+	var distribution = 50
+	respawn_particle(particle_index,pos,vel,distribution)
 
 func update(delta) -> void:
 	if Constants.NUMBER_PARTICLES < 0:
 		self.water_source.spawn(delta, current_positions, previous_positions, velocities, forces, particle_valid)
 
-	# reset everything
-	reset_forces()
-	
-	# calculate the next step
-	calculate_interaction_forces()
-	integration_step(delta)
-	
-	#double_density_relaxation(delta)
-	check_oneway_coupling()
-	calculate_next_velocity(delta)
-	
-	bounceFromBorder()
+	# choose simulation method
+	if Constants.USE_DOUBLE_DENSITY:
+		integration_step(delta)
+		double_density_relaxation(delta)
+	else: 
+		reset_forces()
+		calculate_interaction_forces()
+		integration_step(delta)
 
+	calculate_next_velocity(delta)
+
+	# terrain/boundary conditions
+	bounceFromBorder()
+	check_oneway_coupling()
+	
 func integration_step(delta) -> void:
 	for i in range(current_positions.size()):
 		var force: Vector2 = gravity_vector + forces[i]
@@ -77,13 +103,15 @@ func integration_step(delta) -> void:
 		previous_positions[i] = current_positions[i]
 		velocities[i] += delta * force
 		current_positions[i] += delta * velocities[i]
-	
 
-	
+
 func calculate_next_velocity(delta) -> void:
 	for i in range(current_positions.size()):
 		#Calculate the new velocity from the previous and current position
 		var velocity : Vector2 = (current_positions[i] - previous_positions[i]) / delta
+		if velocity.y < -200:
+			velocity.y = -200
+
 		velocities[i] = velocity
 
 func interaction_force(position1, position2) -> Vector2:
@@ -99,7 +127,7 @@ func interaction_force(position1, position2) -> Vector2:
 	var force = Constants.SPRING_CONSTANT * Vector2(forceX, forceY)
 	
 	return force
-	
+
 func calculate_interaction_forces() -> void:
 	# sum over all particles without double counting
 	if not Constants.USE_GRID:
@@ -115,14 +143,12 @@ func calculate_interaction_forces() -> void:
 
 			# apply forces within the cell
 			for i in range(cell.size()):
-				for j in range(i + 1, cell.size()):
+				for j in range(0, cell.size()):
 					apply_force(cell[i], cell[j])
 			
 			# apply forces to neighbouring cells
-			for neighbour in neighborsToCheck:
-				# calculate the key of the neighbour cell
-				var neighbour_cell_key = cell_key + neighbour
-
+			for neighbour_cell_key in get_grid_neighbours(cell_key):
+				
 				if grid.has(neighbour_cell_key):
 					var neighbour_cell = grid[neighbour_cell_key]
 					for i in range(cell.size()):
@@ -139,71 +165,74 @@ func reset_forces():
 		forces[i] = Vector2(0,0)
 
 func collision_checker(i:int)-> Array:
-	#print(current_positions[i].x /2)
-	#if current_positions[i].y >current_positions[i].x /2:
-		#return true
-	#else:
-		#return false
-	var array_collision = mesh_generator.continuous_collision(previous_positions[i], current_positions[i])
-	return array_collision
+	return mesh_generator.continuous_collision(previous_positions[i], current_positions[i])
+
 
 func check_oneway_coupling() -> void:
 	for i in range(current_positions.size()):
 		var collision_object = collision_checker(i)
 		if collision_object[0] == true:
-			current_positions[i] += collision_object[2].normalized() * 0.5
+			#set posiion to boundary
+			current_positions[i] += collision_object[2].normalized() *Constants.COLLISION_SCALE
+			#new velocity
+			velocities[i]= velocities[i]-1*velocities[i].dot(collision_object[2].normalized())*collision_object[2].normalized()
 			if collision_checker(i)[0]:
-				current_positions[i] = previous_positions[i]
+				#respawn particle if it collision fails
+				respawn_particle_at_source(i)
 
+func get_all_neighbour_particles(grid_pos: Vector2):
+	var neighbour_particles = grid[grid_pos]
+	for neighbour in get_grid_neighbours(grid_pos):
+		if grid.has(neighbour):
+			neighbour_particles += grid[neighbour]
+
+	return neighbour_particles
 
 
 func double_density_relaxation(delta) -> void:
-	for i in range(current_positions.size()):
-		var density = 0
-		var density_near = 0
-		var particleA= current_positions[i]
-		var h = 30 #cut-off radius
-		var k = 0.1 
-		var k_near= 0.2
-		var density_zero= 10
-		for j in range(current_positions.size()):
-			if i==j:
-				continue
-			var particleB=current_positions[j]
-			var rij = particleB-particleA
-			var q=rij.length()/h
-			if q < 1:
-				density+=(1-q)**2
-				density_near+=(1-q)**3
-		#compute Pressure
-		var pressure= k*(density-density_zero)
-		var pressure_near= k_near*density_near
-		var pos_displacement_A = Vector2(0,0)
-		for j in range(current_positions.size()):
-			if i==j:
-				continue
-			var particleB=current_positions[j]
-			var rij = particleB-particleA
-			var q=rij.length()/h
-			if q < 1:
-				rij=rij.normalized()
-				var displacement_term:Vector2 =delta**2 * (pressure*(1-q)+pressure_near*(1-q)**2)*rij
-				current_positions[j] += displacement_term/2
-				pos_displacement_A -= displacement_term/2
-		current_positions[i] += pos_displacement_A
+	build_grid()
+
+	for cell_key in grid.keys():
+		for i in grid[cell_key]:
+			var density = 0
+			var density_near = 0
+
+			var neighbors = get_all_neighbour_particles(cell_key)
+
+			for j in neighbors:
+				if i==j:
+					continue
+				var rij = current_positions[j] - current_positions[i]
+				var q=rij.length()/Constants.INTERACTION_RADIUS
+				if q < 1:
+					density+=(1-q)**2
+					density_near+=(1-q)**3
+			#compute Pressure
+			var pressure= Constants.K*(density-Constants.DENSITY_ZERO)
+			var pressure_near= Constants.KNEAR*density_near
+			var pos_displacement_A = Vector2(0,0)
+
+			for j in neighbors:
+				if i==j:
+					continue
+				var rij = current_positions[j] - current_positions[i]
+				var q=rij.length()/Constants.INTERACTION_RADIUS
+				if q < 1:
+					rij=rij.normalized()
+					var displacement_term:Vector2 =delta**2 * (pressure*(1-q)+pressure_near*(1-q))*rij
+					current_positions[j] += displacement_term/2
+					pos_displacement_A -= displacement_term/2
+			current_positions[i] += pos_displacement_A
 
 
 func bounceFromBorder() -> void:
 	for i in range(current_positions.size()):
-		if current_positions[i].x - Constants.INTERACTION_RADIUS < 0:
-			current_positions[i].x = Constants.INTERACTION_RADIUS
-			velocities[i].x *= -0.5
-		if current_positions[i].x + Constants.INTERACTION_RADIUS > Constants.WIDTH:
-			current_positions[i].x = Constants.WIDTH - Constants.INTERACTION_RADIUS
-			velocities[i].x *= -0.5
-		if current_positions[i].y +  Constants.INTERACTION_RADIUS > Constants.HEIGHT:
-			current_positions[i].y = Constants.HEIGHT - Constants.INTERACTION_RADIUS
-			velocities[i].y *= -0.5
+		if current_positions[i].x  < 0:
+			respawn_particle_at_source(i)
+		if current_positions[i].x > Constants.WIDTH:
+			respawn_particle_at_source(i)
+		if current_positions[i].y> Constants.HEIGHT:
+			respawn_particle_at_source(i)
 
 func get_particle_positions():
 	var particles = PackedVector2Array()
@@ -213,8 +242,8 @@ func get_particle_positions():
 
 	return particles
 
+# delete particle at the translated index from the valid particle list
 func delete_particle(index: int) -> void:
-	# input is index in array of valid particle positions. Need to find the index in the array of all particles and set the particle to invalid
 	var valid_index = 0
 	for i in range(current_positions.size()):
 		if particle_valid[i]:
