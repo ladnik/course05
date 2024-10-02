@@ -25,3 +25,21 @@ position = Vector2(1605, 602)
 scale = Vector2(0.35, 0.35)
 timeframes_to_monitor = 1
 flow_threshold = 5
+
+[node name="ImmovableZones" type="Node2D" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="ImmovableZones"]
+offset_left = 13.0
+offset_top = 23.0
+offset_right = 103.0
+offset_bottom = 117.0
+scale = Vector2(6, 5)
+color = Color(1, 0, 0, 0.392157)
+
+[node name="ColorRect2" type="ColorRect" parent="ImmovableZones"]
+offset_left = 4.0
+offset_top = 776.0
+offset_right = 285.0
+offset_bottom = 850.0
+scale = Vector2(6, 4)
+color = Color(1, 0, 0, 0.392157)
