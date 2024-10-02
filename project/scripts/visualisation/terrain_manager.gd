@@ -21,6 +21,20 @@ func generate_terrain(seed, type, octaves, frequency):
 func pass_simulation(simulation : ParticleSimulation):
 	particle_simulation = simulation
 
+func quadratic_euclidean_distance(pos1 : Vector2, pos2 : Vector2):
+	return (pos1.x - pos2.x) ** 2 + (pos1.y - pos2.y) ** 2
+
+func _physics_process(delta: float) -> void:
+	var mouse_pos_grid = renderer.to_grid_pos(get_global_mouse_position())
+	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and editor.on_grid(mouse_pos_grid):
+		var quadratic_kernel_radius = editor.kernel_radius ** 2
+		var i = 0
+		for p in particle_simulation.SIM.get_particle_positions():
+			var gridPoint = renderer.to_grid_pos(p)
+			if quadratic_euclidean_distance(gridPoint, mouse_pos_grid) < quadratic_kernel_radius and editor.grid[gridPoint.y][gridPoint.x] >= 0.5:
+				particle_simulation.SIM.respawn_particle_at_source(i)
+			i = i + 1
+
 func _process(_delta):
 	var mouse_pos_grid = renderer.to_grid_pos(get_global_mouse_position())
 
@@ -32,12 +46,6 @@ func _process(_delta):
 		renderer.update_grid(editor.grid)
 		mesh_generator.set_chunk_and_neighbors_just_changed(mouse_pos_grid, editor.grid, editor.kernel_radius)
 		this_mouse_clicked = true
-		
-		for p in particle_simulation.SIM.get_particle_positions():
-			var gridPoint = renderer.to_grid_pos(p)
-			if editor.grid[gridPoint.y][gridPoint.x] >= 0.5:
-				# TODO respawn particle
-				print(p)
 
 		if not only_marching_squares_after_drawn:
 			mesh_generator.visualize(editor.grid)
