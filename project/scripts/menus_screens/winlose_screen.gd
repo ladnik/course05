@@ -3,12 +3,12 @@ extends CanvasLayer
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass
+	AudioManager.force_stop_all_sounds()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	pass
+	AudioManager.force_stop_all_sounds()
 
 
 func _on_nextlevel_gui_input(event: InputEvent) -> void:
