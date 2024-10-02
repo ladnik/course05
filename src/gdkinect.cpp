@@ -48,6 +48,7 @@ Vector2 GDKinect::get_position() {
 
 void GDKinect::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_position"), &GDKinect::get_position);
+    ClassDB::bind_method(D_METHOD("connected"), &GDKinect::connected);
 }
 
 void GDKinect::analyze_square(int i, int j, HandPos& best_pos) {
@@ -109,5 +110,9 @@ std::optional<HandPos> GDKinect::get_hand_pos() {
     if (best.x == -1) hand_pos = {};
     else hand_pos = best;
     return hand_pos;
+}
+
+bool GDKinect::connected() {
+    return !!kinect_device;
 }
 

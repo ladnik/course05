@@ -31,6 +31,7 @@ class GDKinect : public Resource {
     ~GDKinect();
 
     Vector2 get_position();
+    bool connected();
 
     protected:
     static void _bind_methods();
