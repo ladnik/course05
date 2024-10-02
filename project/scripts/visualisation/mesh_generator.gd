@@ -97,6 +97,9 @@ func visualize(grid : Array):
 	# print(end_triangle_mesh - end_ms)
 	#queue_redraw() 
 
+func to_grid_pos(pixel_pos: Vector2):
+	return pixel_pos / scale
+
 func _draw():
 	#drawCollision()
 	drawDebugCollision()
