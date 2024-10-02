@@ -4,6 +4,9 @@
 #include <godot_cpp/classes/node2d.hpp>
 #include <godot_cpp/classes/mesh_instance2d.hpp>
 
+#include <map>
+#include <vector>
+
 namespace godot {
 
 class Simulator : public Node2D {
@@ -25,12 +28,31 @@ class Simulator : public Node2D {
     	PackedVector2Array previous_positions;
     	PackedVector2Array velocities;
     	PackedVector2Array forces;
-    	Array particle_valid;
+    	std::vector<bool> particle_valid;
     	Vector2 gravity_vector;
-    	Dictionary grid;
-		Dictionary constants;
-    	Array neighborsToCheck;
+    	std::map<Vector2, std::vector<int>> grid;
+    	std::vector<Vector2> neighborsToCheck;
 		MeshInstance2D *mesh_generator;
+		
+		// constants
+		bool use_double_density;
+		int width;
+		int height;
+		int number_particles;
+		int gravity;
+		int interaction_radius;
+		int grid_size;
+		bool use_grid;
+		int particle_radius;
+
+		// double density
+		int knormal;
+		float density_zero;
+		int knear;
+
+		// spring
+		int spring_constant;
+
 		void random_spawn(float pos_x, float dis_x, float pos_y, float dis_y);
 		void build_grid();
 		Vector2 world_to_grid(Vector2 position);
@@ -42,7 +64,7 @@ class Simulator : public Node2D {
 		void calculate_next_velocity(float delta);
 		void bounce_from_border();
 		void double_density_relaxation(float delta);
-		PackedInt32Array get_all_neighbour_particles(Vector2 cell_key);
+		std::vector<int> get_all_neighbour_particles(Vector2 cell_key);
 		Array collision_checker(int i);
 		void check_oneway_coupling();
 
