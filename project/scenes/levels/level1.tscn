@@ -15,23 +15,24 @@ visible = false
 terrain_manager = NodePath("../TerrainManager")
 
 [node name="PowerPlant" parent="." instance=ExtResource("4_vr4jk")]
-visible = false
-position = Vector2(11, 562)
+position = Vector2(811, 402)
 scale = Vector2(33.72, 33.72)
 power_needed = 1000
 
 [node name="ImmovableZones" type="Node2D" parent="."]
 
 [node name="ColorRect" type="ColorRect" parent="ImmovableZones"]
-offset_left = 1472.0
-offset_top = 976.0
-offset_right = 1545.0
-offset_bottom = 996.0
-scale = Vector2(6.12, 5.16)
+offset_left = 460.0
+offset_top = 10.0
+offset_right = 510.0
+offset_bottom = 130.0
+scale = Vector2(6, 5)
 color = Color(1, 0, 0, 0.392157)
 
 [node name="ColorRect2" type="ColorRect" parent="ImmovableZones"]
-offset_right = 14.0
-offset_bottom = 61.0
-scale = Vector2(5.94122, 4.24902)
+offset_left = 6.0
+offset_top = 778.0
+offset_right = 287.0
+offset_bottom = 852.0
+scale = Vector2(6, 4)
 color = Color(1, 0, 0, 0.392157)

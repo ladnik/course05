@@ -73,11 +73,12 @@ func generateGrid(terrain_seed, type, octaves, frequency, immovable_rects: Array
 		var gridImmovable_row = []
 		for x in range(_width):
 			grid_row.append(0)
+			var is_on_rect : bool
 			for rect in immovable_rects:
-				if on_rect(rect, x, y):
-					gridImmovable_row.append(true)
-				else: 
-					gridImmovable_row.append(false)
+				is_on_rect = on_rect(rect, x, y)
+				if is_on_rect:
+					break
+			gridImmovable_row.append(is_on_rect)
 
 		grid.append(grid_row)
 		gridImmovable.append(gridImmovable_row)

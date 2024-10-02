@@ -20,7 +20,6 @@ func generate_terrain(seed, type, octaves, frequency, immovable_rects: Array):
 
 func _process(_delta):
 	var mouse_pos_grid = renderer.to_grid_pos(get_global_mouse_position())
-	print(mouse_pos_grid)
 
 	this_mouse_clicked = false
 

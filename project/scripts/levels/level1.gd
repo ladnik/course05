@@ -17,8 +17,8 @@ func _ready() -> void:
 		rects.append([pos, end])
 	terrain_manager.generate_terrain(0815, FastNoiseLite.TYPE_PERLIN, 4, 0.0075, rects)
 	var particle_simulation = ParticleSimulation.new(100, 200, 100, 200)
-	#self.add_child(particle_simulation)
-	#$PowerPlant.set_particle_simulation(particle_simulation)
+	self.add_child(particle_simulation)
+	$PowerPlant.set_particle_simulation(particle_simulation)
 	
 	#select_movable_terrain.connect(terrain_manager.on_select_movable_terrain)
 	#select_immovable_terrain.connect(terrain_manager.on_select_immovable_terrain)
