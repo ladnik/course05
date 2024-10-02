@@ -42,7 +42,6 @@ class Simulator : public Node2D {
 		void calculate_next_velocity(float delta);
 		void bounce_from_border();
 		void double_density_relaxation(float delta);
-		PackedInt32Array get_neighbors(int index);
 		PackedInt32Array get_all_neighbour_particles(Vector2 cell_key);
 		Array collision_checker(int i);
 		void check_oneway_coupling();

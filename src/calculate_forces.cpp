@@ -48,7 +48,6 @@ Simulator::~Simulator() {
 void Simulator::update(float delta) {
 
     // this is how you print it out UtilityFunctions::print("test");
-
 	//reset_forces();
 	//calculate_interaction_forces();
 	integration_step(delta);
@@ -260,11 +259,12 @@ void Simulator::bounce_from_border() {
 
 // Function for double-density relaxation
 void Simulator::double_density_relaxation(float delta) {
-	 build_grid();
-
+	build_grid();
 	Array keys = grid.keys();
-    for (int i = 0; i < keys.size(); ++i) {
-        Array cell = grid[keys[i]];
+    for (int i = 0; i < keys.size(); ++i)
+    {
+        Vector2 cell_key = keys[i].operator Vector2();
+        Array cell = grid[cell_key];
 
         for (int i = 0; i < cell.size(); ++i) {
             int particle_i = cell[i];
@@ -289,7 +289,7 @@ void Simulator::double_density_relaxation(float delta) {
 
             // Compute pressure and pressure near
             double pressure = (int) constants["K"] * (density - (float) constants["DENSITY_ZERO"]);
-            double pressure_near = (int) constants["K_NEAR"] * density_near;
+            double pressure_near = (int) constants["KNEAR"] * density_near;
             Vector2 pos_displacement_A(0, 0);
 
             // Apply displacements
@@ -310,23 +310,6 @@ void Simulator::double_density_relaxation(float delta) {
             current_positions[particle_i] = current_positions[particle_i] + pos_displacement_A;
         }
     }
-}
-
-PackedInt32Array Simulator::get_neighbors(int index) {
-	PackedInt32Array neighbors;
-	Vector2 grid_pos = world_to_grid(current_positions[index]);
-	for (int i = -1; i <= 1; i++) {
-		for (int j = -1; j <= 1; j++) {
-			Vector2 neighbor_pos = grid_pos + Vector2(i, j);
-			if (grid.has(neighbor_pos)) {
-				Array neighbor_cell = grid[neighbor_pos];
-				for (int k = 0; k < neighbor_cell.size(); k++) {
-					neighbors.push_back(neighbor_cell[k]);
-				}
-			}
-		}
-	}
-	return neighbors;
 }
 
 PackedInt32Array Simulator::get_all_neighbour_particles(Vector2 cell_key) {
