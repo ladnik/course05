@@ -97,7 +97,7 @@ void Simulator::_init(Dictionary constants, float pos_x, float dis_x, float pos_
 }
 
 Vector2 Simulator::world_to_grid(Vector2 pos) {
-	float grid_size = (int) constants["GRID_SIZE"];
+	float grid_size = (double) constants["GRID_SIZE"];
 	return Vector2(Math::floor(pos.x / grid_size), Math::floor(pos.y / grid_size));
 }
 
@@ -242,16 +242,16 @@ void Simulator::calculate_next_velocity(float delta) {
 // Function to check if particles collide with borders and apply bounce effects
 void Simulator::bounce_from_border() {
     for (int i = 0; i < current_positions.size(); ++i) {
-        if (current_positions[i].x - (int) constants["INTERACTION_RADIUS"] < 0) {
-            current_positions[i].x = (int) constants["INTERACTION_RADIUS"];
+        if (current_positions[i].x - (int) constants["PARTICLE_RADIUS"] < 0) {
+            current_positions[i].x = (int) constants["PARTICLE_RADIUS"];
             velocities[i].x *= -0.5;
         }
-        if (current_positions[i].x + (int) constants["INTERACTION_RADIUS"] > (int) constants["WIDTH"]) {
-            current_positions[i].x = (int) constants["WIDTH"] - (int) constants["INTERACTION_RADIUS"];
+        if (current_positions[i].x + (int) constants["PARTICLE_RADIUS"] > (int) constants["WIDTH"]) {
+            current_positions[i].x = (int) constants["WIDTH"] - (int) constants["PARTICLE_RADIUS"];
             velocities[i].x *= -0.5;
         }
-        if (current_positions[i].y + (int) constants["INTERACTION_RADIUS"] > (int) constants["HEIGHT"]) {
-            current_positions[i].y = (int) constants["HEIGHT"] - (int) constants["INTERACTION_RADIUS"];
+        if (current_positions[i].y + (int) constants["PARTICLE_RADIUS"] > (int) constants["HEIGHT"]) {
+            current_positions[i].y = (int) constants["HEIGHT"] - (int) constants["PARTICLE_RADIUS"];
             velocities[i].y *= -0.5;
         }
     }
@@ -261,24 +261,23 @@ void Simulator::bounce_from_border() {
 void Simulator::double_density_relaxation(float delta) {
 	build_grid();
 	Array keys = grid.keys();
+    //UtilityFunctions::print(constants["INTERACTION_RADIUS"]);
     for (int i = 0; i < keys.size(); ++i)
     {
         Vector2 cell_key = keys[i].operator Vector2();
         Array cell = grid[cell_key];
 
-        for (int i = 0; i < cell.size(); ++i) {
-            int particle_i = cell[i];
+        Array neighbors = get_all_neighbour_particles(cell_key);
+        for (int k = 0; k < cell.size(); ++k) {
+            int particle_k = cell[k];
             double density = 0;
             double density_near = 0;
-
-            Array neighbors = get_all_neighbour_particles(keys[i]);
-
             // Compute density and near density
             for (int j = 0; j < neighbors.size(); ++j) {
                 int particle_j = neighbors[j];
-                if (i == j) continue;
+                if (particle_k == particle_j) continue;
 
-                Vector2 rij = current_positions[particle_j] - current_positions[particle_i];
+                Vector2 rij = current_positions[particle_j] - current_positions[particle_k];
                 double q = rij.length() / (int) constants["INTERACTION_RADIUS"];
 
                 if (q < 1) {
@@ -295,9 +294,9 @@ void Simulator::double_density_relaxation(float delta) {
             // Apply displacements
             for (int j = 0; j < neighbors.size(); ++j) {
                 int particle_j = neighbors[j];
-                if (i == j) continue;
+                if (particle_k == particle_j) continue;
 
-                Vector2 rij = current_positions[particle_j] - current_positions[particle_i];
+                Vector2 rij = current_positions[particle_j] - current_positions[particle_k];
                 double q = rij.length() / (int) constants["INTERACTION_RADIUS"];
 
                 if (q < 1) {
@@ -307,20 +306,22 @@ void Simulator::double_density_relaxation(float delta) {
                     pos_displacement_A -= displacement_term / 2;
                 }
             }
-            current_positions[particle_i] = current_positions[particle_i] + pos_displacement_A;
+            current_positions[particle_k] = current_positions[particle_k] + pos_displacement_A;
         }
     }
 }
 
 PackedInt32Array Simulator::get_all_neighbour_particles(Vector2 cell_key) {
-	PackedInt32Array neighbors;
+	PackedInt32Array neighbors = PackedInt32Array();
 	for (int i = -1; i <= 1; i++) {
 		for (int j = -1; j <= 1; j++) {
 			Vector2 neighbor_cell_key = cell_key + Vector2(i, j);
 			if (grid.has(neighbor_cell_key)) {
 				Array neighbor_cell = grid[neighbor_cell_key];
 				for (int k = 0; k < neighbor_cell.size(); k++) {
-					neighbors.append(neighbor_cell[k]);
+                    if (particle_valid[neighbor_cell[k]].operator bool()) {
+					    neighbors.push_back(neighbor_cell[k]);
+                    }
 				}
 			}
 		}
