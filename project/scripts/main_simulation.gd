@@ -15,8 +15,9 @@ func set_init_data(pos_x, dis_x, pos_y, dis_y):
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	SIM = load('res://scripts/particle_simulation.gd').new(init_parameters[0], init_parameters[1], init_parameters[2], init_parameters[3])
-	SIM.mesh_generator = mesh_generator
+	SIM = Simulator.new()
+	SIM.set_mesh_generator(mesh_generator)
+	SIM._init(init_parameters[0], init_parameters[1], init_parameters[2], init_parameters[3])
 
 func _process(delta: float) -> void:
 	queue_redraw()
