@@ -53,10 +53,10 @@ cv::Mat& GDKinect::get_depth_matrix() {
 
 Vector2 GDKinect::get_position() {
 	std::optional<HandPos> h = get_hand_pos();
-	if(!h || h.x == -1 || h.y == -1){
-		return Vector2(0, 0)
+	if(!h || h->x == -1 || h->y == -1){
+		return Vector2(0, 0);
 	}
-	return Vector2(h.x, h.y)
+	return Vector2(h->x, h->y);
 }
 
 Ref<Texture> GDKinect::get_texture() {
@@ -80,6 +80,7 @@ Ref<Texture> GDKinect::get_texture() {
 
 void GDKinect::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_texture"), &GDKinect::get_texture);
+	ClassDB::bind_method(D_METHOD("get_position"), &GDKinect::get_position);
 }
 
 std::optional<HandPos> GDKinect::get_hand_pos() {
