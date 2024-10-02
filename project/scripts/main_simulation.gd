@@ -8,11 +8,14 @@ var SIM
 var Constants = load('res://scripts/simulation_constants.gd')
 var particle_mat = CanvasItemMaterial.new()
 
-func _init(pos_x, dis_x, pos_y, dis_y):
-	SIM = load('res://scripts/particle_simulation.gd').new(pos_x, dis_x, pos_y, dis_y)
+
+var init_parameters = [50, 400, 50, 400]
+func set_init_data(pos_x, dis_x, pos_y, dis_y):
+	init_parameters = [pos_x, dis_x, pos_y, dis_y]
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	SIM = load('res://scripts/particle_simulation.gd').new(init_parameters[0], init_parameters[1], init_parameters[2], init_parameters[3])
 	SIM.mesh_generator = mesh_generator
 
 func _process(delta: float) -> void:

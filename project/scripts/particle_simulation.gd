@@ -29,6 +29,8 @@ func _init(pos_x, dis_x, pos_y, dis_y):
 func world_to_grid(pos: Vector2) -> Vector2:
 	return Vector2(floor(pos.x / Constants.GRID_SIZE), floor(pos.y / Constants.GRID_SIZE))
 
+
+
 # Build grid based on particle positions
 func build_grid() -> void:
 	grid.clear()
