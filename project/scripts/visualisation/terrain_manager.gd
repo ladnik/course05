@@ -6,6 +6,7 @@ extends Node2D
 
 # Godot functions
 
+var kinect: GDKinect
 var last_mouse_clicked = false
 var this_mouse_clicked = false
 
@@ -20,8 +21,13 @@ func generate_terrain(seed, type, octaves, frequency):
 	mesh_generator.visualize(editor.grid)
 	
 
+func _ready():
+	kinect = GDKinect.new()
+
 func _process(_delta):
-	var mouse_pos_grid = renderer.to_grid_pos(get_global_mouse_position())
+	var pos = kinect.get_position()
+	print(pos)
+	var mouse_pos_grid = renderer.to_grid_pos(pos)
 
 	this_mouse_clicked = false
 

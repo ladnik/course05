@@ -14,13 +14,6 @@
 #include <optional>
 
 
-#define LOWEST_DEPTH 5000
-#define KINECT_WIDTH 640
-#define KINECT_HEIGHT 480
-#define SQUARE_SIZE 30
-#define SEARCH_RADIUS 30
-
-
 namespace godot {
 
 struct HandPos {
