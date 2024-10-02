@@ -2,6 +2,7 @@
 #define CALCULATE_FORCES_H
 
 #include <godot_cpp/classes/node2d.hpp>
+#include <godot_cpp/classes/mesh_instance2d.hpp>
 
 namespace godot {
 
@@ -17,6 +18,7 @@ class Simulator : public Node2D {
 		PackedVector2Array get_particle_forces();
 		void _init(float pos_x, float dis_x, float pos_y, float dis_y);
 		void delete_particle(int index);
+		void set_mesh_generator(MeshInstance2D *mesh_instance) { mesh_generator = mesh_instance; }
 
 	private:
     	PackedVector2Array current_positions;
@@ -27,6 +29,7 @@ class Simulator : public Node2D {
     	Vector2 gravity_vector;
     	Dictionary grid;
     	Array neighborsToCheck;
+		MeshInstance2D *mesh_generator;
 		void random_spawn(float pos_x, float dis_x, float pos_y, float dis_y);
 		void build_grid();
 		Vector2 world_to_grid(Vector2 position);
@@ -40,6 +43,8 @@ class Simulator : public Node2D {
 		void double_density_relaxation(float delta);
 		PackedInt32Array get_neighbors(int index);
 		PackedInt32Array get_all_neighbour_particles(Vector2 cell_key);
+		Array collision_checker(int i);
+		void check_oneway_coupling();
 
 	protected:
 		static void _bind_methods();

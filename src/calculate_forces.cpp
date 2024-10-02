@@ -11,7 +11,7 @@
 #include <godot_cpp/classes/mesh_instance2d.hpp>
 #include <godot_cpp/variant/dictionary.hpp>
 #include <godot_cpp/core/class_db.hpp>
-
+#include <godot_cpp/classes/mesh_instance2d.hpp>
 
 
 using namespace godot;
@@ -23,6 +23,8 @@ void Simulator::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_particle_forces"), &Simulator::get_particle_forces);
 	ClassDB::bind_method(D_METHOD("_init", "pos_x", "dis_x", "pos_y", "dis_y"), &Simulator::_init);
 	ClassDB::bind_method(D_METHOD("delete_particle", "index"), &Simulator::delete_particle);
+	ClassDB::bind_method(D_METHOD("set_mesh_generator", "mesh_instance"), &Simulator::set_mesh_generator);
+
 }
 
 Simulator::Simulator() {
@@ -38,6 +40,7 @@ Simulator::Simulator() {
 	velocities = PackedVector2Array();
 	forces = PackedVector2Array();
 	particle_valid = Array();
+	mesh_generator = nullptr;
 }
 
 Simulator::~Simulator() {
@@ -46,13 +49,13 @@ Simulator::~Simulator() {
 
 // Function to update the simulation
 void Simulator::update(float delta) {
-	reset_forces();
-	calculate_interaction_forces();
+	//reset_forces();
+	//calculate_interaction_forces();
 	integration_step(delta);
-	//check_oneway_coupling(current_positions, previous_positions, mesh_generator);
-	//double_density_relaxation(delta);
-	//calculate_next_velocity(delta);
+	double_density_relaxation(delta);
+	calculate_next_velocity(delta);
 	bounce_from_border();
+	check_oneway_coupling();
 }
 
 // Function to retrieve the positions of valid particles
@@ -226,6 +229,9 @@ void Simulator::integration_step(float delta) {
 void Simulator::calculate_next_velocity(float delta) {
 	for (int i = 0; i < current_positions.size(); i++) {
 		Vector2 velocity = (current_positions[i] - previous_positions[i]) / delta;
+		if (velocity.y < -200) {
+			velocity.y = -200;
+		}
 		velocities[i] = velocity;
 	}
 }
@@ -258,18 +264,18 @@ void Simulator::double_density_relaxation(float delta) {
 
         for (int i = 0; i < cell.size(); ++i) {
             int particle_i = cell[i];
-            float density = 0;
-            float density_near = 0;
+            double density = 0;
+            double density_near = 0;
 
             Array neighbors = get_all_neighbour_particles(keys[i]);
 
             // Compute density and near density
             for (int j = 0; j < neighbors.size(); ++j) {
                 int particle_j = neighbors[j];
-                if (particle_i == particle_j) continue;
+                if (i == j) continue;
 
                 Vector2 rij = current_positions[particle_j] - current_positions[particle_i];
-                float q = rij.length() / SimulationConstants::INTERACTION_RADIUS;
+                double q = rij.length() / SimulationConstants::INTERACTION_RADIUS;
 
                 if (q < 1) {
                     density += pow(1 - q, 2);
@@ -278,17 +284,17 @@ void Simulator::double_density_relaxation(float delta) {
             }
 
             // Compute pressure and pressure near
-            float pressure = SimulationConstants::K * (density - SimulationConstants::DENSITY_ZERO);
-            float pressure_near = SimulationConstants::K_NEAR * density_near;
+            double pressure = SimulationConstants::K * (density - SimulationConstants::DENSITY_ZERO);
+            double pressure_near = SimulationConstants::K_NEAR * density_near;
             Vector2 pos_displacement_A(0, 0);
 
             // Apply displacements
             for (int j = 0; j < neighbors.size(); ++j) {
                 int particle_j = neighbors[j];
-                if (particle_i == particle_j) continue;
+                if (i == j) continue;
 
                 Vector2 rij = current_positions[particle_j] - current_positions[particle_i];
-                float q = rij.length() / SimulationConstants::INTERACTION_RADIUS;
+                double q = rij.length() / SimulationConstants::INTERACTION_RADIUS;
 
                 if (q < 1) {
                     rij = rij.normalized();
@@ -333,4 +339,25 @@ PackedInt32Array Simulator::get_all_neighbour_particles(Vector2 cell_key) {
 		}
 	}
 	return neighbors;
+}
+
+// Function to check for collisions for a particle
+
+Array Simulator::collision_checker(int i)
+{
+	return mesh_generator->call<Vector2, Vector2>("continuous_collision", previous_positions[i], current_positions[i]);
+}
+
+// Function to check one-way coupling between particles and objects
+void Simulator::check_oneway_coupling() {
+    for (int i = 0; i < current_positions.size(); ++i) {
+        Array collision_object = collision_checker(i);
+        if (collision_object[0].operator bool() == true) {
+            current_positions[i] = current_positions[i] + collision_object[2].operator Vector2().normalized() * 5.0;
+			velocities[i] = velocities[i] - velocities[i].dot(collision_object[2].operator Vector2().normalized()) * collision_object[2].operator Vector2().normalized();
+            if (collision_checker(i)[0].operator bool() == true) {
+                current_positions[i] = previous_positions[i];
+            }
+        }
+    }
 }

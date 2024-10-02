@@ -10,11 +10,11 @@ namespace SimulationConstants {
     constexpr int HEIGHT = 1080;
 
     // set to -1 to use the water_source
-    constexpr int NUMBER_PARTICLES = 2000;
+    constexpr int NUMBER_PARTICLES = 500;
 
     constexpr int GRAVITY = 1000;
 
-    constexpr double INTERACTION_RADIUS = 10.0;
+    constexpr double INTERACTION_RADIUS = 20.0;
     constexpr double SPRING_CONSTANT = 3000 / INTERACTION_RADIUS;
 
     constexpr double GRID_SIZE = 2 * INTERACTION_RADIUS;

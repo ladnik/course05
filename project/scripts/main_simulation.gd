@@ -11,12 +11,11 @@ var particle_mat = CanvasItemMaterial.new()
 func _init(pos_x, dis_x, pos_y, dis_y):
 	#SIM = load('res://scripts/particle_simulation.gd').new(pos_x, dis_x, pos_y, dis_y)
 	SIM = Simulator.new()
-	SIM._init(50, 50, 500, 500)
+	SIM._init(50, 200, 50, 200)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass
-	#SIM.mesh_generator = mesh_generator
+	SIM.set_mesh_generator(mesh_generator)
 
 func _process(delta: float) -> void:
 	queue_redraw()
