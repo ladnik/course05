@@ -61,7 +61,7 @@ func _ready() -> void:
 	click_sound.volume_db = -10
 	level_music.volume_db = -20
 	win_music.volume_db = -10
-	lose_music.volume_db = 0
+	lose_music.volume_db = -10
 	dig_music.volume_db = 0
 	water_music.volume_db = -10
 	build_music.volume_db = 10

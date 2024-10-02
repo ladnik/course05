@@ -43,8 +43,10 @@ func generate_level():
 		
 
 func initialize(pos_x, dis_x, pos_y, dis_y): 
-	var particle_simulation = ParticleSimulation.new(pos_x, dis_x, pos_y, dis_y)
+	var particle_simulation = load("res://scenes/simulation/particle_simulation.tscn").instantiate()
 	self.add_child(particle_simulation)
+	particle_simulation.set_init_data(pos_x, dis_x, pos_y, dis_y)
+
 	AudioManager.play_water_sound()
 	
 	#Initialize power plants
