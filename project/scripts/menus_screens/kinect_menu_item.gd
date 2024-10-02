@@ -1,6 +1,7 @@
 extends Label
 
-@export var box : ColorRect
+
+var kinectEnabled: bool = false
 
 var is_hovering: bool = false
 var hover_time: float = 0

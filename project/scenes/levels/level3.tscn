@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://cevdiem5xnvb5"]
+[gd_scene load_steps=7 format=3 uid="uid://cevdiem5xnvb5"]
 
 [ext_resource type="Script" path="res://scripts/levels/level3.gd" id="1_rxruw"]
+[ext_resource type="PackedScene" uid="uid://csrsaejaxme0m" path="res://scenes/menus_screens/kinect_menu.tscn" id="2_ap3iv"]
 [ext_resource type="PackedScene" uid="uid://dwu3ihwglguna" path="res://scenes/logic/power_plant.tscn" id="2_ictpf"]
 [ext_resource type="PackedScene" uid="uid://bragutgdm43hq" path="res://scenes/visualisation/terrain_manager.tscn" id="3_2mdqc"]
 [ext_resource type="PackedScene" uid="uid://dm55nq68nldsl" path="res://scenes/menus_screens/pause_menu.tscn" id="4_85y4n"]
@@ -8,6 +9,8 @@
 
 [node name="Level3" type="Node2D"]
 script = ExtResource("1_rxruw")
+
+[node name="KinectMenu" parent="." instance=ExtResource("2_ap3iv")]
 
 [node name="PowerPlant" parent="." instance=ExtResource("2_ictpf")]
 position = Vector2(418, 370)

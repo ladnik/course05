@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://csrsaejaxme0m"]
 
-[ext_resource type="Script" path="res://scripts/kinect_menu_item.gd" id="1_y0mth"]
-[ext_resource type="Script" path="res://scripts/kinect_menu.gd" id="2_rk180"]
+[ext_resource type="Script" path="res://scripts/menus_screens/kinect_menu.gd" id="1_78ju6"]
+[ext_resource type="Script" path="res://scripts/menus_screens/kinect_menu_item.gd" id="2_ww3rh"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_rpwns"]
 font_size = 50
@@ -19,13 +19,16 @@ shadow_size = 10
 shadow_color = Color(0, 0, 0, 1)
 shadow_offset = Vector2(4, 1)
 
-[node name="KinectMenu" type="CanvasLayer"]
-script = ExtResource("2_rk180")
+[node name="KinectMenu" type="CanvasLayer" node_paths=PackedStringArray("drawButton", "removeButton")]
+script = ExtResource("1_78ju6")
+drawButton = NodePath("Draw")
+removeButton = NodePath("Remove")
 
 [node name="Remove" type="Label" parent="."]
 unique_name_in_owner = true
+offset_left = 1490.0
 offset_top = 1000.0
-offset_right = 420.0
+offset_right = 1910.0
 offset_bottom = 1069.0
 pivot_offset = Vector2(0, 21)
 mouse_filter = 0
@@ -33,35 +36,22 @@ text = "Remove Mode"
 label_settings = SubResource("LabelSettings_rpwns")
 horizontal_alignment = 1
 vertical_alignment = 1
-script = ExtResource("1_y0mth")
+script = ExtResource("2_ww3rh")
 
 [node name="Draw" type="Label" parent="."]
 unique_name_in_owner = true
-offset_top = 920.0
+offset_top = 1000.0
 offset_right = 420.0
-offset_bottom = 989.0
+offset_bottom = 1069.0
 pivot_offset = Vector2(0, 21)
 mouse_filter = 0
 text = "Draw Mode"
 label_settings = SubResource("LabelSettings_5ib5w")
 horizontal_alignment = 1
 vertical_alignment = 1
-script = ExtResource("1_y0mth")
-
-[node name="Enable" type="Label" parent="."]
-offset_left = 1497.0
-offset_top = 5.0
-offset_right = 1917.0
-offset_bottom = 74.0
-pivot_offset = Vector2(0, 21)
-mouse_filter = 0
-text = "enable Kinect"
-label_settings = SubResource("LabelSettings_rpwns")
-horizontal_alignment = 1
-vertical_alignment = 1
+script = ExtResource("2_ww3rh")
 
 [connection signal="mouse_entered" from="Remove" to="Remove" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="Remove" to="Remove" method="_on_mouse_exited"]
 [connection signal="mouse_entered" from="Draw" to="Draw" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="Draw" to="Draw" method="_on_mouse_exited"]
-[connection signal="gui_input" from="Enable" to="." method="_on_enable"]

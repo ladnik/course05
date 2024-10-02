@@ -36,3 +36,8 @@ func _on_replay_gui_input(event: InputEvent) -> void:
 	if (event is InputEventMouseButton && event.pressed && event.button_index == 1):
 		get_tree().paused = false
 		TransitionScene.transition_effect_for_reload()
+
+
+func _on_kinect_gui_input(event: InputEvent) -> void:
+	if (event is InputEventMouseButton && event.pressed && event.button_index == 1):
+		terrain_manager.kinect_enabled = not terrain_manager.kinect_enabled

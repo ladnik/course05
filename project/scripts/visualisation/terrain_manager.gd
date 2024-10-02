@@ -9,6 +9,8 @@ extends Node2D
 var last_mouse_clicked = false
 var this_mouse_clicked = false
 
+var kinect_enabled: bool = false
+
 var only_marching_squares_after_drawn = false
 
 # called by Level with level params

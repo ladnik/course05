@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dm55nq68nldsl"]
+[gd_scene load_steps=12 format=3 uid="uid://dm55nq68nldsl"]
 
 [ext_resource type="Script" path="res://scripts/menus_screens/pause_menu.gd" id="1_k46i6"]
 [ext_resource type="Shader" path="res://shaders/pause_menu.gdshader" id="2_f44fp"]
@@ -12,6 +12,14 @@ shader_parameter/lod = 4.0
 [sub_resource type="LabelSettings" id="LabelSettings_qmjsm"]
 font_size = 80
 outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 10
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(4, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_jxdfa"]
+font_size = 50
+outline_size = 3
 outline_color = Color(0, 0, 0, 1)
 shadow_size = 10
 shadow_color = Color(0, 0, 0, 1)
@@ -74,6 +82,22 @@ grow_vertical = 2
 text = "Pause"
 label_settings = SubResource("LabelSettings_qmjsm")
 
+[node name="Kinect" type="Label" parent="."]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 178.0
+offset_top = 360.0
+offset_right = 371.0
+offset_bottom = 429.0
+grow_vertical = 2
+pivot_offset = Vector2(0, 21)
+mouse_filter = 0
+text = "Kinect"
+label_settings = SubResource("LabelSettings_jxdfa")
+vertical_alignment = 1
+script = ExtResource("2_otmi0")
+
 [node name="Resume" type="Label" parent="."]
 anchors_preset = 4
 anchor_top = 0.5
@@ -112,9 +136,9 @@ anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
 offset_left = 178.0
-offset_top = 261.5
+offset_top = 260.5
 offset_right = 422.0
-offset_bottom = 330.5
+offset_bottom = 329.5
 grow_vertical = 2
 pivot_offset = Vector2(0, 21)
 mouse_filter = 0
@@ -141,6 +165,9 @@ label_settings = SubResource("LabelSettings_rpwns")
 vertical_alignment = 1
 script = ExtResource("2_otmi0")
 
+[connection signal="gui_input" from="Kinect" to="." method="_on_kinect_gui_input"]
+[connection signal="mouse_entered" from="Kinect" to="Kinect" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Kinect" to="Kinect" method="_on_mouse_exited"]
 [connection signal="gui_input" from="Resume" to="." method="resume_gui_event"]
 [connection signal="mouse_entered" from="Resume" to="Resume" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="Resume" to="Resume" method="_on_mouse_exited"]
