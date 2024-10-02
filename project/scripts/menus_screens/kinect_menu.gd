@@ -12,9 +12,6 @@ const THRESHOLD: float = 0.5
 var draw_time: float
 var remove_time: float
 
-enum KinectMode {DRAW, REMOVE, NONE}
-var current_mode: KinectMode = KinectMode.NONE
-
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	visible = false
@@ -32,26 +29,26 @@ func _process(delta: float) -> void:
 	
 	
 	if draw_time > THRESHOLD:
-		match current_mode:
-			KinectMode.DRAW:
+		match terrain_manager.kinect_mode:
+			terrain_manager.KinectMode.DRAW:
 				drawButton.disable()
-				current_mode = KinectMode.NONE
-			KinectMode.REMOVE:
+				terrain_manager.kinect_mode = terrain_manager.KinectMode.NONE
+			terrain_manager.KinectMode.REMOVE:
 				removeButton.disable()
 				drawButton.enable()
-				current_mode = KinectMode.DRAW
-			KinectMode.NONE:
+				terrain_manager.kinect_mode = terrain_manager.KinectMode.DRAW
+			terrain_manager.KinectMode.NONE:
 				drawButton.enable()
-				current_mode = KinectMode.DRAW
+				terrain_manager.kinect_mode = terrain_manager.KinectMode.DRAW
 	if remove_time > THRESHOLD:
-		match current_mode:
-			KinectMode.DRAW:
+		match terrain_manager.current_mode:
+			terrain_manager.KinectMode.DRAW:
 				drawButton.disable()
 				removeButton.enable()
-				current_mode = KinectMode.REMOVE
-			KinectMode.REMOVE:
+				terrain_manager.kinect_mode = terrain_manager.KinectMode.REMOVE
+			terrain_manager.KinectMode.REMOVE:
 				removeButton.disable()
-				current_mode = KinectMode.NONE
-			KinectMode.NONE:
+				terrain_manager.kinect_mode = terrain_manager.KinectMode.NONE
+			terrain_manager.KinectMode.NONE:
 				removeButton.enable()
-				current_mode = KinectMode.REMOVE
+				terrain_manager.kinect_mode = terrain_manager.KinectMode.REMOVE
