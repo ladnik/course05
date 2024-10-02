@@ -1,6 +1,24 @@
-[gd_scene load_steps=2 format=3 uid="uid://c0e3foelw7jbm"]
+[gd_scene load_steps=6 format=3 uid="uid://c0e3foelw7jbm"]
 
 [ext_resource type="Script" path="res://scripts/simulation/main_simulation.gd" id="1_o6y8g"]
+[ext_resource type="Shader" path="res://shaders/particle_visualization.gdshader" id="2_3xu0w"]
+[ext_resource type="Script" path="res://scripts/visualisation/particle_visualization.gd" id="2_yvw04"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8qi4n"]
+shader = ExtResource("2_3xu0w")
+shader_parameter/x_size = 1.0
+shader_parameter/y_size = 1.0
+shader_parameter/particle_positions = null
+shader_parameter/num_particles = 0
+shader_parameter/kernel_radius = 80.0
+shader_parameter/voronoi_centers = null
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_k0tvt"]
 
 [node name="ParticleSimulation" type="Node2D"]
 script = ExtResource("1_o6y8g")
+
+[node name="Visualization" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_8qi4n")
+texture = SubResource("PlaceholderTexture2D_k0tvt")
+script = ExtResource("2_yvw04")

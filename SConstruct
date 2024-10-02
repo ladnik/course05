@@ -8,7 +8,7 @@ def validate_parent_dir(key, val, env):
     if not os.path.isdir(normalize_path(os.path.dirname(val), env)):
         raise ValueError("'%s' is not a directory: %s" % (key, os.path.dirname(val)))
 
-libnames = ["liba", "libb"] # add additional libraries here
+libnames = ["liba", "libb", "libpartsim"] # add additional libraries here
 projectdir = "project"
 
 localEnv = Environment(tools=["default"], PLATFORM="")

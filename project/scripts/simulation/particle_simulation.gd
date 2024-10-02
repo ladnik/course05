@@ -24,10 +24,13 @@ func _init(pos_x, dis_x, pos_y, dis_y):
 		self.water_source = WATER_SOURCE.new(Vector2(pos_x, pos_y), Vector2(0, 10), 10, 10, 0.2, 2, 0.0, 4.0)
 	else:
 		random_spawn(pos_x, dis_x, pos_y, dis_y)
+	
 
 # Convert world position to grid position
 func world_to_grid(pos: Vector2) -> Vector2:
 	return Vector2(floor(pos.x / Constants.GRID_SIZE), floor(pos.y / Constants.GRID_SIZE))
+
+
 
 # Build grid based on particle positions
 func build_grid() -> void:
