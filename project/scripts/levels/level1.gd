@@ -1,7 +1,5 @@
 extends Node2D
 
-#signal select_immovable_terrain
-#signal select_movable_terrain
 @onready var immovable_zones: Node2D = $ImmovableZones
 @onready var terrain_manager: Node2D = $TerrainManager
 
@@ -20,11 +18,3 @@ func _ready() -> void:
 	self.add_child(particle_simulation)
 	$PowerPlant.set_particle_simulation(particle_simulation)
 	
-	#select_movable_terrain.connect(terrain_manager.on_select_movable_terrain)
-	#select_immovable_terrain.connect(terrain_manager.on_select_immovable_terrain)
-	
-#func _process(delta: float) -> void:
-	#if Input.is_action_just_pressed("select_movable_terrain"):
-		#select_movable_terrain.emit()
-	#if Input.is_action_just_pressed("select_immovable_terrain"):
-		#select_immovable_terrain.emit()
