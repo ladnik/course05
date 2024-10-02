@@ -42,7 +42,7 @@ start={
 
 [physics]
 
-common/physics_ticks_per_second=480
+common/physics_ticks_per_second=240
 
 [rendering]
 

@@ -15,9 +15,27 @@ func set_init_data(pos_x, dis_x, pos_y, dis_y):
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	var constantsDict = {
+		"DEBUG": Constants.DEBUG,
+		"DISPLAY_VELOCITY": Constants.DISPLAY_VELOCITY,
+		"DISPLAY_FORCE": Constants.DISPLAY_FORCE,
+		"WIDTH": Constants.WIDTH,
+		"HEIGHT": Constants.HEIGHT,
+		"NUMBER_PARTICLES": Constants.NUMBER_PARTICLES,
+		"GRAVITY": Constants.GRAVITY,
+		"INTERACTION_RADIUS": Constants.INTERACTION_RADIUS,
+		"SPRING_CONSTANT": Constants.SPRING_CONSTANT,
+		"GRID_SIZE": Constants.GRID_SIZE,
+		"USE_GRID": Constants.USE_GRID,
+		"PARTICLE_RADIUS": Constants.PARTICLE_RADIUS,
+		"K": Constants.K,
+		"DENSITY_ZERO": Constants.DENSITY_ZERO,
+		"KNEAR": Constants.KNEAR
+	}
+
 	SIM = Simulator.new()
 	SIM.set_mesh_generator(mesh_generator)
-	SIM._init(init_parameters[0], init_parameters[1], init_parameters[2], init_parameters[3])
+	SIM._init(constantsDict, init_parameters[0], init_parameters[1], init_parameters[2], init_parameters[3])
 
 func _process(delta: float) -> void:
 	queue_redraw()
