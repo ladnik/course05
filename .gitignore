@@ -1,9 +1,25 @@
-.vscode/
-.history/
-godot-cpp/
-build/
+# Godot 4+ specific ignores
+/.godot
+/android
 godot-cpp.diff
-.godot/
-.DS_Store
-cache/
+
+# C++ related stuff
+*.dblite
+/cache
+/godot-cpp/
+src/opencv-4.x/
+src/opencv_contrib-4.x/
+src/*.os
+src/*.o
+project/bin/*.so
+project/bin/*.dll
+project/build/
+project/cache/
+
+# Kinect
 libfreenect/
+
+# IDE/OS files
+/.vscode
+/.history
+*.DS_Store
