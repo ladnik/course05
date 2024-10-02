@@ -2,14 +2,17 @@ extends Node2D
 
 class_name PowerPlant
 
+@onready var wheel: Sprite2D = $Wheel
+
 var particle_simulation
-var score : int = 0
 var done : bool = false
-@export var power_needed: int
 
+var flow_count : int
+var flow_counts = []
+@export var timeframes_to_monitor = 5
+@export var flow_threshold = 15
 
-func _ready() -> void:
-	score = 0
+signal enough_water_flow
 
 func set_particle_simulation(_particle_simulation : ParticleSimulation):
 	particle_simulation = _particle_simulation.SIM
@@ -24,33 +27,31 @@ func _process(delta: float) -> void:
 	var i = 0
 	for p in particles:
 		if $TextureRect.get_global_rect().has_point(p):
-			produce_power()
+			flow_count += 1
+			wheel.rotate(1)
 			to_remove.append(i)
 		i += 1
 	for j in to_remove.size():
 		particle_simulation.delete_particle(to_remove[j])
 
-func produce_power():
-	score += 1
-	print("Your score: " + str(score))
 
-	if score > power_needed:
-		done = true
-		# Check the previous scene from TransitionScene
-		var prev_scene = TransitionScene.prevscene
+func is_flow_sufficient() -> bool:
+	for count in flow_counts:
+		if count < flow_threshold:
+			return false
+	return true
 
-		# Print the previous scene for debugging
-		print("Previous Scene: " + prev_scene)
 
-		# Determine what to do based on the previous scene
-		if prev_scene == "res://scenes/levels/level1.tscn":
-			print("Transitioning from Level 1 to Win Screen")
-			TransitionScene.transition_effect("res://scenes/menus_screens/win_screen.tscn")
-		elif prev_scene == "res://scenes/levels/level2.tscn":
-			print("Transitioning from Level 2 to Win Screen")
-			TransitionScene.transition_effect("res://scenes/menus_screens/win_screen.tscn")
-		elif prev_scene == "res://scenes/levels/level3.tscn":
-			print("Transitioning from Level 3 to After Final Level Screen")
-			TransitionScene.transition_effect("res://scenes/menus_screens/after_final_level.tscn")
-		
-	
+func _on_flow_timer_timeout() -> void:
+	flow_counts.append(flow_count)
+	flow_count = 0  
+
+	if flow_counts.size() > timeframes_to_monitor:
+		flow_counts.pop_front()
+
+	if flow_counts.size() == timeframes_to_monitor:
+		if is_flow_sufficient():
+			done = true
+			emit_signal("enough_water_flow")
+		else:
+			done = false

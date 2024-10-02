@@ -9,7 +9,7 @@ var _height = -1
 
 # Basic functions
 
-func to_grid_pos(pixel_pos):
+func to_grid_pos(pixel_pos: Vector2):
 	return pixel_pos / gridSprite.scale
 
 
