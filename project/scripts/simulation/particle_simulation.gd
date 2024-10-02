@@ -81,15 +81,15 @@ func update(delta) -> void:
 	if Constants.NUMBER_PARTICLES < 0:
 		self.water_source.spawn(delta, current_positions, previous_positions, velocities, forces, particle_valid)
 
-	# gravity
-	integration_step(delta)
+	# choose simulation method
+	if Constants.USE_DOUBLE_DENSITY:
+		integration_step(delta)
+		double_density_relaxation(delta)
+	else: 
+		reset_forces()
+		calculate_interaction_forces()
+		integration_step(delta)
 
-	# spring forces
-	# reset_forces()
-	# calculate_interaction_forces
-	
-	# double density relaxation
-	double_density_relaxation(delta)
 	calculate_next_velocity(delta)
 
 	# terrain/boundary conditions
@@ -173,7 +173,7 @@ func check_oneway_coupling() -> void:
 		var collision_object = collision_checker(i)
 		if collision_object[0] == true:
 			#set posiion to boundary
-			current_positions[i] += collision_object[2].normalized() *5
+			current_positions[i] += collision_object[2].normalized() *Constants.COLLISION_SCALE
 			#new velocity
 			velocities[i]= velocities[i]-1*velocities[i].dot(collision_object[2].normalized())*collision_object[2].normalized()
 			if collision_checker(i)[0]:
