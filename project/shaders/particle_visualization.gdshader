@@ -26,15 +26,22 @@ void fragment() {
 	else {
 		float acc = 0.;
 		int near_particles = 0;
+		float closest_distance = 10000.;
+		float second_closest = 10000.;
 		for (int i = 0; i < num_particles; i++) {
 			vec2 delta = particle_positions[i] - world_pos;
 			float distance = length(delta);
+			if(distance < closest_distance && i % 1 == 0){
+				second_closest = closest_distance;
+				closest_distance = distance;
+			}
 			float kernel_val = pow(clamp(1. - distance / kernel_radius, 0., 1.), 3); 
 			acc += kernel_val;
 		}
 		
-		if(acc > .2){
-			COLOR = vec4(1, 0, 0, 1);
+		if(acc > .5){
+			//COLOR = mix(vec4(0, 0, 1, 1), vec4(1.), closest_distance / second_closest);
+			COLOR = mix(vec4(0, 0, 1, 1), vec4(1.), clamp(1. - acc / 5., 0., 1.));
 		}
 		else {
 			COLOR = vec4(0, 0, 0, 0);			
