@@ -242,16 +242,16 @@ void Simulator::calculate_next_velocity(float delta) {
 // Function to check if particles collide with borders and apply bounce effects
 void Simulator::bounce_from_border() {
     for (int i = 0; i < current_positions.size(); ++i) {
-        if (current_positions[i].x - (int) constants["INTERACTION_RADIUS"] < 0) {
-            current_positions[i].x = (int) constants["INTERACTION_RADIUS"];
+        if (current_positions[i].x - (int) constants["PARTICLE_RADIUS"] < 0) {
+            current_positions[i].x = (int) constants["PARTICLE_RADIUS"];
             velocities[i].x *= -0.5;
         }
-        if (current_positions[i].x + (int) constants["INTERACTION_RADIUS"] > (int) constants["WIDTH"]) {
-            current_positions[i].x = (int) constants["WIDTH"] - (int) constants["INTERACTION_RADIUS"];
+        if (current_positions[i].x + (int) constants["PARTICLE_RADIUS"] > (int) constants["WIDTH"]) {
+            current_positions[i].x = (int) constants["WIDTH"] - (int) constants["PARTICLE_RADIUS"];
             velocities[i].x *= -0.5;
         }
-        if (current_positions[i].y + (int) constants["INTERACTION_RADIUS"] > (int) constants["HEIGHT"]) {
-            current_positions[i].y = (int) constants["HEIGHT"] - (int) constants["INTERACTION_RADIUS"];
+        if (current_positions[i].y + (int) constants["PARTICLE_RADIUS"] > (int) constants["HEIGHT"]) {
+            current_positions[i].y = (int) constants["HEIGHT"] - (int) constants["PARTICLE_RADIUS"];
             velocities[i].y *= -0.5;
         }
     }
