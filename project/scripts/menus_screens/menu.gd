@@ -2,7 +2,7 @@ extends CanvasLayer
 
 func start_gui_event(event: InputEvent) -> void:
 	if (event is InputEventMouseButton && event.pressed && event.button_index == 1):
-		TransitionScene.transition_effect("res://scenes/menus_screens/tutorial.tscn")
+		TransitionScene.transition_effect("res://scenes/levels/level1.tscn")
 
 func level_gui(event: InputEvent) -> void:
 	if (event is InputEventMouseButton && event.pressed && event.button_index == 1):
