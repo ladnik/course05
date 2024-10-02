@@ -9,7 +9,7 @@ const WIDTH = 1920
 const HEIGHT = 1080
 
 # set to -1 to use the water_source
-const NUMBER_PARTICLES = 300
+const NUMBER_PARTICLES = 500
 
 const GRAVITY = 1000 if USE_DOUBLE_DENSITY else 300
 
