@@ -33,10 +33,6 @@ func visualize(grid : Array) -> void:
 	scale.y = 15
 
 	var particle_positions = simulation.SIM.get_particle_positions()
-<<<<<<< HEAD
-	print(len(particle_positions))
-=======
->>>>>>> ec05b6abdbb8d1e4debee9f16a42a58c9ea49eb5
 	var padding = PackedVector2Array()
 	padding.resize(2048 - len(particle_positions))
 	var padded_particle_positions = particle_positions + padding

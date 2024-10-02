@@ -11,3 +11,4 @@ src/*.os
 src/*.o
 .sconsign.dblite
 libfreenect/
+src/*.obj
