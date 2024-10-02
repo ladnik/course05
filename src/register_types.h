@@ -5,7 +5,10 @@
 
 using namespace godot;
 
-void initialize_example_module(ModuleInitializationLevel p_level);
-void uninitialize_example_module(ModuleInitializationLevel p_level);
+void init_module_a(ModuleInitializationLevel p_level);
+void uninit_module_a(ModuleInitializationLevel p_level);
+
+void init_module_b(ModuleInitializationLevel p_level);
+void uninit_module_b(ModuleInitializationLevel p_level);
 
 #endif // GDKINECT_REGISTER_TYPES_H

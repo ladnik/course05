@@ -1,6 +1,3 @@
-# Godot 4.3 image
-#image: barichello/godot-ci:latest
-
 # Godot 4.3 image with C/C++ support and precompiled bindings
 image: ladnikj/godot-cpp-ci:latest
 
@@ -8,7 +5,7 @@ image: ladnikj/godot-cpp-ci:latest
 cache:
   key: "compiled-bindings"
   untracked: true
-  when: 'always'
+  # when: 'always'
 
 stages:
   - import
@@ -18,23 +15,24 @@ stages:
 
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
+  GIT_CLEAN_FLAGS: -ffd
   PROJECT_PATH: project
   EXPORT_NAME: export
   # [editor, template_debug, template_release]
   TEMPLATE: template_debug
 
 before_script:
-    - export SCONS_CACHE="./cache"
-    - source gitlab_functions.sh
+  - export SCONS_CACHE="./cache"
+  - source gitlab_functions.sh
+  - section_start "GODOT_IMPORT" "Import Godot resources"
+  - cd $PROJECT_PATH
+  - godot --headless --verbose --import
+  - cd ..
+  - section_end "GODOT_IMPORT"
 
-
-    
 import-assets:
   stage: import
   script:
-    - cd $PROJECT_PATH
-    - godot --headless --verbose --editor --quit  || true
-    - cd ..
     - scons -v
 
   needs: []
@@ -45,18 +43,20 @@ unit-test:
     TEST_SCRIPT: addons/gut/gut_cmdln.gd
     TEST_PATH: test/unit
     REPORT_PATH: reports
+    REPORT_FILE: $REPORT_PATH/results_unit.xml
   script:
     - cd $PROJECT_PATH
     - mkdir -v -p $TEST_PATH
     - mkdir -v -p $REPORT_PATH
-    - godot --headless -s $TEST_SCRIPT -gdir=$TEST_PATH 
+    - godot --headless -s $TEST_SCRIPT -gdir=$TEST_PATH -gjunit_xml_file=$REPORT_FILE
   needs: ["import-assets"]
   artifacts:
     name: report_$CI_JOB_NAME
-    when: 'always'
+    when: "always"
     paths:
       - $PROJECT_PATH/$REPORT_PATH/*
-    
+    reports:
+      junit: $PROJECT_PATH/$REPORT_FILE
 
 integration-test:
   stage: test
@@ -64,19 +64,22 @@ integration-test:
     TEST_SCRIPT: addons/gut/gut_cmdln.gd
     TEST_PATH: test/integration
     REPORT_PATH: reports
+    REPORT_FILE: $REPORT_PATH/results_integration.xml
   script:
     - cd $PROJECT_PATH
     - mkdir -v -p $TEST_PATH
     - mkdir -v -p $REPORT_PATH
-    - godot --headless -s $TEST_SCRIPT -gdir=$TEST_PATH
+    - godot --headless -s $TEST_SCRIPT -gdir=$TEST_PATH -gjunit_xml_file=$REPORT_FILE
   needs: ["import-assets"]
   artifacts:
     name: report_$CI_JOB_NAME
-    when: 'always'
+    when: "always"
     paths:
       - $PROJECT_PATH/$REPORT_PATH/*
+    reports:
+      junit: $PROJECT_PATH/$REPORT_FILE
 
-# Compile bindings, build custom libraries and export to platforms  
+# Compile bindings, build custom libraries and export to platforms
 linux:
   stage: export
   variables:
@@ -105,7 +108,7 @@ windows:
   script:
     - section_start "SCONS_COMPILE_LIBS" "Compile C++ libraries"
     - scons platform=windows target=$TEMPLATE
-    - section_end "SCONS_COMPILE_LIBS" 
+    - section_end "SCONS_COMPILE_LIBS"
 
     - cd $PROJECT_PATH
     - mkdir -v -p $EXPORT_PATH
@@ -128,18 +131,17 @@ web:
   script:
     - section_start "SCONS_COMPILE_LIBS" "Compile C++ libraries"
     - scons platform=web target=$TEMPLATE
-    - section_end "SCONS_COMPILE_LIBS" 
+    - section_end "SCONS_COMPILE_LIBS"
 
     - cd $PROJECT_PATH
     - mkdir -v -p $EXPORT_PATH
 
     - section_start "GODOT_EXPORT" "Export Godot project with $TEMPLATE"
-    - export_godot "Web" $EXPORT_PATH/$index.html
+    - export_godot "Web" $EXPORT_PATH/index.html
     - section_end "GODOT_EXPORT"
   needs: ["unit-test", "integration-test"]
   allow_failure: true
   artifacts:
-    name: $EXPORT_NAME-$CI_JOB_NAMEl
+    name: $EXPORT_NAME-$CI_JOB_NAME
     paths:
       - $PROJECT_PATH/$EXPORT_PATH/*
-
