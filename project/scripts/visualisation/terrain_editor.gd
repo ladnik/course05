@@ -73,7 +73,7 @@ func generateGrid(terrain_seed, type, octaves, frequency, immovable_rects: Array
 		var gridImmovable_row = []
 		for x in range(_width):
 			grid_row.append(0)
-			var is_on_rect : bool
+			var is_on_rect : bool = false
 			for rect in immovable_rects:
 				is_on_rect = on_rect(rect, x, y)
 				if is_on_rect:
@@ -106,3 +106,22 @@ func generateGrid(terrain_seed, type, octaves, frequency, immovable_rects: Array
 	returnBoundaries.append(boundary)
 
 	return returnBoundaries
+
+
+func loadGrid(_grid: Array, immovable_rects: Array):
+	var returnBoundaries : Array[PackedVector2Array] = [] # all boundaries
+	var boundary : PackedVector2Array = [] # current boundary
+
+	grid = _grid
+	# Generate grid array
+	for y in range(_height):
+		var gridImmovable_row = []
+		for x in range(_width):
+			var is_on_rect : bool
+			for rect in immovable_rects:
+				is_on_rect = on_rect(rect, x, y)
+				if is_on_rect:
+					break
+			gridImmovable_row.append(is_on_rect)
+
+		gridImmovable.append(gridImmovable_row)

@@ -16,6 +16,11 @@ func generate_terrain(seed, type, octaves, frequency, immovable_rects: Array):
 	editor.generateGrid(seed, type, octaves, frequency, immovable_rects)
 	renderer.initialize(editor.grid, mesh_generator.scale)
 	mesh_generator.visualize(editor.grid)
+
+func load_terrain(grid, immovable_rects: Array):
+	editor.loadGrid(grid, immovable_rects)
+	renderer.initialize(editor.grid, mesh_generator.scale)
+	mesh_generator.visualize(editor.grid)
 	
 
 func _process(_delta):
