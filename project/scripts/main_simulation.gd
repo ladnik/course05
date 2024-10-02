@@ -9,9 +9,27 @@ var Constants = load('res://scripts/simulation_constants.gd')
 var particle_mat = CanvasItemMaterial.new()
 
 func _init(pos_x, dis_x, pos_y, dis_y):
-	#SIM = load('res://scripts/particle_simulation.gd').new(pos_x, dis_x, pos_y, dis_y)
+
+	var constantsDict = {
+		"DEBUG": Constants.DEBUG,
+		"DISPLAY_VELOCITY": Constants.DISPLAY_VELOCITY,
+		"DISPLAY_FORCE": Constants.DISPLAY_FORCE,
+		"WIDTH": Constants.WIDTH,
+		"HEIGHT": Constants.HEIGHT,
+		"NUMBER_PARTICLES": Constants.NUMBER_PARTICLES,
+		"GRAVITY": Constants.GRAVITY,
+		"INTERACTION_RADIUS": Constants.INTERACTION_RADIUS,
+		"SPRING_CONSTANT": Constants.SPRING_CONSTANT,
+		"GRID_SIZE": Constants.GRID_SIZE,
+		"USE_GRID": Constants.USE_GRID,
+		"PARTICLE_RADIUS": Constants.PARTICLE_RADIUS,
+		"K": Constants.K,
+		"DENSITY_ZERO": Constants.DENSITY_ZERO,
+		"KNEAR": Constants.KNEAR
+	}
+
 	SIM = Simulator.new()
-	SIM._init(50, 200, 50, 200)
+	SIM._init(constantsDict, pos_x, dis_x, pos_y, dis_y)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

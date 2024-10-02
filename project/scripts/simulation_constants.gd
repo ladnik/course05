@@ -10,7 +10,7 @@ const HEIGHT = 1080
 # set to -1 to use the water_source
 const NUMBER_PARTICLES = 200
 
-const GRAVITY = 1000
+const GRAVITY = 100
 
 const INTERACTION_RADIUS = 40.0
 const SPRING_CONSTANT = 3000 / INTERACTION_RADIUS

@@ -16,7 +16,7 @@ class Simulator : public Node2D {
 		PackedVector2Array get_particle_positions();
 		PackedVector2Array get_particle_velocities();
 		PackedVector2Array get_particle_forces();
-		void _init(float pos_x, float dis_x, float pos_y, float dis_y);
+		void _init(Dictionary constants, float pos_x, float dis_x, float pos_y, float dis_y);
 		void delete_particle(int index);
 		void set_mesh_generator(MeshInstance2D *mesh_instance) { mesh_generator = mesh_instance; }
 
@@ -28,6 +28,7 @@ class Simulator : public Node2D {
     	Array particle_valid;
     	Vector2 gravity_vector;
     	Dictionary grid;
+		Dictionary constants;
     	Array neighborsToCheck;
 		MeshInstance2D *mesh_generator;
 		void random_spawn(float pos_x, float dis_x, float pos_y, float dis_y);

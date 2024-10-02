@@ -1,6 +1,4 @@
 #include "calculate_forces.h"
-#include "calculate_forces.h"
-#include "simulation_constants.h"
 #include <random>
 
 #include <godot_cpp/core/class_db.hpp>
@@ -12,7 +10,7 @@
 #include <godot_cpp/variant/dictionary.hpp>
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/classes/mesh_instance2d.hpp>
-
+#include <godot_cpp/variant/utility_functions.hpp>
 
 using namespace godot;
 
@@ -21,7 +19,7 @@ void Simulator::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_particle_positions"), &Simulator::get_particle_positions);
 	ClassDB::bind_method(D_METHOD("get_particle_velocities"), &Simulator::get_particle_velocities);
 	ClassDB::bind_method(D_METHOD("get_particle_forces"), &Simulator::get_particle_forces);
-	ClassDB::bind_method(D_METHOD("_init", "pos_x", "dis_x", "pos_y", "dis_y"), &Simulator::_init);
+	ClassDB::bind_method(D_METHOD("_init", "constants", "pos_x", "dis_x", "pos_y", "dis_y"), &Simulator::_init);
 	ClassDB::bind_method(D_METHOD("delete_particle", "index"), &Simulator::delete_particle);
 	ClassDB::bind_method(D_METHOD("set_mesh_generator", "mesh_instance"), &Simulator::set_mesh_generator);
 
@@ -34,7 +32,6 @@ Simulator::Simulator() {
 	neighborsToCheck.push_back(Vector2(0, 1));
 	neighborsToCheck.push_back(Vector2(1, 1));
 	neighborsToCheck.push_back(Vector2(1, 0));
-	gravity_vector = Vector2(0, SimulationConstants::GRAVITY);
 	current_positions = PackedVector2Array();
 	previous_positions = PackedVector2Array();
 	velocities = PackedVector2Array();
@@ -49,6 +46,9 @@ Simulator::~Simulator() {
 
 // Function to update the simulation
 void Simulator::update(float delta) {
+
+    // this is how you print it out UtilityFunctions::print("test");
+
 	//reset_forces();
 	//calculate_interaction_forces();
 	integration_step(delta);
@@ -91,12 +91,14 @@ PackedVector2Array Simulator::get_particle_forces() {
 	return particles;
 }
 
-void Simulator::_init(float pos_x, float dis_x, float pos_y, float dis_y) {
+void Simulator::_init(Dictionary constants, float pos_x, float dis_x, float pos_y, float dis_y) {
+    this->constants = constants;
     random_spawn(pos_x, dis_x, pos_y, dis_y);
+    gravity_vector = Vector2(0, (int) constants["GRAVITY"]);
 }
 
 Vector2 Simulator::world_to_grid(Vector2 pos) {
-	float grid_size = SimulationConstants::GRID_SIZE;
+	float grid_size = (int) constants["GRID_SIZE"];
 	return Vector2(Math::floor(pos.x / grid_size), Math::floor(pos.y / grid_size));
 }
 
@@ -120,7 +122,7 @@ void Simulator::random_spawn(float pos_x, float dis_x, float pos_y, float dis_y)
 	std::random_device rd;
 	std::mt19937 gen(rd());
 	std::uniform_real_distribution<> dis(0, 1);
-	for (int i = 0; i < SimulationConstants::NUMBER_PARTICLES; i++) {
+	for (int i = 0; i < (int) constants["NUMBER_PARTICLES"]; i++) {
 		Vector2 spawn_position = Vector2(dis(gen) * dis_x + pos_x, dis(gen) * dis_y + pos_y);
 		current_positions.push_back(spawn_position);
 		previous_positions.push_back(spawn_position);
@@ -134,16 +136,16 @@ void Simulator::random_spawn(float pos_x, float dis_x, float pos_y, float dis_y)
 Vector2 Simulator::interaction_force(const Vector2 &position1, const Vector2 &position2) {
     Vector2 r = position2 - position1;
     
-    if (r.length() > 2 * SimulationConstants::INTERACTION_RADIUS) {
+    if (r.length() > 2 * (int) constants["INTERACTION_RADIUS"]) {
         return Vector2(0, 0);
     }
 
-    Vector2 overlap = 2 * SimulationConstants::INTERACTION_RADIUS * r.normalized() - r;
+    Vector2 overlap = 2 * (int) constants["INTERACTION_RADIUS"] * r.normalized() - r;
 
     float forceX = overlap.x;
     float forceY = overlap.y;
 
-    Vector2 force = SimulationConstants::SPRING_CONSTANT * Vector2(forceX, forceY);
+    Vector2 force = (int) constants["SPRING_CONSTANT"] * Vector2(forceX, forceY);
 
     return force;
 }
@@ -165,7 +167,7 @@ void Simulator::reset_forces() {
 
 // Function to calculate interaction forces between particles
 void Simulator::calculate_interaction_forces() {
-    if (!SimulationConstants::USE_GRID) {
+    if (!(bool) constants["USE_GRID"]) {
         for (int i = 0; i < current_positions.size(); ++i) {
             for (int j = i + 1; j < current_positions.size(); ++j) {
                 apply_force(i, j);
@@ -229,6 +231,8 @@ void Simulator::integration_step(float delta) {
 void Simulator::calculate_next_velocity(float delta) {
 	for (int i = 0; i < current_positions.size(); i++) {
 		Vector2 velocity = (current_positions[i] - previous_positions[i]) / delta;
+
+        // max velocity for going upwards
 		if (velocity.y < -200) {
 			velocity.y = -200;
 		}
@@ -239,16 +243,16 @@ void Simulator::calculate_next_velocity(float delta) {
 // Function to check if particles collide with borders and apply bounce effects
 void Simulator::bounce_from_border() {
     for (int i = 0; i < current_positions.size(); ++i) {
-        if (current_positions[i].x - SimulationConstants::INTERACTION_RADIUS < 0) {
-            current_positions[i].x = SimulationConstants::INTERACTION_RADIUS;
+        if (current_positions[i].x - (int) constants["INTERACTION_RADIUS"] < 0) {
+            current_positions[i].x = (int) constants["INTERACTION_RADIUS"];
             velocities[i].x *= -0.5;
         }
-        if (current_positions[i].x + SimulationConstants::INTERACTION_RADIUS > SimulationConstants::WIDTH) {
-            current_positions[i].x = SimulationConstants::WIDTH - SimulationConstants::INTERACTION_RADIUS;
+        if (current_positions[i].x + (int) constants["INTERACTION_RADIUS"] > (int) constants["WIDTH"]) {
+            current_positions[i].x = (int) constants["WIDTH"] - (int) constants["INTERACTION_RADIUS"];
             velocities[i].x *= -0.5;
         }
-        if (current_positions[i].y + SimulationConstants::INTERACTION_RADIUS > SimulationConstants::HEIGHT) {
-            current_positions[i].y = SimulationConstants::HEIGHT - SimulationConstants::INTERACTION_RADIUS;
+        if (current_positions[i].y + (int) constants["INTERACTION_RADIUS"] > (int) constants["HEIGHT"]) {
+            current_positions[i].y = (int) constants["HEIGHT"] - (int) constants["INTERACTION_RADIUS"];
             velocities[i].y *= -0.5;
         }
     }
@@ -275,7 +279,7 @@ void Simulator::double_density_relaxation(float delta) {
                 if (i == j) continue;
 
                 Vector2 rij = current_positions[particle_j] - current_positions[particle_i];
-                double q = rij.length() / SimulationConstants::INTERACTION_RADIUS;
+                double q = rij.length() / (int) constants["INTERACTION_RADIUS"];
 
                 if (q < 1) {
                     density += pow(1 - q, 2);
@@ -284,8 +288,8 @@ void Simulator::double_density_relaxation(float delta) {
             }
 
             // Compute pressure and pressure near
-            double pressure = SimulationConstants::K * (density - SimulationConstants::DENSITY_ZERO);
-            double pressure_near = SimulationConstants::K_NEAR * density_near;
+            double pressure = (int) constants["K"] * (density - (float) constants["DENSITY_ZERO"]);
+            double pressure_near = (int) constants["K_NEAR"] * density_near;
             Vector2 pos_displacement_A(0, 0);
 
             // Apply displacements
@@ -294,7 +298,7 @@ void Simulator::double_density_relaxation(float delta) {
                 if (i == j) continue;
 
                 Vector2 rij = current_positions[particle_j] - current_positions[particle_i];
-                double q = rij.length() / SimulationConstants::INTERACTION_RADIUS;
+                double q = rij.length() / (int) constants["INTERACTION_RADIUS"];
 
                 if (q < 1) {
                     rij = rij.normalized();
