@@ -10,14 +10,17 @@
 script = ExtResource("1_rxruw")
 
 [node name="PowerPlant" parent="." instance=ExtResource("2_ictpf")]
-position = Vector2(475, 291)
-scale = Vector2(24.24, 30.96)
+position = Vector2(418, 370)
+scale = Vector2(0.2, 0.2)
 timeframes_to_monitor = 2
+flow_threshold = 5
 
 [node name="TerrainManager" parent="." instance=ExtResource("3_2mdqc")]
 
 [node name="Village" parent="." instance=ExtResource("4_y5vkv")]
 position = Vector2(1572, 684)
+timeframes_to_monitor = 3
+flow_threshold = 10
 
 [node name="Pause_Scene" parent="." node_paths=PackedStringArray("terrain_manager") instance=ExtResource("4_85y4n")]
 visible = false

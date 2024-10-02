@@ -15,14 +15,11 @@ autostart = true
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(53, 83)
+position = Vector2(53, 80)
 shape = SubResource("RectangleShape2D_qejot")
 
-[node name="VillageHut" type="TextureRect" parent="Area2D"]
-offset_left = 1.0
-offset_top = 0.999999
-offset_right = 2101.0
-offset_bottom = 2101.0
+[node name="VillageHut" type="Sprite2D" parent="Area2D"]
+position = Vector2(53, 52)
 scale = Vector2(0.05, 0.05)
 texture = ExtResource("2_ybhs3")
 

@@ -85,6 +85,7 @@ offset_right = 1523.0
 offset_bottom = 730.0
 text = "Oh no, the lights went out in Sarntal! 
 Generate as much hydropower as possible by adding and removing terrain.
+Be careful to protect the villages!
 
 Generate: Mouse Left
 Remove: Mouse Right
@@ -107,7 +108,7 @@ grow_horizontal = 2
 grow_vertical = 0
 pivot_offset = Vector2(150, 23)
 mouse_filter = 0
-text = "Play!"
+text = "I'm ready!"
 label_settings = SubResource("LabelSettings_cg7ux")
 horizontal_alignment = 1
 vertical_alignment = 1

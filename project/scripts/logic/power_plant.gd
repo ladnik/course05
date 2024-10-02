@@ -2,6 +2,8 @@ extends Node2D
 
 class_name PowerPlant
 
+@onready var wheel: Sprite2D = $Wheel
+
 var particle_simulation
 var done : bool = false
 
@@ -26,6 +28,7 @@ func _process(delta: float) -> void:
 	for p in particles:
 		if $TextureRect.get_global_rect().has_point(p):
 			flow_count += 1
+			wheel.rotate(1)
 			to_remove.append(i)
 		i += 1
 	for j in to_remove.size():
