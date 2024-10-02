@@ -11,3 +11,4 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	video_feed.texture = kinect.get_texture()
+	$Overlay.position = kinect.get_postion()

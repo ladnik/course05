@@ -51,6 +51,14 @@ cv::Mat& GDKinect::get_depth_matrix() {
     return depthf;
 }
 
+Vector2 GDKinect::get_position() {
+	std::optional<HandPos> h = get_hand_pos();
+	if(!h || h.x == -1 || h.y == -1){
+		return Vector2(0, 0)
+	}
+	return Vector2(h.x, h.y)
+}
+
 Ref<Texture> GDKinect::get_texture() {
     cv::Mat dst;
     cv::cvtColor(get_depth_matrix(), dst, cv::COLOR_BGR2RGB);

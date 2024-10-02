@@ -39,6 +39,7 @@ class GDKinect : public Resource {
     ~GDKinect();
 
     Ref<Texture> get_texture();
+    Vector2 get_position();
 
     protected:
     static void _bind_methods();
