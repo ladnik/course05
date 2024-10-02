@@ -7,7 +7,7 @@ func draw_debug_collision():
 	var w = 2
 	draw_line(renderer.to_grid_pos(debug_start_pos), renderer.to_grid_pos(debug_end_pos), Color(0, 1, 0), w)
 	if debug_collided:
-		draw_line(debug_col, debug_col + debug_normal, Color(1, 0, 1), w)
+		draw_line(debug_col * 8, debug_col * 8 + debug_normal * 16, Color(1, 0, 1), w)
 
 func draw_debug_points():
 	draw_line(debug_col, debug_col + debug_normal, Color(1, 0, 1), 2)
@@ -33,6 +33,6 @@ func _unhandled_input(event):
 			debug_collided = collision[0]
 			debug_col = collision[1]
 			debug_normal = collision[2]
-			print(debug_collided)
+			print(collision)
 			debug_output = collision
 			queue_redraw()

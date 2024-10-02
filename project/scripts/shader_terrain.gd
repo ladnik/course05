@@ -99,18 +99,25 @@ func continuous_collision_local(start, end):
 
 	var A = delta_x * delta_y * (f - e)
 	var B = delta_x * (otilde_y * e + o_y * f) + delta_y * (d + f * o_x - a - e * o_x)
-	var C = otilde_y * a + otilde_y * e * o_x + o_y * d + o_y * f * o_x
+	var C = otilde_y * a + otilde_y * e * o_x + o_y * d + o_y * f * o_x - .5
+	if A != 0:
+		var determinant = B * B - 4 * A * C
+		print([A, B, C, determinant])
+		if determinant < 0:
+			return [false, Vector2(0, 0), Vector2(1, 0)]
+		var rt = pow(B * B - 4 * A * C, .5)
+		var solution_small = (-B - rt) / 2 / A
+		var solution_large = (-B + rt) / 2 / A
+		if solution_small > 0:
+			return [true, start + solution_small * delta, Vector2(1, 0)]
+		if solution_large > 0:
+			return [true, start + solution_large * delta, Vector2(1, 0)]
+		return [false, Vector2(0, 0), Vector2(1, 0)]
 
-	for t_step in range(5):
-		var t = t_step / 4.
-		var sample_pos = start + delta * t
-		print("")
-		print(sample_pos)
-		print([x_low, y_low, x_high, y_high])
-		print([Vector2(o_x, o_y), delta])
-		print(Vector2(bilinear(sample_pos), t * t * A + t * b + C))
-
-	return [false]
+	var t = -C / b
+	if t >= 0 and t <= 1:
+		return [true, start + t * delta, Vector2(1, 0)]
+	return [false, Vector2(0, 0), Vector2(1, 0)]
 
 func continuous_collision(start : Vector2, end : Vector2):
 	var delta = end - start
@@ -118,7 +125,6 @@ func continuous_collision(start : Vector2, end : Vector2):
 	var vertical_plane_distances = whole_level_distances(start.x, end.x, delta.x)
 	var all_distances = [0] + horizontal_plane_distances + vertical_plane_distances + [1]
 	all_distances.sort()
-	print(all_distances)
 
 	var local_start = start
 	for segment in range(len(all_distances) - 1):
