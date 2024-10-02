@@ -41,6 +41,7 @@ class GDKinect : public Resource {
     cv::Mat& get_rgb_matrix();
     cv::Mat& get_depth_matrix();
     std::optional<HandPos> get_hand_pos();
+    bool is_fist();
 
     Freenect::Freenect freenect;
     std::optional<std::reference_wrapper<CustomFreenectDevice>> kinect_device;

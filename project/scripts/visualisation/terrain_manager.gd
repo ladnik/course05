@@ -26,7 +26,8 @@ func _ready():
 
 func _process(_delta):
 	var pos = kinect.get_position()
-	print(pos)
+	# print(pos)
+	kinect.is_fist()
 	var mouse_pos_grid = renderer.to_grid_pos(pos)
 
 	this_mouse_clicked = false
