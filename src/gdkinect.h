@@ -18,7 +18,7 @@
 #define KINECT_WIDTH 640
 #define KINECT_HEIGHT 480
 #define SQUARE_SIZE 30
-#define SEARCH_RADIUS 15
+#define SEARCH_RADIUS 30
 
 
 namespace godot {
@@ -39,6 +39,7 @@ class GDKinect : public Resource {
     ~GDKinect();
 
     Ref<Texture> get_texture();
+    Vector2 get_position();
 
     protected:
     static void _bind_methods();
