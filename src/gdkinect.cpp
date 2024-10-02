@@ -3,6 +3,13 @@
 #include <godot_cpp/variant/utility_functions.hpp>
 #include <stdexcept>
 
+#define LOWEST_DEPTH 5000
+#define KINECT_WIDTH 640
+#define KINECT_HEIGHT 480
+#define SQUARE_SIZE 30
+#define SEARCH_RADIUS 30
+#define SCREEN_WIDTH 1920.0
+#define SCREEN_HEIGHT 1080.0
 
 using namespace godot;
 
@@ -53,10 +60,10 @@ cv::Mat& GDKinect::get_depth_matrix() {
 
 Vector2 GDKinect::get_position() {
 	std::optional<HandPos> h = get_hand_pos();
-	if(!h || h->x == -1 || h->y == -1){
+	if(!h) {
 		return Vector2(0, 0);
 	}
-	return Vector2(h->x, h->y);
+	return Vector2(SCREEN_WIDTH - h->x * (SCREEN_WIDTH / KINECT_WIDTH), h->y * (SCREEN_HEIGHT / KINECT_HEIGHT));
 }
 
 Ref<Texture> GDKinect::get_texture() {
@@ -84,6 +91,7 @@ void GDKinect::_bind_methods() {
 }
 
 std::optional<HandPos> GDKinect::get_hand_pos() {
+    get_depth_matrix();
     int avg;
     HandPos best;
     int lowest_depth{LOWEST_DEPTH};
