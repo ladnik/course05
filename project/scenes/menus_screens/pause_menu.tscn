@@ -20,6 +20,7 @@ shadow_color = Color(0, 0, 0, 1)
 shadow_offset = Vector2(4, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_jxdfa"]
+font = ExtResource("4_amlbq")
 font_size = 50
 outline_size = 3
 outline_color = Color(0, 0, 0, 1)
