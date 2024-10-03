@@ -23,9 +23,10 @@ void Simulator::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_particle_positions"), &Simulator::get_particle_positions);
 	ClassDB::bind_method(D_METHOD("get_particle_velocities"), &Simulator::get_particle_velocities);
 	ClassDB::bind_method(D_METHOD("get_particle_forces"), &Simulator::get_particle_forces);
-	ClassDB::bind_method(D_METHOD("_init", "constants", "pos_x", "dis_x", "pos_y", "dis_y"), &Simulator::_init);
+	ClassDB::bind_method(D_METHOD("_init", "constants"), &Simulator::_init);
 	ClassDB::bind_method(D_METHOD("delete_particle", "index"), &Simulator::delete_particle);
 	ClassDB::bind_method(D_METHOD("set_mesh_generator", "mesh_instance"), &Simulator::set_mesh_generator);
+    ClassDB::bind_method(D_METHOD("set_water_source", "pos_x", "dis_x", "pos_y", "dis_y", "vel_x", "vel_y", "mass_flow"), &Simulator::set_water_source);
 }
 
 Simulator::Simulator() {
@@ -46,6 +47,8 @@ Simulator::~Simulator() {
 
 // Function to update the simulation
 void Simulator::update(float delta) {
+
+    water_source_spawn(delta);
 
     // this is how you print it out UtilityFunctions::print("test");
 	if(!use_double_density){
@@ -98,8 +101,20 @@ PackedVector2Array Simulator::get_particle_forces() {
 	return particles;
 }
 
-void Simulator::_init(Dictionary constants, float pos_x, float dis_x, float pos_y, float dis_y) {
-	// initialize all the constants from the dictionary and always do a static cast
+void Simulator::_init(Dictionary constants) {
+	
+    // these should be overwritten by the set_water_source function
+    this->pos_x = 0;
+    this->dis_x = 10;
+    this->pos_y = 0;
+    this->dis_y = 10;
+    this->vel_x = 0;
+    this->vel_y = 0;
+    this->mass_flow = 0;
+    this->spawn_timer = 0.0;
+    this->spawn_interval = 0.05;
+    
+    // initialize all the constants from the dictionary and always do a static cast
 	use_double_density = static_cast<bool>(constants["USE_DOUBLE_DENSITY"]);
 	width = static_cast<int>(constants["WIDTH"]);
 	height = static_cast<int>(constants["HEIGHT"]);
@@ -116,8 +131,32 @@ void Simulator::_init(Dictionary constants, float pos_x, float dis_x, float pos_
 
 	spring_constant = static_cast<int>(constants["SPRING_CONSTANT"]);
 
-    random_spawn(pos_x, dis_x, pos_y, dis_y);
     gravity_vector = Vector2(0, gravity);
+}
+
+void Simulator::set_water_source(float pos_x, float dis_x, float pos_y, float dis_y, float vel_x, float vel_y, int mass_flow){
+    this->pos_x = pos_x;
+    this->dis_x = dis_x;
+    this->pos_y = pos_y;
+    this->dis_y = dis_y;
+    this->vel_x = vel_x;
+    this->vel_y = vel_y;
+    this->mass_flow = mass_flow;
+}
+
+void Simulator::water_source_spawn(float delta){
+    spawn_timer += delta;
+    if(current_positions.size() < number_particles && spawn_timer > spawn_interval){
+        int effective_mass_flow = Math::min(mass_flow, (int) (number_particles - current_positions.size()));
+        spawn_timer = 0.0;
+        for (int i = 0; i < effective_mass_flow; i++) {
+            current_positions.push_back(get_random_spawn_position());
+            previous_positions.push_back(current_positions[current_positions.size() - 1]);
+            velocities.push_back(Vector2(vel_x, vel_y));
+            forces.push_back(Vector2(0, 0));
+            particle_valid.push_back(true);
+        }
+    }
 }
 
 Vector2 Simulator::world_to_grid(Vector2 pos) {
@@ -138,18 +177,11 @@ void Simulator::build_grid() {
 	}
 }
 
-void Simulator::random_spawn(float pos_x, float dis_x, float pos_y, float dis_y) {
-	std::random_device rd;
-	std::mt19937 gen(rd());
-	std::uniform_real_distribution<> dis(0, 1);
-	for (int i = 0; i < number_particles; i++) {
-		Vector2 spawn_position = Vector2(dis(gen) * dis_x + pos_x, dis(gen) * dis_y + pos_y);
-		current_positions.push_back(spawn_position);
-		previous_positions.push_back(spawn_position);
-		velocities.push_back(Vector2(0, 0));
-		forces.push_back(Vector2(0, 0));
-		particle_valid.push_back(true);
-	}
+Vector2 Simulator::get_random_spawn_position(){
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<> dis(0, 1);
+    return Vector2(dis(gen) * dis_x + pos_x, dis(gen) * dis_y + pos_y);
 }
 
 // Function to delete a particle by marking it as invalid
@@ -218,7 +250,9 @@ void Simulator::check_oneway_coupling() {
             current_positions[i] = current_positions[i] + collision_object[2].operator Vector2().normalized() * 5.0;
 			velocities[i] = velocities[i] - velocities[i].dot(collision_object[2].operator Vector2().normalized()) * collision_object[2].operator Vector2().normalized();
             if (collision_checker(i)[0].operator bool() == true) {
-                current_positions[i] = previous_positions[i];
+                // spawn them at random starting position again
+                current_positions[i] = get_random_spawn_position();
+                velocities[i] = Vector2(vel_x, vel_y);
             }
         }
     }
@@ -283,7 +317,7 @@ std::vector<int> Simulator::get_all_neighbour_particles(Vector2 cell_key) {
 		for (int j = -1; j <= 1; j++) {
 			Vector2 neighbor_cell_key = cell_key + Vector2(i, j);
 			if (grid.count(neighbor_cell_key)) {
-				std::vector neighbor_cell = grid.at(neighbor_cell_key);
+				std::vector neighbor_cell = grid[neighbor_cell_key];
 				for (int k = 0; k < neighbor_cell.size(); k++) {
                     if(particle_valid[neighbor_cell[k]]){
 					    neighbors.push_back(neighbor_cell[k]);
@@ -296,9 +330,9 @@ std::vector<int> Simulator::get_all_neighbour_particles(Vector2 cell_key) {
 }
 
 
-
-// Spring stuff
-
+/*
+ Spring Stuff
+*/
 // Function to calculate interaction force between two particles
 Vector2 Simulator::interaction_force(const Vector2 &position1, const Vector2 &position2) {
     Vector2 r = position2 - position1;
@@ -359,7 +393,7 @@ void Simulator::calculate_interaction_forces() {
                 Vector2 neighbor_cell_key = cell_key + neighborsToCheck[i];
 
                 if (grid.count(neighbor_cell_key)) {
-                    std::vector<int> neighbor_cell = grid.at(neighbor_cell_key);
+                    std::vector<int> neighbor_cell = grid[neighbor_cell_key];
                     for (int i = 0; i < cell.size(); ++i) {
                         for (int j = 0; j < neighbor_cell.size(); ++j) {
                             apply_force(cell[i], neighbor_cell[j]);

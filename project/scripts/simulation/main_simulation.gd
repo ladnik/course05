@@ -9,10 +9,8 @@ var SIM : Simulator
 var Constants = load('res://scripts/simulation/simulation_constants.gd')
 var particle_mat = CanvasItemMaterial.new()
 
-
-var init_parameters = [50, 400, 50, 400]
-func set_init_data(pos_x, dis_x, pos_y, dis_y):
-	init_parameters = [pos_x, dis_x, pos_y, dis_y]
+func set_water_source(pos_x, dis_x, pos_y, dis_y, vel_x, vel_y, mass_flow):
+	SIM.set_water_source(pos_x, dis_x, pos_y, dis_y, vel_x, vel_y, mass_flow)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -37,7 +35,7 @@ func _ready() -> void:
 
 	SIM = Simulator.new()
 	SIM.set_mesh_generator(mesh_generator)
-	SIM._init(constantsDict, init_parameters[0], init_parameters[1], init_parameters[2], init_parameters[3])
+	SIM._init(constantsDict)
 
 func _process(delta: float) -> void:
 	queue_redraw()

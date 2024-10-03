@@ -21,6 +21,9 @@ var power_plants: Array
 @export var dis_x : int = 200
 @export var pos_y : int = 100
 @export var dis_y : int = 200
+@export var vel_x : int = 0
+@export var vel_y : int = 500
+@export var mass_flow : int = 5
 
 @export_group("")
 @export var path : String = "res://assets/levels/level1.lvl"
@@ -45,7 +48,7 @@ func generate_level():
 func initialize(pos_x, dis_x, pos_y, dis_y): 
 	var particle_simulation = load("res://scenes/simulation/particle_simulation.tscn").instantiate()
 	self.add_child(particle_simulation)
-	particle_simulation.set_init_data(pos_x, dis_x, pos_y, dis_y)
+	particle_simulation.set_water_source(pos_x, dis_x, pos_y, dis_y, vel_x, vel_y, mass_flow)
 
 	AudioManager.play_water_sound()
 	
