@@ -1,10 +1,23 @@
-[gd_scene load_steps=6 format=3 uid="uid://4veb8bigqevq"]
+[gd_scene load_steps=8 format=3 uid="uid://4veb8bigqevq"]
 
 [ext_resource type="Script" path="res://scripts/levels/level_manager.gd" id="1_hax0r"]
 [ext_resource type="PackedScene" uid="uid://bragutgdm43hq" path="res://scenes/visualisation/terrain_manager.tscn" id="2_7seaj"]
-[ext_resource type="Texture2D" uid="uid://nrtc4m8t7ajx" path="res://assets/assets_for_GameEng/bg_sky.png" id="2_nahkn"]
-[ext_resource type="PackedScene" uid="uid://dm55nq68nldsl" path="res://scenes/menus_screens/pause_menu.tscn" id="3_lejai"]
+[ext_resource type="PackedScene" path="res://scenes/menus_screens/pause_menu.tscn" id="3_lejai"]
+[ext_resource type="Shader" path="res://shaders/immovable_zones.gdshader" id="4_8xy8j"]
 [ext_resource type="PackedScene" uid="uid://dwu3ihwglguna" path="res://scenes/logic/power_plant.tscn" id="4_vr4jk"]
+[ext_resource type="Texture2D" uid="uid://nrtc4m8t7ajx" path="res://assets/assets_for_GameEng/bg_sky.png" id="2_nahkn"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8stdo"]
+shader = ExtResource("4_8xy8j")
+shader_parameter/border_width = 10.0
+shader_parameter/bar_distance = 50
+shader_parameter/border_color = Vector4(0.8, 0.1, 0.1, 0.5)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0cbdm"]
+shader = ExtResource("4_8xy8j")
+shader_parameter/border_width = 10.0
+shader_parameter/bar_distance = 50
+shader_parameter/border_color = Vector4(0.8, 0.1, 0.1, 0.5)
 
 [node name="Level1" type="Node2D"]
 script = ExtResource("1_hax0r")
@@ -24,6 +37,7 @@ terrain_manager = NodePath("../TerrainManager")
 z_index = 3
 
 [node name="ColorRect" type="ColorRect" parent="ImmovableZones"]
+material = SubResource("ShaderMaterial_8stdo")
 offset_left = 738.0
 offset_top = 611.0
 offset_right = 895.0
@@ -32,6 +46,7 @@ scale = Vector2(6, 5)
 color = Color(1, 0, 0, 0.392157)
 
 [node name="ColorRect2" type="ColorRect" parent="ImmovableZones"]
+material = SubResource("ShaderMaterial_0cbdm")
 offset_left = 14.0
 offset_top = 6.0
 offset_right = 131.0
@@ -43,4 +58,5 @@ color = Color(1, 0, 0, 0.392157)
 z_index = 2
 
 [node name="PowerPlant1" parent="PowerPlants" instance=ExtResource("4_vr4jk")]
-position = Vector2(1136, 727)
+position = Vector2(1799, 345)
+timeframes_to_monitor = 2
