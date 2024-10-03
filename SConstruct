@@ -60,6 +60,7 @@ projectdir = "project"
 
 match env["platform"]:
     case "linux": libusb_path = "/usr/include/libusb-1.0"
+    case "windows": libusb_path = "/usr/x86_64-w64-mingw32/include/libusb-1.0"
     case "macos": libusb_path = "/opt/homebrew/include/libusb-1.0"
 
 env.Append(CPPPATH=["src/", libusb_path, "libfreenect/include", "libfreenect/wrappers/cpp", "libfreenect/src"])
