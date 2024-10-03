@@ -1,6 +1,8 @@
 extends CanvasLayer
 
 @export var terrain_manager: Node2D
+@onready var kinect_label = $Kinect
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -12,7 +14,9 @@ func _process(delta: float) -> void:
 		get_tree().paused = not get_tree().paused
 		visible = not visible
 		terrain_manager.editor.terraforming_blocked = not terrain_manager.editor.terraforming_blocked
-		
+
+	kinect_label.visible = terrain_manager.kinect.connected()
+
 
 func resume_gui_event(event: InputEvent) -> void:
 	if (event is InputEventMouseButton && event.pressed && event.button_index == 1):
@@ -36,3 +40,13 @@ func _on_replay_gui_input(event: InputEvent) -> void:
 	if (event is InputEventMouseButton && event.pressed && event.button_index == 1):
 		get_tree().paused = false
 		TransitionScene.transition_effect_for_reload()
+
+
+func _on_kinect_gui_input(event: InputEvent) -> void:
+	if (event is InputEventMouseButton && event.pressed && event.button_index == 1):
+		terrain_manager.kinect_enabled = not terrain_manager.kinect_enabled
+		if terrain_manager.kinect_enabled:
+			$Kinect.self_modulate = Color.WHITE
+		else:
+			$Kinect.self_modulate = Color.DIM_GRAY
+		

@@ -58,10 +58,13 @@ env = SConscript("godot-cpp/SConstruct", {"env": env, "customs": customs})
 libnames = ["liba", "libb", "libgdkinect"] # add additional libraries here
 projectdir = "project"
 
-env.Append(CPPPATH=["src/", "/usr/include/libusb-1.0", "/usr/include/opencv4", "/usr/local/include/opencv4", "/usr/local/opencv4", "libfreenect/include", "libfreenect/wrappers/cpp", "libfreenect/src", "opencv/include"])
+match env["platform"]:
+    case "linux": libusb_path = "/usr/include/libusb-1.0"
+    case "macos": libusb_path = "/opt/homebrew/include/libusb-1.0"
+
+env.Append(CPPPATH=["src/", libusb_path, "libfreenect/include", "libfreenect/wrappers/cpp", "libfreenect/src"])
 env.Append(CPPFLAGS=["-fexceptions"])
-opencv_libraries = ["opencv_core", "opencv_imgproc"]
-env.Append(LIBS=["freenect"] + opencv_libraries)
+env.Append(LIBS=["freenect"])
 env.Append(LIBPATH=["project/bin"])
 sources = Glob("src/*.cpp")
 
