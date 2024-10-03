@@ -10,7 +10,8 @@
 [node name="Level3" type="Node2D"]
 script = ExtResource("1_rxruw")
 
-[node name="KinectMenu" parent="." instance=ExtResource("2_ap3iv")]
+[node name="KinectMenu" parent="." node_paths=PackedStringArray("terrain_manager") instance=ExtResource("2_ap3iv")]
+terrain_manager = NodePath("../TerrainManager")
 
 [node name="PowerPlant" parent="." instance=ExtResource("2_ictpf")]
 position = Vector2(418, 370)
@@ -28,3 +29,21 @@ flow_threshold = 10
 [node name="Pause_Scene" parent="." node_paths=PackedStringArray("terrain_manager") instance=ExtResource("4_85y4n")]
 visible = false
 terrain_manager = NodePath("../TerrainManager")
+
+[node name="ImmovableZones" type="Node2D" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="ImmovableZones"]
+offset_left = 13.0
+offset_top = 23.0
+offset_right = 331.0
+offset_bottom = 41.0
+scale = Vector2(6, 5)
+color = Color(1, 0, 0, 0.392157)
+
+[node name="ColorRect2" type="ColorRect" parent="ImmovableZones"]
+offset_left = 4.0
+offset_top = 804.0
+offset_right = 325.0
+offset_bottom = 871.0
+scale = Vector2(6, 4)
+color = Color(1, 0, 0, 0.392157)
