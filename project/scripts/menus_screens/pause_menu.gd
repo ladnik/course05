@@ -16,6 +16,10 @@ func _process(delta: float) -> void:
 		terrain_manager.editor.terraforming_blocked = not terrain_manager.editor.terraforming_blocked
 
 	kinect_label.visible = terrain_manager.kinect.connected()
+	if terrain_manager.kinect_enabled:
+		kinect_label.text = "Disable Kinect"
+	else:
+		kinect_label.text = "Enable Kinect"
 
 
 func resume_gui_event(event: InputEvent) -> void:
@@ -47,8 +51,3 @@ func _on_replay_gui_input(event: InputEvent) -> void:
 func _on_kinect_gui_input(event: InputEvent) -> void:
 	if (event is InputEventMouseButton && event.pressed && event.button_index == 1):
 		terrain_manager.kinect_enabled = not terrain_manager.kinect_enabled
-		if terrain_manager.kinect_enabled:
-			$Kinect.self_modulate = Color.WHITE
-		else:
-			$Kinect.self_modulate = Color.DIM_GRAY
-		
