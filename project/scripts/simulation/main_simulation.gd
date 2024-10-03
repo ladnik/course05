@@ -68,10 +68,10 @@ func _draw() -> void:
 		var particle_positions = SIM.get_particle_positions()
 		var velocities = []
 		if Constants.DISPLAY_VELOCITY:
-			velocities = SIM.get_particle_velocities()
+			velocities = SIM.get_velocities()
 		var forces = []
 		if Constants.DISPLAY_FORCE:
-			forces = SIM.get_particle_forces()
+			forces = SIM.get_forces()
 		for p in range(particle_positions.size()):
 			var pos = particle_positions[p]
 			draw_circle(pos , Constants.INTERACTION_RADIUS , pCol, false)
