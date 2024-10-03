@@ -21,6 +21,8 @@ shader_parameter/border_color = Vector4(0.95, 0.95, 0.95, 0.6)
 
 [node name="Level1" type="Node2D"]
 script = ExtResource("1_hax0r")
+number_particles = 80
+do_load_level = true
 
 [node name="TextureRect" type="TextureRect" parent="."]
 offset_right = 1920.0
@@ -38,19 +40,19 @@ z_index = 3
 
 [node name="ColorRect" type="ColorRect" parent="ImmovableZones"]
 material = SubResource("ShaderMaterial_8stdo")
-offset_left = 738.0
-offset_top = 611.0
-offset_right = 895.0
-offset_bottom = 659.0
+offset_left = 1375.0
+offset_top = 653.0
+offset_right = 1425.0
+offset_bottom = 701.0
 scale = Vector2(6, 5)
 color = Color(1, 0, 0, 0.392157)
 
 [node name="ColorRect2" type="ColorRect" parent="ImmovableZones"]
 material = SubResource("ShaderMaterial_0cbdm")
-offset_left = 14.0
-offset_top = 6.0
-offset_right = 131.0
-offset_bottom = 158.0
+offset_left = 45.0
+offset_top = 84.0
+offset_right = 99.0
+offset_bottom = 163.0
 scale = Vector2(6, 4)
 color = Color(1, 0, 0, 0.392157)
 
@@ -58,6 +60,7 @@ color = Color(1, 0, 0, 0.392157)
 z_index = 2
 
 [node name="PowerPlant1" parent="PowerPlants" instance=ExtResource("4_vr4jk")]
-position = Vector2(1550, 724)
+position = Vector2(1522, 781)
 scale = Vector2(0.479998, 0.479998)
-timeframes_to_monitor = 2
+timeframes_to_monitor = 10
+flow_threshold = 1
