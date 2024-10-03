@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://3c7vv0hbhwh1"]
+[gd_scene load_steps=5 format=3 uid="uid://c76hcm1syc302"]
 
 [ext_resource type="Script" path="res://scripts/levels/level_manager.gd" id="1_umqgx"]
 [ext_resource type="Texture2D" uid="uid://nrtc4m8t7ajx" path="res://assets/assets_for_GameEng/bg_sky.png" id="2_rv3uf"]
