@@ -49,14 +49,6 @@ env = SConscript("godot-cpp/SConstruct", {"env": env, "customs": customs})
 env.Append(CPPPATH=["src/"])
 sources = Glob("src/*.cpp")
 
-import platform
-
-if platform.system() == "Windows":
-    env.Append(CCFLAGS=["/openmp"])
-else:
-    env.Append(CCFLAGS=["-fopenmp"])
-    env.Append(LINKFLAGS=["-fopenmp"])
-
 targetPath = "{}/bin/".format(projectdir)
 
 for libname in libnames:
