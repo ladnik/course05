@@ -124,7 +124,7 @@ z_index = 2
 [node name="PowerPlant1" parent="PowerPlants" instance=ExtResource("6_yi25n")]
 position = Vector2(1060, 878)
 scale = Vector2(0.4, 0.4)
-timeframes_to_monitor = 15
+timeframes_to_monitor = 10
 
 [node name="PowerPlant2" parent="PowerPlants" instance=ExtResource("6_yi25n")]
 position = Vector2(1346, 879)

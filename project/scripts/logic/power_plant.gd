@@ -56,7 +56,7 @@ func _on_flow_timer_timeout() -> void:
 	flow_counts.append(flow_count)
 	if flow_count > 0:
 		$ProgressBar.visible = true
-	if progress_bar.value != 100:
+	if !done:
 		if flow_count >= flow_threshold:
 			progress_bar.value += progress_bar.step
 		else:
