@@ -45,6 +45,7 @@ func generate_level():
 func initialize(pos_x, dis_x, pos_y, dis_y): 
 	var particle_simulation = ParticleSimulation.new(pos_x, dis_x, pos_y, dis_y)
 	self.add_child(particle_simulation)
+	AudioManager.play_gong_sound()
 	AudioManager.play_water_sound()
 	
 	#Initialize power plants
@@ -124,6 +125,7 @@ func load_grid() -> Array:
 # Called when the node is removed from the scene tree
 func _exit_tree() -> void:
 	AudioManager.stop_water_sound()  # Stop water music when exiting the level
+	AudioManager.stop_gong_sound()
 	
 
 func _input(event: InputEvent) -> void:

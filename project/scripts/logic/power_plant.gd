@@ -27,6 +27,7 @@ func _process(delta: float) -> void:
 	var i = 0
 	for p in particles:
 		if $TextureRect.get_global_rect().has_point(p):
+			#AudioManager.start_electricity()
 			flow_count += 1
 			wheel.rotate(1)
 			to_remove.append(i)
