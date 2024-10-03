@@ -3,6 +3,7 @@ extends Node2D
 class_name PowerPlant
 
 @onready var wheel: Sprite2D = $Wheel
+@onready var progress_bar = $ProgressBar
 
 var particle_simulation
 var done : bool = false
@@ -13,6 +14,9 @@ var flow_counts = []
 @export var flow_threshold = 15
 
 signal enough_water_flow
+
+func _ready() -> void:
+	progress_bar.step = progress_bar.max_value / timeframes_to_monitor
 
 func set_particle_simulation(_particle_simulation : ParticleSimulation):
 	particle_simulation = _particle_simulation.SIM
@@ -44,6 +48,11 @@ func is_flow_sufficient() -> bool:
 
 func _on_flow_timer_timeout() -> void:
 	flow_counts.append(flow_count)
+	if progress_bar.value != 100:
+		if flow_count >= flow_threshold:
+			progress_bar.value += progress_bar.step
+		else:
+			progress_bar.value -= progress_bar.step
 	flow_count = 0  
 
 	if flow_counts.size() > timeframes_to_monitor:
@@ -53,5 +62,3 @@ func _on_flow_timer_timeout() -> void:
 		if is_flow_sufficient():
 			done = true
 			emit_signal("enough_water_flow")
-		else:
-			done = false
