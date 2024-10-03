@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="course05"
-run/main_scene="res://scenes/menus_screens/menu.tscn"
+run/main_scene="res://scenes/menus_screens/start_menu.tscn"
 config/features=PackedStringArray("4.3")
 config/icon="res://icon.svg"
 

@@ -1,8 +1,17 @@
-[gd_scene format=3 uid="uid://c6h6ysuv5oa8l"]
+[gd_scene load_steps=3 format=3 uid="uid://c6h6ysuv5oa8l"]
+
+[ext_resource type="Shader" path="res://shaders/immovable_zones.gdshader" id="1_fj2l0"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fg24q"]
+shader = ExtResource("1_fj2l0")
+shader_parameter/border_width = 10.0
+shader_parameter/bar_distance = 80
+shader_parameter/border_color = Vector4(0.8, 0.1, 0.1, 0.5)
 
 [node name="ImmovableZones" type="Node2D"]
 
 [node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_fg24q")
 offset_left = 154.0
 offset_top = 222.0
 offset_right = 194.0

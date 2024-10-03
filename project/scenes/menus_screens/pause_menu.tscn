@@ -1,15 +1,17 @@
-[gd_scene load_steps=11 format=3 uid="uid://dm55nq68nldsl"]
+[gd_scene load_steps=12 format=3 uid="uid://dm55nq68nldsl"]
 
 [ext_resource type="Script" path="res://scripts/menus_screens/pause_menu.gd" id="1_k46i6"]
 [ext_resource type="Shader" path="res://shaders/pause_menu.gdshader" id="2_f44fp"]
 [ext_resource type="Script" path="res://scripts/menus_screens/menu_item.gd" id="2_otmi0"]
 [ext_resource type="Texture2D" uid="uid://b2nanxuajo0mq" path="res://assets/background_dummy.png" id="3_q075l"]
+[ext_resource type="FontFile" uid="uid://djjo38unaf1h" path="res://assets/assets_for_GameEng/Futura Light.otf" id="4_amlbq"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4xq72"]
 shader = ExtResource("2_f44fp")
 shader_parameter/lod = 4.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_qmjsm"]
+font = ExtResource("4_amlbq")
 font_size = 80
 outline_size = 8
 outline_color = Color(0, 0, 0, 1)
@@ -18,6 +20,7 @@ shadow_color = Color(0, 0, 0, 1)
 shadow_offset = Vector2(4, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_5ib5w"]
+font = ExtResource("4_amlbq")
 font_size = 50
 outline_size = 3
 outline_color = Color(0, 0, 0, 1)
@@ -26,6 +29,7 @@ shadow_color = Color(0, 0, 0, 1)
 shadow_offset = Vector2(4, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_vfd8q"]
+font = ExtResource("4_amlbq")
 font_size = 50
 outline_size = 3
 outline_color = Color(0, 0, 0, 1)
@@ -34,6 +38,7 @@ shadow_color = Color(0, 0, 0, 1)
 shadow_offset = Vector2(4, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_xfkeo"]
+font = ExtResource("4_amlbq")
 font_size = 50
 outline_size = 3
 outline_color = Color(0, 0, 0, 1)
@@ -42,6 +47,7 @@ shadow_color = Color(0, 0, 0, 1)
 shadow_offset = Vector2(4, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_rpwns"]
+font = ExtResource("4_amlbq")
 font_size = 50
 outline_size = 3
 outline_color = Color(0, 0, 0, 1)
