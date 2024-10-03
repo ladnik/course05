@@ -26,9 +26,12 @@ var palette = [
 	Color8(253, 166, 165, 255),
 	Color8(227, 137, 143, 255),
 	Color8(224, 129, 145, 255),
+	Color8(207,123,132,255),
+	Color8(190,110,125,255),
+	Color8(162,95,111,255),
 	Color8(145, 86, 107, 255),
 	Color8(125, 81, 104, 255),
-	Color8(103, 75, 98, 255)
+	Color8(103, 75, 98, 255),
 ]
 
 # Called when the node enters the scene tree for the first time.
@@ -48,17 +51,26 @@ func _ready() -> void:
 	var cell_height = (1080.0 / noise_cells_height)
 
 	# first and last percents are excluded
-	var rel_offset = 0.125
+	var rel_offset = 0.1
 
 	voronoi_points.resize(noise_cells_width * noise_cells_height)
 	voronoi_center_colors.resize(noise_cells_width * noise_cells_height)
 
 	for y in range(noise_cells_height):
+
 		for x in range(noise_cells_width):
 			var coords = Vector2(x * cell_width, y * cell_height)
 
 			voronoi_points[y * noise_cells_width + x] = coords + Vector2(rng.randf_range(cell_width * rel_offset, cell_width * (1.0 - rel_offset)), rng.randf_range(cell_height * rel_offset, (1.0 - rel_offset) * cell_height))
-			voronoi_center_colors[y * noise_cells_width + x] = Vector2(rng.randf_range(0.0, 1.0), 0.0)
+			
+			var lambda = 0.9
+			
+			var height_component = y * 1.0 / noise_cells_height
+			var random_component = rng.randf_range(0.0, 1.0)
+			var final_color = lambda * height_component + (1.0 - lambda) * random_component
+			
+
+			voronoi_center_colors[y * noise_cells_width + x] = Vector2(final_color, 0.0)
 
 
 	material.set_shader_parameter("voronoi_centers", voronoi_points)
