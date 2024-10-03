@@ -26,7 +26,7 @@ void Simulator::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("_init", "constants"), &Simulator::_init);
 	ClassDB::bind_method(D_METHOD("delete_particles", "indices"), &Simulator::delete_particles);
 	ClassDB::bind_method(D_METHOD("set_mesh_generator", "mesh_instance"), &Simulator::set_mesh_generator);
-    ClassDB::bind_method(D_METHOD("set_water_source", "pos_x", "dis_x", "pos_y", "dis_y", "vel_x", "vel_y", "mass_flow"), &Simulator::set_water_source);
+    ClassDB::bind_method(D_METHOD("set_water_source", "pos_x", "dis_x", "pos_y", "dis_y", "vel_x", "vel_y", "mass_flow", "number_particles"), &Simulator::set_water_source);
 }
 
 Simulator::Simulator() {
@@ -113,12 +113,12 @@ void Simulator::_init(Dictionary constants) {
     this->mass_flow = 0;
     this->spawn_timer = 0.0;
     this->spawn_interval = 0.05;
+    this->number_particles = 100;
     
     // initialize all the constants from the dictionary and always do a static cast
 	use_double_density = static_cast<bool>(constants["USE_DOUBLE_DENSITY"]);
 	width = static_cast<int>(constants["WIDTH"]);
 	height = static_cast<int>(constants["HEIGHT"]);
-	number_particles = static_cast<int>(constants["NUMBER_PARTICLES"]);
 	gravity = static_cast<int>(constants["GRAVITY"]);
 	interaction_radius = static_cast<int>(constants["INTERACTION_RADIUS"]);
 	grid_size = static_cast<int>(constants["GRID_SIZE"]);
@@ -134,7 +134,7 @@ void Simulator::_init(Dictionary constants) {
     gravity_vector = Vector2(0, gravity);
 }
 
-void Simulator::set_water_source(float pos_x, float dis_x, float pos_y, float dis_y, float vel_x, float vel_y, int mass_flow){
+void Simulator::set_water_source(float pos_x, float dis_x, float pos_y, float dis_y, float vel_x, float vel_y, int mass_flow, int number_particles){
     this->pos_x = pos_x;
     this->dis_x = dis_x;
     this->pos_y = pos_y;
@@ -142,6 +142,7 @@ void Simulator::set_water_source(float pos_x, float dis_x, float pos_y, float di
     this->vel_x = vel_x;
     this->vel_y = vel_y;
     this->mass_flow = mass_flow;
+    this->number_particles = number_particles;
 }
 
 void Simulator::water_source_spawn(float delta){

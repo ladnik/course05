@@ -9,8 +9,8 @@ var SIM : Simulator
 var Constants = load('res://scripts/simulation/simulation_constants.gd')
 var particle_mat = CanvasItemMaterial.new()
 
-func set_water_source(pos_x, dis_x, pos_y, dis_y, vel_x, vel_y, mass_flow):
-	SIM.set_water_source(pos_x, dis_x, pos_y, dis_y, vel_x, vel_y, mass_flow)
+func set_water_source(pos_x, dis_x, pos_y, dis_y, vel_x, vel_y, mass_flow, number_particles):
+	SIM.set_water_source(pos_x, dis_x, pos_y, dis_y, vel_x, vel_y, mass_flow, number_particles)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -21,7 +21,6 @@ func _ready() -> void:
 		"DISPLAY_FORCE": Constants.DISPLAY_FORCE,
 		"WIDTH": Constants.WIDTH,
 		"HEIGHT": Constants.HEIGHT,
-		"NUMBER_PARTICLES": Constants.NUMBER_PARTICLES,
 		"GRAVITY": Constants.GRAVITY,
 		"INTERACTION_RADIUS": Constants.INTERACTION_RADIUS,
 		"SPRING_CONSTANT": Constants.SPRING_CONSTANT,
