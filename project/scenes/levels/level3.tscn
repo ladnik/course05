@@ -6,15 +6,14 @@
 [ext_resource type="PackedScene" uid="uid://dm55nq68nldsl" path="res://scenes/menus_screens/pause_menu.tscn" id="4_rfw5u"]
 [ext_resource type="PackedScene" uid="uid://dwu3ihwglguna" path="res://scenes/logic/power_plant.tscn" id="7_3ouwq"]
 
-[node name="Level998" type="Node2D"]
+[node name="Level3" type="Node2D"]
 script = ExtResource("1_y62d7")
 seed = 1234
 pos_x = 1190
 pos_y = 850
 mass_flow = 6
 number_particles = 250
-path = "res://assets/levels/level998.lvl"
-do_load_level = true
+path = "res://assets/levels/level3.lvl"
 
 [node name="TextureRect" type="TextureRect" parent="."]
 offset_right = 1920.0
