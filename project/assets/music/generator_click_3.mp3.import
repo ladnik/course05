@@ -2,7 +2,11 @@
 
 importer="mp3"
 type="AudioStreamMP3"
+<<<<<<< HEAD
 uid="uid://c6beq6wgk6m0"
+=======
+uid="uid://bmruj6esoe3ak"
+>>>>>>> feat/music2
 path="res://.godot/imported/generator_click_3.mp3-973d73888b0cc3c49f948c677b0f96ea.mp3str"
 
 [deps]
