@@ -1,10 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://buv8uqvowamxd"]
+[gd_scene load_steps=10 format=3 uid="uid://buv8uqvowamxd"]
 
 [ext_resource type="Script" path="res://scripts/levels/level_manager.gd" id="1_ve6wh"]
 [ext_resource type="PackedScene" uid="uid://dwu3ihwglguna" path="res://scenes/logic/power_plant.tscn" id="2_ictpf"]
 [ext_resource type="Texture2D" uid="uid://nrtc4m8t7ajx" path="res://assets/assets_for_GameEng/bg_sky.png" id="2_k45i8"]
 [ext_resource type="PackedScene" uid="uid://bragutgdm43hq" path="res://scenes/visualisation/terrain_manager.tscn" id="3_2mdqc"]
-[ext_resource type="PackedScene" path="res://scenes/menus_screens/pause_menu.tscn" id="4_85y4n"]
+[ext_resource type="PackedScene" uid="uid://dm55nq68nldsl" path="res://scenes/menus_screens/pause_menu.tscn" id="4_85y4n"]
 [ext_resource type="Shader" path="res://shaders/immovable_zones.gdshader" id="4_iuump"]
 [ext_resource type="PackedScene" uid="uid://brhqwc6q0a0qm" path="res://scenes/logic/village.tscn" id="4_y5vkv"]
 
@@ -12,13 +12,13 @@
 shader = ExtResource("4_iuump")
 shader_parameter/border_width = 10.0
 shader_parameter/bar_distance = 50
-shader_parameter/border_color = Vector4(0.8, 0.1, 0.1, 0.5)
+shader_parameter/border_color = Vector4(0.95, 0.95, 0.95, 0.6)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_q0nt3"]
 shader = ExtResource("4_iuump")
 shader_parameter/border_width = 10.0
 shader_parameter/bar_distance = 50
-shader_parameter/border_color = Vector4(0.8, 0.1, 0.1, 0.5)
+shader_parameter/border_color = Vector4(0.95, 0.95, 0.95, 0.6)
 
 [node name="Level3" type="Node2D"]
 script = ExtResource("1_ve6wh")

@@ -4,7 +4,7 @@ varying vec2 world_pos;
 
 uniform float border_width = 10.;
 uniform int bar_distance = 50;
-uniform vec4 border_color = vec4(.8, .1, .1, .5);
+uniform vec4 border_color = vec4(.95, .95, .95, .6);
 
 void vertex() {
 	VERTEX = (MODEL_MATRIX * vec4(VERTEX, 0.0, 1.0)).xy;
