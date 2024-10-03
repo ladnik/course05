@@ -20,7 +20,7 @@ class Simulator : public Node2D {
 		PackedVector2Array get_particle_velocities();
 		PackedVector2Array get_particle_forces();
 		void _init(Dictionary constants);
-		void delete_particle(int index);
+		void delete_particles(PackedInt32Array indices);
 		void set_mesh_generator(MeshInstance2D *mesh_instance) { mesh_generator = mesh_instance; }
 		void set_water_source(float pos_x, float dis_x, float pos_y, float dis_y, float vel_x, float vel_y, int mass_flow);
 

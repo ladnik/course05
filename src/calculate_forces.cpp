@@ -24,7 +24,7 @@ void Simulator::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_particle_velocities"), &Simulator::get_particle_velocities);
 	ClassDB::bind_method(D_METHOD("get_particle_forces"), &Simulator::get_particle_forces);
 	ClassDB::bind_method(D_METHOD("_init", "constants"), &Simulator::_init);
-	ClassDB::bind_method(D_METHOD("delete_particle", "index"), &Simulator::delete_particle);
+	ClassDB::bind_method(D_METHOD("delete_particles", "indices"), &Simulator::delete_particles);
 	ClassDB::bind_method(D_METHOD("set_mesh_generator", "mesh_instance"), &Simulator::set_mesh_generator);
     ClassDB::bind_method(D_METHOD("set_water_source", "pos_x", "dis_x", "pos_y", "dis_y", "vel_x", "vel_y", "mass_flow"), &Simulator::set_water_source);
 }
@@ -185,17 +185,24 @@ Vector2 Simulator::get_random_spawn_position(){
 }
 
 // Function to delete a particle by marking it as invalid
-void Simulator::delete_particle(int index) {
+void Simulator::delete_particles(PackedInt32Array indices) {
     int valid_index = 0;
+    indices.sort();
+    int deletion_index = 0;
     for (int i = 0; i < current_positions.size(); ++i) {
+        if (deletion_index == indices.size()) {
+            return;
+        }
         if (particle_valid[i]) {
-            if (valid_index == index) {
+            if (valid_index == indices[deletion_index]) {
                 particle_valid[i] = false;
-                return;
+                deletion_index++;
             }
             valid_index++;
         }
     }
+    // Map indices in the array returned by get_particle_positions to the indices in the current_positions array and set the corresponding entry in particle_valid to false
+    
 }
 
 void Simulator::integration_step(float delta) {

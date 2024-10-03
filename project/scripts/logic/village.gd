@@ -35,8 +35,7 @@ func _process(delta: float) -> void:
 			show_hit_effect()
 			to_remove.append(i)
 		i += 1
-	for j in to_remove.size():
-		particle_simulation.delete_particle(to_remove[j])
+	particle_simulation.delete_particles(to_remove)
 
 
 func _on_flow_timer_timeout() -> void:
