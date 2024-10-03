@@ -31,10 +31,12 @@ func _process(delta: float) -> void:
 	var i = 0
 	for p in particles:
 		if $TextureRect.get_global_rect().has_point(p):
+			AudioManager.start_electricity()
 			flow_count += 1
 			wheel.rotate(0.1)
 			to_remove.append(i)
 		i += 1
+		AudioManager.stop_electricity()
 	particle_simulation.delete_particles(to_remove)
 
 

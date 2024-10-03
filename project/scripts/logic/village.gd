@@ -34,10 +34,12 @@ func _process(delta: float) -> void:
 	var i = 0
 	for p in particles:
 		if rect.has_point(p):
+			AudioManager.start_village()
 			flow_count += 1
 			show_hit_effect()
 			to_remove.append(i)
 		i += 1
+		AudioManager.stop_village()
 	particle_simulation.delete_particles(to_remove)
 
 

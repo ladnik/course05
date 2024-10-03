@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://4veb8bigqevq"]
+[gd_scene load_steps=9 format=3 uid="uid://b01cbmum8wacl"]
 
 [ext_resource type="Script" path="res://scripts/levels/level_manager.gd" id="1_hax0r"]
 [ext_resource type="PackedScene" uid="uid://bragutgdm43hq" path="res://scenes/visualisation/terrain_manager.tscn" id="2_7seaj"]
@@ -62,5 +62,6 @@ color = Color(1, 0, 0, 0.392157)
 z_index = 2
 
 [node name="PowerPlant1" parent="PowerPlants" instance=ExtResource("4_vr4jk")]
-position = Vector2(1799, 345)
+position = Vector2(1550, 724)
+scale = Vector2(0.479998, 0.479998)
 timeframes_to_monitor = 2
