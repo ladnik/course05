@@ -26,16 +26,10 @@ texture = ExtResource("2_n1k7e")
 visible = false
 terrain_manager = NodePath("../TerrainManager")
 
-[node name="ImmovableZones" type="Node2D" parent="."]
-z_index = 3
-
-[node name="Villages" type="Node2D" parent="."]
-z_index = 2
-
 [node name="PowerPlants" type="Node2D" parent="."]
 z_index = 2
 
 [node name="PowerPlant1" parent="PowerPlants" instance=ExtResource("7_3ouwq")]
 position = Vector2(1290, 608)
-scale = Vector2(0.2, 0.2)
+scale = Vector2(0.4, 0.4)
 timeframes_to_monitor = 5

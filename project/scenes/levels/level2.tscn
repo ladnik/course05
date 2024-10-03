@@ -58,11 +58,12 @@ z_index = 2
 
 [node name="Village1" parent="Villages" instance=ExtResource("6_q24x4")]
 position = Vector2(980, 513)
+scale = Vector2(0.4, 0.4)
 
 [node name="PowerPlants" type="Node2D" parent="."]
 z_index = 2
 
 [node name="PowerPlant1" parent="PowerPlants" instance=ExtResource("4_a3obw")]
 position = Vector2(1356, 795)
-scale = Vector2(0.2, 0.2)
+scale = Vector2(0.4, 0.4)
 timeframes_to_monitor = 5
