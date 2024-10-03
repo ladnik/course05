@@ -6,7 +6,6 @@ godot-cpp.diff
 .godot/
 .DS_Store
 cache/
-project/bin/*.so
 src/*.os
 src/*.o
 .sconsign.dblite
@@ -25,8 +24,6 @@ src/opencv-4.x/*
 src/opencv_contrib-4.x/*
 src/*.os
 src/*.o
-project/bin/*.so
-project/bin/*.dll
 project/build/*
 project/cache/*
 

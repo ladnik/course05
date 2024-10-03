@@ -238,9 +238,9 @@ void Simulator::bounce_from_border() {
             current_positions[i].x = width - particle_radius;
             velocities[i].x *= -0.5;
         }
-        if (current_positions[i].y + particle_radius > height) {
-            current_positions[i].y = height - particle_radius;
-            velocities[i].y *= -0.5;
+        if (current_positions[i].y + particle_radius +25 > height) {
+            current_positions[i] = get_random_spawn_position();
+            velocities[i] = Vector2(vel_x, vel_y);
         }
     }
 }
