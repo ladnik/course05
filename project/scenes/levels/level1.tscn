@@ -62,5 +62,5 @@ z_index = 2
 [node name="PowerPlant1" parent="PowerPlants" instance=ExtResource("4_vr4jk")]
 position = Vector2(1522, 781)
 scale = Vector2(0.479998, 0.479998)
-timeframes_to_monitor = 10
-flow_threshold = 1
+timeframes_to_monitor = 8
+flow_threshold = 2
