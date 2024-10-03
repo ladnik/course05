@@ -17,6 +17,7 @@ func set_init_data(pos_x, dis_x, pos_y, dis_y):
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	var constantsDict = {
+		"USE_DOUBLE_DENSITY": Constants.USE_DOUBLE_DENSITY,
 		"DEBUG": Constants.DEBUG,
 		"DISPLAY_VELOCITY": Constants.DISPLAY_VELOCITY,
 		"DISPLAY_FORCE": Constants.DISPLAY_FORCE,
