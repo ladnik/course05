@@ -49,6 +49,7 @@ func generate_level():
 func initialize(): 
 	var particle_simulation = load("res://scenes/simulation/particle_simulation.tscn").instantiate()
 	self.add_child(particle_simulation)
+	AudioManager.play_gong_sound()
 	particle_simulation.set_water_source(pos_x, dis_x, pos_y, dis_y, vel_x, vel_y, mass_flow, number_particles)
 
 	AudioManager.play_water_sound()
@@ -130,6 +131,7 @@ func load_grid() -> Array:
 # Called when the node is removed from the scene tree
 func _exit_tree() -> void:
 	AudioManager.stop_water_sound()  # Stop water music when exiting the level
+	AudioManager.stop_gong_sound()
 	
 
 func _input(event: InputEvent) -> void:
