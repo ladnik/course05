@@ -21,12 +21,13 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if terrain_manager.kinect_enabled:
 		visible = true
+		$Overlay.position = terrain_manager.kinect.get_position()
+		#Input.warp_mouse(terrain_manager.kinect.get_position())
 	else:
 		visible = false
+
 	draw_time = drawButton.getHoverTime()
 	remove_time = removeButton.getHoverTime()
-	
-	
 	
 	if draw_time > THRESHOLD:
 		match terrain_manager.kinect_mode:
