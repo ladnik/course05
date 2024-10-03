@@ -7,7 +7,7 @@ extends CanvasLayer
 
 var kinectEnabled: bool = false
 
-const THRESHOLD: float = 0.5
+const THRESHOLD: float = 0.2
 
 var draw_time: float
 var remove_time: float
@@ -15,7 +15,9 @@ var remove_time: float
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	visible = false
-
+	drawButton.terrain_manager = terrain_manager
+	removeButton.terrain_manager = terrain_manager
+	drawButton.enable()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

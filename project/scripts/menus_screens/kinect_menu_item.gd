@@ -1,6 +1,6 @@
 extends Label
 
-
+var terrain_manager
 var kinectEnabled: bool = false
 
 var is_hovering: bool = false
@@ -34,7 +34,7 @@ func disable() -> void:
 	hover_time = 0
 
 func _process(delta: float) -> void:
-	var position = Vector2(0, 0) # position = kinect.getPosition()
+	var position = terrain_manager.kinect.get_position()
 	if is_hovering or detectOverlap(position):
 		hover_time += delta
 	else:
