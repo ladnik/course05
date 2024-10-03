@@ -41,7 +41,7 @@ func _process(delta: float) -> void:
 				drawButton.enable()
 				terrain_manager.kinect_mode = terrain_manager.KinectMode.DRAW
 	if remove_time > THRESHOLD:
-		match terrain_manager.current_mode:
+		match terrain_manager.kinect_mode:
 			terrain_manager.KinectMode.DRAW:
 				drawButton.disable()
 				removeButton.enable()

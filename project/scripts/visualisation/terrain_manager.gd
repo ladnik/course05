@@ -12,7 +12,7 @@ var this_mouse_clicked = false
 
 var kinect_enabled: bool = false
 enum KinectMode {DRAW, REMOVE, NONE}
-var kinect_mode: KinectMode = KinectMode.NONE
+var kinect_mode: KinectMode = KinectMode.DRAW
 
 var only_marching_squares_after_drawn = false
 
@@ -24,11 +24,12 @@ func generate_terrain(seed, type, octaves, frequency, immovable_rects: Array):
 
 func _ready():
 	kinect = GDKinect.new()
+	kinect_enabled = kinect.connected()
 
 func _process(_delta):
 	var mouse_pos = kinect.get_position() if kinect_enabled else get_global_mouse_position()
 	var mouse_pos_grid = renderer.to_grid_pos(mouse_pos)
-	kinect.is_fist()
+	# kinect.is_fist()
 	this_mouse_clicked = false
 
 	# place new terrain
@@ -58,7 +59,7 @@ func _process(_delta):
 	last_mouse_clicked = this_mouse_clicked
 
 func input_draw_mode():
-	(kinect_enabled && kinect_mode == KinectMode.DRAW && false) || (!kinect_enabled && Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT))
+	return (kinect_enabled && kinect_mode == KinectMode.DRAW && kinect.is_fist()) || (!kinect_enabled && Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT))
 
 func input_remove_mode():
-	(kinect_enabled && kinect_mode == KinectMode.REMOVE && false) || (!kinect_enabled && Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT))
+	return (kinect_enabled && kinect_mode == KinectMode.REMOVE && kinect.is_fist()) || (!kinect_enabled && Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT))

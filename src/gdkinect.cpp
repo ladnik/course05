@@ -8,7 +8,7 @@
 #define KINECT_WIDTH 640
 #define KINECT_HEIGHT 480
 #define SQUARE_SIZE 30
-#define SEARCH_RADIUS 30
+#define SEARCH_RADIUS 400
 #define SCREEN_WIDTH 1920.0
 #define SCREEN_HEIGHT 1080.0
 #define HAND_DEPTH_CLOSE 20
@@ -206,6 +206,7 @@ bool GDKinect::is_fist(){
 	UtilityFunctions::print(box_left);
 	UtilityFunctions::print(box_right);
 	UtilityFunctions::print(area);
-	return true;
+	if(area < 4000) return true;
+	return false;
 }
 
