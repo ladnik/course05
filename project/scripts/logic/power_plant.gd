@@ -13,9 +13,14 @@ var flow_counts = []
 @export var timeframes_to_monitor = 5
 @export var flow_threshold = 15
 
+var sb = StyleBoxFlat.new()
+
 signal enough_water_flow
 
 func _ready() -> void:
+	$ProgressBar.add_theme_stylebox_override("fill", sb)
+	sb.bg_color = Color("33acbe")
+	sb.set_corner_radius_all(5)
 	progress_bar.step = progress_bar.max_value / timeframes_to_monitor
 
 func set_particle_simulation(_particle_simulation : ParticleSimulation):
@@ -49,7 +54,9 @@ func is_flow_sufficient() -> bool:
 
 func _on_flow_timer_timeout() -> void:
 	flow_counts.append(flow_count)
-	if progress_bar.value != 100:
+	if flow_count > 0:
+		$ProgressBar.visible = true
+	if !done:
 		if flow_count >= flow_threshold:
 			progress_bar.value += progress_bar.step
 		else:
@@ -62,4 +69,6 @@ func _on_flow_timer_timeout() -> void:
 	if flow_counts.size() == timeframes_to_monitor:
 		if is_flow_sufficient():
 			done = true
+			sb.bg_color = Color("91556b")
+			
 			emit_signal("enough_water_flow")

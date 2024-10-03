@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://bragutgdm43hq"]
+[gd_scene load_steps=6 format=3 uid="uid://bragutgdm43hq"]
 
 [ext_resource type="Script" path="res://scripts/visualisation/terrain_manager.gd" id="1_tn7tr"]
 [ext_resource type="Script" path="res://scripts/visualisation/terrain_renderer.gd" id="2_38nxe"]
 [ext_resource type="Script" path="res://scripts/visualisation/terrain_editor.gd" id="3_vi5fo"]
 [ext_resource type="PackedScene" uid="uid://btgq3f6ewa184" path="res://scenes/visualisation/marching_squares.tscn" id="4_h7kxc"]
+[ext_resource type="Texture2D" uid="uid://byn1nd7ump36y" path="res://assets/curser_hexagon_cropped.png" id="5_1jvdl"]
 
 [node name="TerrainManager" type="Node2D"]
 script = ExtResource("1_tn7tr")
@@ -17,3 +18,7 @@ script = ExtResource("3_vi5fo")
 [node name="MeshGenerator" parent="." instance=ExtResource("4_h7kxc")]
 z_index = 1
 scale = Vector2(15, 15)
+
+[node name="KernelRadius" type="Sprite2D" parent="."]
+z_index = 3
+texture = ExtResource("5_1jvdl")

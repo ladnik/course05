@@ -25,10 +25,9 @@ shadow_offset = Vector2(4, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_qlhul"]
 font = ExtResource("3_j8bgr")
-font_size = 32
-outline_size = 5
+font_size = 40
 outline_color = Color(0, 0, 0, 1)
-shadow_size = 15
+shadow_size = 8
 shadow_color = Color(0, 0, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_cg7ux"]
@@ -55,10 +54,10 @@ texture = ExtResource("2_2hdeb")
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -454.0
-offset_top = 191.0
-offset_right = 435.0
-offset_bottom = 334.0
+offset_left = -444.0
+offset_top = 132.0
+offset_right = 445.0
+offset_bottom = 275.0
 grow_horizontal = 2
 text = "How To Play"
 label_settings = SubResource("LabelSettings_ovxh0")
@@ -84,16 +83,17 @@ vertical_alignment = 1
 script = ExtResource("2_f0v4j")
 
 [node name="Instructions" type="Label" parent="."]
-offset_left = 371.0
-offset_top = 369.0
-offset_right = 1523.0
-offset_bottom = 730.0
+offset_left = 103.0
+offset_top = 290.0
+offset_right = 1819.0
+offset_bottom = 710.0
 text = "Oh no, the lights went out in Sarntal! 
-Generate as much hydropower as possible by adding and removing terrain.
+Generate as much electricity as possible by adding and removing terrain to get the water to the turbine.
 Be careful to protect the villages!
 
-Generate: Mouse Left
-Remove: Mouse Right
+Generate terrain: Mouse Left
+Remove terrain: Mouse Right
+Resize brush: Scroll
 
 Press escape to pause the game."
 label_settings = SubResource("LabelSettings_qlhul")

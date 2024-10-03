@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://c7gtagr7p6o0a"]
+
+[ext_resource type="Script" path="res://scripts/levels/level_manager.gd" id="1_sobwy"]
+[ext_resource type="Texture2D" uid="uid://nrtc4m8t7ajx" path="res://assets/assets_for_GameEng/bg_sky.png" id="2_mbof6"]
+[ext_resource type="PackedScene" uid="uid://bragutgdm43hq" path="res://scenes/visualisation/terrain_manager.tscn" id="3_434t8"]
+[ext_resource type="PackedScene" uid="uid://dm55nq68nldsl" path="res://scenes/menus_screens/pause_menu.tscn" id="4_qixrj"]
+
+[node name="Level1" type="Node2D"]
+script = ExtResource("1_sobwy")
+number_particles = 80
+path = "res://assets/levels/level_sadam.lvl"
+do_load_level = true
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = ExtResource("2_mbof6")
+
+[node name="TerrainManager" parent="." instance=ExtResource("3_434t8")]
+
+[node name="Pause_Scene" parent="." node_paths=PackedStringArray("terrain_manager") instance=ExtResource("4_qixrj")]
+visible = false
+terrain_manager = NodePath("../TerrainManager")

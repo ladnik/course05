@@ -17,6 +17,10 @@ func _on_nextlevel_gui_input(event: InputEvent) -> void:
 			TransitionScene.transition_effect("res://scenes/levels/level2.tscn")
 		elif TransitionScene.prevscene == "res://scenes/levels/level2.tscn":
 			TransitionScene.transition_effect("res://scenes/levels/level3.tscn")
+		elif TransitionScene.prevscene == "res://scenes/levels/level3.tscn":
+			TransitionScene.transition_effect("res://scenes/levels/level4.tscn")
+		elif TransitionScene.prevscene == "res://scenes/levels/level4.tscn":
+			TransitionScene.transition_effect("res://scenes/levels/level5.tscn")
 
 
 func _on_replay_gui_input(event: InputEvent) -> void:
