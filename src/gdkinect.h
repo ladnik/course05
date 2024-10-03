@@ -38,6 +38,7 @@ class GDKinect : public Resource {
     private:
     void analyze_square(int i, int j, HandPos& best_pos);
     std::optional<HandPos> get_hand_pos();
+    bool is_fist();
 
     Freenect::Freenect freenect;
     std::optional<std::reference_wrapper<CustomFreenectDevice>> kinect_device;

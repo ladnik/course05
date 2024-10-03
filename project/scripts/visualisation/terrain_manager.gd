@@ -28,7 +28,7 @@ func _ready():
 func _process(_delta):
 	var mouse_pos = kinect.get_position() if kinect_enabled else get_global_mouse_position()
 	var mouse_pos_grid = renderer.to_grid_pos(mouse_pos)
-
+	kinect.is_fist()
 	this_mouse_clicked = false
 
 	# place new terrain

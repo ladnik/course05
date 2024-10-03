@@ -62,7 +62,7 @@ match env["platform"]:
     case "linux": libusb_path = "/usr/include/libusb-1.0"
     case "macos": libusb_path = "/opt/homebrew/include/libusb-1.0"
 
-env.Append(CPPPATH=["src/", libusb_path, "libfreenect/include", "libfreenect/wrappers/cpp"])
+env.Append(CPPPATH=["src/", libusb_path, "libfreenect/include", "libfreenect/wrappers/cpp", "libfreenect/src"])
 env.Append(CPPFLAGS=["-fexceptions"])
 env.Append(LIBS=["freenect"])
 env.Append(LIBPATH=["project/bin"])

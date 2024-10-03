@@ -2,6 +2,7 @@
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
 #include <stdexcept>
+#include <algorithm>
 
 #define LOWEST_DEPTH 5000
 #define KINECT_WIDTH 640
@@ -10,6 +11,8 @@
 #define SEARCH_RADIUS 30
 #define SCREEN_WIDTH 1920.0
 #define SCREEN_HEIGHT 1080.0
+#define HAND_DEPTH_CLOSE 20
+#define HAND_DEPTH_FAR 30
 
 using namespace godot;
 
@@ -49,6 +52,7 @@ Vector2 GDKinect::get_position() {
 void GDKinect::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_position"), &GDKinect::get_position);
     ClassDB::bind_method(D_METHOD("connected"), &GDKinect::connected);
+	ClassDB::bind_method(D_METHOD("is_fist"), &GDKinect::is_fist);
 }
 
 void GDKinect::analyze_square(int i, int j, HandPos& best_pos) {
@@ -114,5 +118,89 @@ std::optional<HandPos> GDKinect::get_hand_pos() {
 
 bool GDKinect::connected() {
     return !!kinect_device;
+}
+
+// will use the last calculated hand position and depth avg.
+bool GDKinect::is_fist(){
+	// UtilityFunctions::print("executing is_fist");
+	// if(pos.avg < 800){ //otherwise no hand is recognized/accepted.
+	uint16_t* depth = depthDat.get();
+	int half_side{(SQUARE_SIZE - 1)/2};
+	int min_height{hand_pos->y - half_side}; // highest point
+	int max_height{hand_pos->y + half_side}; // lowest point
+	int min_width{hand_pos->x - half_side};
+	int max_width{hand_pos->x + half_side};
+	int depth_far{hand_pos->avg + HAND_DEPTH_FAR};
+	int depth_close{hand_pos->avg - HAND_DEPTH_CLOSE};
+	int box_up{min_height};
+	int box_down{max_height};
+	int box_left{min_width};
+	int box_right{max_width};
+	uint16_t cur;
+	bool found{true};
+	//height search
+	for(int i{min_height - 1}; i>=std::max(0, hand_pos->y - 100) && found; i--){
+		found = false;
+		for(int j = min_width; j <= max_width; j++){
+			cur = depth[i*640 + j];
+			if(cur < depth_far && cur > depth_close){
+				box_up--;
+				found = true;
+				break;
+			}
+		}
+		if(!found){
+			break;
+		}
+	}
+	found = true;
+	for(int i{max_height + 1}; i<=std::min(479, hand_pos->y + 100) && found; i++){
+		found = false;
+		for(int j{min_width}; j <= max_width; j++){
+			cur = depth[i*640 + j];
+			if(cur < depth_far && cur > depth_close){
+				box_down++;
+				found = true;
+				break;
+			}
+		}
+		if(!found){
+			break;
+		}
+	}
+	found = true;
+	for(int i{min_width - 1}; i>=std::max(0, hand_pos->x - 100) && found; i--){
+		found = false;
+		for(int j{min_height}; j <= max_height; j++){
+			cur = depth[j*640 + i];
+			if(cur < depth_far && cur > depth_close){
+				box_left--;
+				found = true;
+				break;
+			}
+		}
+		if(!found){
+			break;
+		}
+	}
+	found = true;
+	for(int i{max_width + 1}; i<=std::min(639, hand_pos->x + 100) && found; i++){
+		found = false;
+		for(int j{min_height}; j <= max_height; j++){
+			cur = depth[j*640 + i];
+			if(cur < depth_far && cur > depth_close){
+				box_right++;
+				found = true;
+				break;
+			}
+		}
+		if(!found){
+			break;
+		}
+	}	
+	int area{(box_down - box_up) * (box_right - box_left)};
+	// }
+	UtilityFunctions::print(area);
+	return true;
 }
 
