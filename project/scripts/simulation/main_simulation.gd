@@ -1,19 +1,40 @@
+
 extends Node2D
 
 class_name ParticleSimulation
 
 @onready var mesh_generator: MeshInstance2D = $"../TerrainManager/MeshGenerator"
 
-var SIM 
+var SIM : Simulator
 var Constants = load('res://scripts/simulation/simulation_constants.gd')
 var particle_mat = CanvasItemMaterial.new()
 
-func _init(pos_x, dis_x, pos_y, dis_y):
-	SIM = load('res://scripts/simulation/particle_simulation.gd').new(pos_x, dis_x, pos_y, dis_y)
+func set_water_source(pos_x, dis_x, pos_y, dis_y, vel_x, vel_y, mass_flow, number_particles):
+	SIM.set_water_source(pos_x, dis_x, pos_y, dis_y, vel_x, vel_y, mass_flow, number_particles)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	SIM.mesh_generator = mesh_generator
+	var constantsDict = {
+		"USE_DOUBLE_DENSITY": Constants.USE_DOUBLE_DENSITY,
+		"DEBUG": Constants.DEBUG,
+		"DISPLAY_VELOCITY": Constants.DISPLAY_VELOCITY,
+		"DISPLAY_FORCE": Constants.DISPLAY_FORCE,
+		"WIDTH": Constants.WIDTH,
+		"HEIGHT": Constants.HEIGHT,
+		"GRAVITY": Constants.GRAVITY,
+		"INTERACTION_RADIUS": Constants.INTERACTION_RADIUS,
+		"SPRING_CONSTANT": Constants.SPRING_CONSTANT,
+		"GRID_SIZE": Constants.GRID_SIZE,
+		"USE_GRID": Constants.USE_GRID,
+		"PARTICLE_RADIUS": Constants.PARTICLE_RADIUS,
+		"K": Constants.K,
+		"DENSITY_ZERO": Constants.DENSITY_ZERO,
+		"KNEAR": Constants.KNEAR
+	}
+
+	SIM = Simulator.new()
+	SIM.set_mesh_generator(mesh_generator)
+	SIM._init(constantsDict)
 
 func _process(delta: float) -> void:
 	queue_redraw()
@@ -26,8 +47,8 @@ func _draw() -> void:
 
 	# draw the particles
 	const pCol = Color(0, 0, 1)
-	for p in SIM.get_particle_positions():
-		draw_circle(p, Constants.PARTICLE_RADIUS, pCol, true)
+	#for p in SIM.get_particle_positions():
+		#draw_circle(p, Constants.PARTICLE_RADIUS, pCol, true)
 
 
 	# draw the interaction radius etc for debugging

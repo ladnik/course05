@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="course05"
-run/main_scene="res://scenes/menus_screens/menu.tscn"
+run/main_scene="res://scenes/menus_screens/start_menu.tscn"
 config/features=PackedStringArray("4.3")
 config/icon="res://icon.svg"
 
@@ -25,7 +25,6 @@ AudioManager="*res://scripts/music/audio_manager.gd"
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
-window/size/mode=3
 window/size/resizable=false
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
@@ -64,7 +63,7 @@ save_level={
 
 [physics]
 
-common/physics_ticks_per_second=480
+common/physics_ticks_per_second=240
 
 [rendering]
 

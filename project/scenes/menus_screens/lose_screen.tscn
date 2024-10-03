@@ -1,15 +1,18 @@
-[gd_scene load_steps=9 format=3 uid="uid://dnrige6o8for2"]
+[gd_scene load_steps=11 format=3 uid="uid://dnrige6o8for2"]
 
 [ext_resource type="Script" path="res://scripts/menus_screens/winlose_screen.gd" id="1_g8fbq"]
 [ext_resource type="Texture2D" uid="uid://b2nanxuajo0mq" path="res://assets/background_dummy.png" id="2_4berb"]
+[ext_resource type="Texture2D" uid="uid://c1apv0f2ojjg1" path="res://assets/assets_for_GameEng/bg_normal.png" id="2_hn7bi"]
 [ext_resource type="Shader" path="res://shaders/pause_menu.gdshader" id="3_uxs5v"]
 [ext_resource type="Script" path="res://scripts/menus_screens/menu_item.gd" id="4_mr4b1"]
+[ext_resource type="FontFile" uid="uid://djjo38unaf1h" path="res://assets/assets_for_GameEng/Futura Light.otf" id="5_6rpqb"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xa568"]
 shader = ExtResource("3_uxs5v")
 shader_parameter/lod = 4.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_ovxh0"]
+font = ExtResource("5_6rpqb")
 font_size = 90
 outline_size = 11
 outline_color = Color(0, 0, 0, 1)
@@ -18,6 +21,7 @@ shadow_color = Color(0, 0, 0, 1)
 shadow_offset = Vector2(4, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_5hf8s"]
+font = ExtResource("5_6rpqb")
 font_size = 55
 outline_size = 3
 outline_color = Color(0, 0, 0, 1)
@@ -26,6 +30,7 @@ shadow_color = Color(0, 0, 0, 1)
 shadow_offset = Vector2(4, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_nas8m"]
+font = ExtResource("5_6rpqb")
 font_size = 55
 outline_size = 3
 outline_color = Color(0, 0, 0, 1)
@@ -42,7 +47,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_4berb")
+texture = ExtResource("2_hn7bi")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 material = SubResource("ShaderMaterial_xa568")

@@ -49,7 +49,7 @@ func _process(_delta):
 			mesh_generator.visualize(editor.grid)
 
 	if !this_mouse_clicked and last_mouse_clicked and only_marching_squares_after_drawn:
-		print("just released")
+		#print("just released")
 		mesh_generator.visualize(editor.grid)
 
 	last_mouse_clicked = this_mouse_clicked

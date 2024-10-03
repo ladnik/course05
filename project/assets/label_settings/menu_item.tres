@@ -1,6 +1,9 @@
-[gd_resource type="LabelSettings" format=3 uid="uid://conwdpenxmpc3"]
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://conwdpenxmpc3"]
+
+[ext_resource type="FontFile" uid="uid://djjo38unaf1h" path="res://assets/assets_for_GameEng/Futura Light.otf" id="1_d7yna"]
 
 [resource]
+font = ExtResource("1_d7yna")
 font_size = 60
 outline_size = 3
 outline_color = Color(0, 0, 0, 1)

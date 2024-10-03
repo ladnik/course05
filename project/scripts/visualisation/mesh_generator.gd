@@ -144,7 +144,7 @@ func triangleMesh():
 
 	# Create the Mesh.
 	arr_mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
-	mesh = arr_mesh
+	#mesh = arr_mesh
 
 func get_triangles_per_chunk(chunk_idx_x, chunk_idx_y, grid: Array):
 
@@ -248,7 +248,7 @@ func marchingSquares(grid : Array):
 				chunk_index_row.append([])
 				chunk_just_changed_row.append(true)
 				
-			print(len(chunk_just_changed_row))
+			#print(len(chunk_just_changed_row))
 
 			chunk_coords.append(chunk_row)
 			chunk_just_changed.append(chunk_just_changed_row)

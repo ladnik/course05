@@ -1,3 +1,17 @@
+.vscode/
+.history/
+godot-cpp/
+build/
+godot-cpp.diff
+.godot/
+.DS_Store
+cache/
+project/bin/*.so
+src/*.os
+src/*.o
+.sconsign.dblite
+libfreenect/
+src/*.obj
 # Godot 4+ specific ignores
 project/.godot/*
 project/android/*
@@ -23,3 +37,4 @@ libfreenect/*
 /.vscode/*
 /.history/*
 *.DS_Store
+
