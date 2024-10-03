@@ -26,7 +26,7 @@ func _process(delta: float) -> void:
 	if particle_simulation == null or done:
 		return
 	var particles = particle_simulation.get_particle_positions()
-	var to_remove = Array()
+	var to_remove = PackedInt32Array()
 
 	var i = 0
 	for p in particles:
@@ -35,8 +35,7 @@ func _process(delta: float) -> void:
 			wheel.rotate(0.1)
 			to_remove.append(i)
 		i += 1
-	for j in to_remove.size():
-		particle_simulation.delete_particle(to_remove[j])
+	particle_simulation.delete_particles(to_remove)
 
 
 func is_flow_sufficient() -> bool:

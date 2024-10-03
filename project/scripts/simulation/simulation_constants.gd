@@ -8,9 +8,6 @@ const USE_DOUBLE_DENSITY= true #true: double density, false: springs
 const WIDTH = 1920
 const HEIGHT = 1080
 
-# set to -1 to use the water_source
-const NUMBER_PARTICLES = 600
-
 const GRAVITY = 1000 if USE_DOUBLE_DENSITY else 300
 
 const INTERACTION_RADIUS = 30.0 if USE_DOUBLE_DENSITY else 10

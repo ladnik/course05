@@ -19,9 +19,10 @@ class Simulator : public Node2D {
 		PackedVector2Array get_particle_positions();
 		PackedVector2Array get_particle_velocities();
 		PackedVector2Array get_particle_forces();
-		void _init(Dictionary constants, float pos_x, float dis_x, float pos_y, float dis_y);
-		void delete_particle(int index);
+		void _init(Dictionary constants);
+		void delete_particles(PackedInt32Array indices);
 		void set_mesh_generator(MeshInstance2D *mesh_instance) { mesh_generator = mesh_instance; }
+		void set_water_source(float pos_x, float dis_x, float pos_y, float dis_y, float vel_x, float vel_y, int mass_flow, int number_particles);
 
 	private:
     	PackedVector2Array current_positions;
@@ -34,6 +35,18 @@ class Simulator : public Node2D {
     	std::vector<Vector2> neighborsToCheck;
 		MeshInstance2D *mesh_generator;
 		
+		// spawn positions
+		int pos_x;
+		int dis_x;
+		int pos_y;
+		int dis_y;
+		int vel_x;
+		int vel_y;
+		int mass_flow;
+		float spawn_interval;
+		float spawn_timer;
+
+
 		// constants
 		bool use_double_density;
 		int width;
@@ -67,6 +80,8 @@ class Simulator : public Node2D {
 		std::vector<int> get_all_neighbour_particles(Vector2 cell_key);
 		Array collision_checker(int i);
 		void check_oneway_coupling();
+		Vector2 get_random_spawn_position();
+		void water_source_spawn(float delta);
 
 	protected:
 		static void _bind_methods();

@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://dnl58hkj3wo1d"]
+[gd_scene load_steps=10 format=3 uid="uid://dnl58hkj3wo1d"]
 
 [ext_resource type="Script" path="res://scripts/menus_screens/menu.gd" id="1_tvu83"]
 [ext_resource type="Script" path="res://scripts/menus_screens/menu_item.gd" id="2_81w3j"]
 [ext_resource type="VideoStream" path="res://assets/assets_for_GameEng/menu_bg_anim.ogv.ogv" id="2_rcu8a"]
+[ext_resource type="LabelSettings" uid="uid://conwdpenxmpc3" path="res://assets/label_settings/menu_item.tres" id="3_p483l"]
 [ext_resource type="FontFile" uid="uid://djjo38unaf1h" path="res://assets/assets_for_GameEng/Futura Light.otf" id="6_8m3p7"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_a6ukw"]
@@ -119,6 +120,22 @@ label_settings = SubResource("LabelSettings_os8q4")
 vertical_alignment = 1
 script = ExtResource("2_81w3j")
 
+[node name="Start" type="Label" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 140.0
+offset_top = -557.0
+offset_right = 249.0
+offset_bottom = -490.0
+grow_vertical = 0
+pivot_offset = Vector2(0, 21)
+mouse_filter = 0
+text = "Start"
+label_settings = ExtResource("3_p483l")
+vertical_alignment = 1
+script = ExtResource("2_81w3j")
+
 [connection signal="gui_input" from="BackgroundScene" to="." method="_on_intro_scene_click"]
 [connection signal="gui_input" from="Exit" to="." method="exit_gui_event"]
 [connection signal="mouse_entered" from="Exit" to="Exit" method="_on_mouse_entered"]
@@ -132,3 +149,6 @@ script = ExtResource("2_81w3j")
 [connection signal="gui_input" from="Tutorial" to="." method="tutorial_gui"]
 [connection signal="mouse_entered" from="Tutorial" to="Tutorial" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="Tutorial" to="Tutorial" method="_on_mouse_exited"]
+[connection signal="gui_input" from="Start" to="." method="start_gui_event"]
+[connection signal="mouse_entered" from="Start" to="Start" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Start" to="Start" method="_on_mouse_exited"]

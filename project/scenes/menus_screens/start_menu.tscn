@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://pdq8t14f6hch"]
+[gd_scene load_steps=16 format=3 uid="uid://ss6mbigfv05h"]
 
 [ext_resource type="Script" path="res://scripts/menus_screens/menu.gd" id="1_yhgm5"]
 [ext_resource type="VideoStream" path="res://assets/assets_for_GameEng/menu_bg_anim.ogv.ogv" id="2_2nkq7"]
