@@ -1,24 +1,18 @@
-[gd_scene load_steps=8 format=3 uid="uid://dpldtjcd0tvpq"]
+[gd_scene load_steps=6 format=3 uid="uid://dpldtjcd0tvpq"]
 
 [ext_resource type="Script" path="res://scripts/levels/level_manager.gd" id="1_jgftc"]
 [ext_resource type="Texture2D" uid="uid://nrtc4m8t7ajx" path="res://assets/assets_for_GameEng/bg_sky.png" id="2_vsk0s"]
 [ext_resource type="PackedScene" uid="uid://bragutgdm43hq" path="res://scenes/visualisation/terrain_manager.tscn" id="3_c23gk"]
 [ext_resource type="PackedScene" uid="uid://dm55nq68nldsl" path="res://scenes/menus_screens/pause_menu.tscn" id="4_t0xic"]
-[ext_resource type="Shader" path="res://shaders/immovable_zones.gdshader" id="5_iiajj"]
 [ext_resource type="PackedScene" uid="uid://dwu3ihwglguna" path="res://scenes/logic/power_plant.tscn" id="7_1rbmu"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_khww5"]
-shader = ExtResource("5_iiajj")
-shader_parameter/border_width = 10.0
-shader_parameter/bar_distance = 50
-shader_parameter/border_color = Vector4(0.95, 0.95, 0.95, 0.6)
 
 [node name="Level998" type="Node2D"]
 script = ExtResource("1_jgftc")
 seed = 1234
-pos_x = 1000
-dis_x = 100
-pos_y = 400
+pos_x = 1190
+pos_y = 850
+mass_flow = 6
+number_particles = 250
 path = "res://assets/levels/level998.lvl"
 do_load_level = true
 
@@ -36,15 +30,6 @@ terrain_manager = NodePath("../TerrainManager")
 [node name="ImmovableZones" type="Node2D" parent="."]
 z_index = 3
 
-[node name="ColorRect" type="ColorRect" parent="ImmovableZones"]
-material = SubResource("ShaderMaterial_khww5")
-offset_left = 497.0
-offset_top = 90.0
-offset_right = 588.0
-offset_bottom = 139.0
-scale = Vector2(6, 5)
-color = Color(1, 0, 0, 0.392157)
-
 [node name="Villages" type="Node2D" parent="."]
 z_index = 2
 
@@ -52,6 +37,6 @@ z_index = 2
 z_index = 2
 
 [node name="PowerPlant1" parent="PowerPlants" instance=ExtResource("7_1rbmu")]
-position = Vector2(1356, 795)
+position = Vector2(1290, 608)
 scale = Vector2(0.2, 0.2)
-timeframes_to_monitor = 3
+timeframes_to_monitor = 5
