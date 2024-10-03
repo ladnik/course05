@@ -43,5 +43,4 @@ color = Color(1, 0, 0, 0.392157)
 z_index = 2
 
 [node name="PowerPlant1" parent="PowerPlants" instance=ExtResource("4_vr4jk")]
-position = Vector2(1136, 725)
-timeframes_to_monitor = 2
+position = Vector2(1136, 727)

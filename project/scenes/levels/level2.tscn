@@ -52,11 +52,7 @@ z_index = 2
 [node name="PowerPlant" parent="PowerPlants" instance=ExtResource("4_a3obw")]
 position = Vector2(214, 662)
 scale = Vector2(0.3, 0.3)
-timeframes_to_monitor = 1
-flow_threshold = 5
 
 [node name="PowerPlant2" parent="PowerPlants" instance=ExtResource("4_a3obw")]
 position = Vector2(1605, 602)
 scale = Vector2(0.35, 0.35)
-timeframes_to_monitor = 1
-flow_threshold = 5
