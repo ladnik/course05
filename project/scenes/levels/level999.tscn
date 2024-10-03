@@ -18,6 +18,7 @@ shader_parameter/border_color = Vector4(0.95, 0.95, 0.95, 0.6)
 script = ExtResource("1_y62d7")
 seed = 999
 pos_x = 250
+path = "res://assets/levels/level999.lvl"
 
 [node name="TextureRect" type="TextureRect" parent="."]
 offset_right = 1920.0
