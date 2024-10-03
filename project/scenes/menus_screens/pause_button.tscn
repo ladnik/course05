@@ -1,0 +1,43 @@
+[gd_scene load_steps=4 format=3 uid="uid://batnqy8l681lg"]
+
+[ext_resource type="LabelSettings" uid="uid://conwdpenxmpc3" path="res://assets/label_settings/menu_item.tres" id="3_3idmo"]
+[ext_resource type="Script" path="res://scripts/menus_screens/menu_item.gd" id="4_msmoq"]
+
+[sub_resource type="GDScript" id="GDScript_6lfow"]
+script/source = "extends CanvasLayer
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	if Input.is_action_just_pressed(\"pause\"):
+		visible = not visible
+		
+
+func pause_gui_event(event: InputEvent) -> void:
+	if (event is InputEventMouseButton && event.pressed && event.button_index == 1):
+		Input.action_press(\"pause\")
+"
+
+[node name="Pause" type="CanvasLayer"]
+process_mode = 3
+script = SubResource("GDScript_6lfow")
+
+[node name="PauseLabel" type="Label" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 44.0
+offset_top = -1038.0
+offset_right = 187.0
+offset_bottom = -955.0
+grow_vertical = 0
+pivot_offset = Vector2(0, 21)
+mouse_filter = 0
+text = "Pause
+"
+label_settings = ExtResource("3_3idmo")
+vertical_alignment = 1
+script = ExtResource("4_msmoq")
+
+[connection signal="gui_input" from="PauseLabel" to="." method="pause_gui_event"]
+[connection signal="mouse_entered" from="PauseLabel" to="PauseLabel" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="PauseLabel" to="PauseLabel" method="_on_mouse_exited"]
