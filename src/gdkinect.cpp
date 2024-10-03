@@ -198,14 +198,7 @@ bool GDKinect::is_fist(){
 		}
 	}	
 	int area{(box_down - box_up) * (box_right - box_left)};
-	// }
-	UtilityFunctions::print(hand_pos->x);
-	UtilityFunctions::print(hand_pos->y);
-	UtilityFunctions::print(box_up);
-	UtilityFunctions::print(box_down);
-	UtilityFunctions::print(box_left);
-	UtilityFunctions::print(box_right);
-	UtilityFunctions::print(area);
+
 	if(area < 4000) return true;
 	return false;
 }
