@@ -51,7 +51,7 @@ func _on_flow_timer_timeout() -> void:
 
 	if flow_count >= flow_threshold:
 		critical_timeframes += 1
-		print("critical!")
+		#print("critical!")
 		#show_hit_effect()
 	if critical_timeframes >= timeframes_to_monitor:
 		emit_signal("village_destroyed")

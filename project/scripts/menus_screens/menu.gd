@@ -37,7 +37,7 @@ func tutorial_gui(event: InputEvent) -> void:
 
 func _on_intro_scene_click(event: InputEvent) -> void:
 	if (event is InputEventMouseButton && event.pressed && event.button_index == 1):
-		print("clicked")
+		#print("clicked")
 		if intro_scene != null and intro_scene.paused == true:
 			animation_player.play("buttons_in")
 			intro_scene.paused = false
