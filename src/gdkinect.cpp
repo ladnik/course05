@@ -124,14 +124,13 @@ bool GDKinect::connected() {
 bool GDKinect::is_fist(){
 	// UtilityFunctions::print("executing is_fist");
 	// if(pos.avg < 800){ //otherwise no hand is recognized/accepted.
-	uint16_t* depth = depthDat.get();
 	int half_side{(SQUARE_SIZE - 1)/2};
 	int min_height{hand_pos->y - half_side}; // highest point
 	int max_height{hand_pos->y + half_side}; // lowest point
 	int min_width{hand_pos->x - half_side};
 	int max_width{hand_pos->x + half_side};
-	int depth_far{hand_pos->avg + HAND_DEPTH_FAR};
-	int depth_close{hand_pos->avg - HAND_DEPTH_CLOSE};
+	int depth_far{hand_pos->depth + HAND_DEPTH_FAR};
+	int depth_close{hand_pos->depth - HAND_DEPTH_CLOSE};
 	int box_up{min_height};
 	int box_down{max_height};
 	int box_left{min_width};
@@ -142,7 +141,7 @@ bool GDKinect::is_fist(){
 	for(int i{min_height - 1}; i>=std::max(0, hand_pos->y - 100) && found; i--){
 		found = false;
 		for(int j = min_width; j <= max_width; j++){
-			cur = depth[i*640 + j];
+			cur = depthMat[i*KINECT_WIDTH + j];
 			if(cur < depth_far && cur > depth_close){
 				box_up--;
 				found = true;
@@ -154,10 +153,10 @@ bool GDKinect::is_fist(){
 		}
 	}
 	found = true;
-	for(int i{max_height + 1}; i<=std::min(479, hand_pos->y + 100) && found; i++){
+	for(int i{max_height + 1}; i<=std::min(KINECT_HEIGHT - 1, hand_pos->y + 100) && found; i++){
 		found = false;
 		for(int j{min_width}; j <= max_width; j++){
-			cur = depth[i*640 + j];
+			cur = depthMat[i*KINECT_WIDTH + j];
 			if(cur < depth_far && cur > depth_close){
 				box_down++;
 				found = true;
@@ -172,7 +171,7 @@ bool GDKinect::is_fist(){
 	for(int i{min_width - 1}; i>=std::max(0, hand_pos->x - 100) && found; i--){
 		found = false;
 		for(int j{min_height}; j <= max_height; j++){
-			cur = depth[j*640 + i];
+			cur = depthMat[j*KINECT_WIDTH + i];
 			if(cur < depth_far && cur > depth_close){
 				box_left--;
 				found = true;
@@ -184,10 +183,10 @@ bool GDKinect::is_fist(){
 		}
 	}
 	found = true;
-	for(int i{max_width + 1}; i<=std::min(639, hand_pos->x + 100) && found; i++){
+	for(int i{max_width + 1}; i<=std::min(KINECT_WIDTH - 1, hand_pos->x + 100) && found; i++){
 		found = false;
 		for(int j{min_height}; j <= max_height; j++){
-			cur = depth[j*640 + i];
+			cur = depthMat[j*KINECT_WIDTH + i];
 			if(cur < depth_far && cur > depth_close){
 				box_right++;
 				found = true;
@@ -200,6 +199,12 @@ bool GDKinect::is_fist(){
 	}	
 	int area{(box_down - box_up) * (box_right - box_left)};
 	// }
+	UtilityFunctions::print(hand_pos->x);
+	UtilityFunctions::print(hand_pos->y);
+	UtilityFunctions::print(box_up);
+	UtilityFunctions::print(box_down);
+	UtilityFunctions::print(box_left);
+	UtilityFunctions::print(box_right);
 	UtilityFunctions::print(area);
 	return true;
 }
