@@ -53,7 +53,7 @@ void fragment() {
 		
 		if(acc > .5){
 			//COLOR = mix(vec4(0, 0, 1, 1), vec4(1.), closest_distance / second_closest);
-			COLOR = mix(vec4(0, 0, 1, 1), vec4(1.), clamp(1. - acc / 5., 0., 1.));
+			COLOR = mix(vec4(37. / 255., 119. / 255., 147. / 255., 1.), vec4(181. / 255., 235. / 255., 235. / 255., 1.), clamp(1. - acc / 5., 0., 1.));
 		}
 		else {
 			COLOR = vec4(0, 0, 0, 0);			
