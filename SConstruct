@@ -69,8 +69,13 @@ env.Append(LIBS=["freenect"])
 env.Append(LIBPATH=["project/bin"])
 sources = Glob("src/*.cpp")
 
-env.Append(CCFLAGS=["-fopenmp"])
-env.Append(LINKFLAGS=["-fopenmp"])
+import platform
+
+if platform.system() == "Windows":
+    env.Append(CCFLAGS=["/openmp"])
+else:
+    env.Append(CCFLAGS=["-fopenmp"])
+    env.Append(LINKFLAGS=["-fopenmp"])
 
 targetPath = "{}/bin/".format(projectdir)
 

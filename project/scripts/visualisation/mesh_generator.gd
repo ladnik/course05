@@ -248,7 +248,7 @@ func marchingSquares(grid : Array):
 				chunk_index_row.append([])
 				chunk_just_changed_row.append(true)
 				
-			print(len(chunk_just_changed_row))
+			#print(len(chunk_just_changed_row))
 
 			chunk_coords.append(chunk_row)
 			chunk_just_changed.append(chunk_just_changed_row)

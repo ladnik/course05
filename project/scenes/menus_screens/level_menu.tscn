@@ -1,10 +1,12 @@
-[gd_scene load_steps=9 format=3 uid="uid://cfp3dqi3it23r"]
+[gd_scene load_steps=10 format=3 uid="uid://cfp3dqi3it23r"]
 
 [ext_resource type="Script" path="res://scripts/menus_screens/level_menu.gd" id="1_2eyd3"]
-[ext_resource type="Texture2D" uid="uid://b2nanxuajo0mq" path="res://assets/background_dummy.png" id="2_5pr8o"]
+[ext_resource type="Texture2D" uid="uid://c1apv0f2ojjg1" path="res://assets/assets_for_GameEng/bg_normal.png" id="2_e6r0j"]
 [ext_resource type="Script" path="res://scripts/menus_screens/menu_item.gd" id="2_f0v4j"]
+[ext_resource type="FontFile" uid="uid://djjo38unaf1h" path="res://assets/assets_for_GameEng/Futura Light.otf" id="3_sfx18"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_ovxh0"]
+font = ExtResource("3_sfx18")
 font_size = 90
 outline_size = 11
 outline_color = Color(0, 0, 0, 1)
@@ -13,6 +15,7 @@ shadow_color = Color(0, 0, 0, 1)
 shadow_offset = Vector2(4, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_43jmp"]
+font = ExtResource("3_sfx18")
 font_size = 50
 outline_size = 3
 outline_color = Color(0, 0, 0, 1)
@@ -21,6 +24,7 @@ shadow_color = Color(0, 0, 0, 1)
 shadow_offset = Vector2(4, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_vaccj"]
+font = ExtResource("3_sfx18")
 font_size = 50
 outline_size = 3
 outline_color = Color(0, 0, 0, 1)
@@ -29,6 +33,7 @@ shadow_color = Color(0, 0, 0, 1)
 shadow_offset = Vector2(4, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_770dv"]
+font = ExtResource("3_sfx18")
 font_size = 50
 outline_size = 3
 outline_color = Color(0, 0, 0, 1)
@@ -37,6 +42,7 @@ shadow_color = Color(0, 0, 0, 1)
 shadow_offset = Vector2(4, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_pfcbe"]
+font = ExtResource("3_sfx18")
 font_size = 55
 outline_size = 3
 outline_color = Color(0, 0, 0, 1)
@@ -53,7 +59,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_5pr8o")
+texture = ExtResource("2_e6r0j")
 
 [node name="Title" type="Label" parent="."]
 anchors_preset = 5

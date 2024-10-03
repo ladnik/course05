@@ -8,8 +8,10 @@ size = Vector2(74, 48)
 
 [node name="Village" type="Node2D"]
 script = ExtResource("1_ieecj")
+timeframes_to_monitor = 8
 
 [node name="FlowTimer" type="Timer" parent="."]
+wait_time = 0.25
 autostart = true
 
 [node name="Area2D" type="Area2D" parent="."]
@@ -22,5 +24,13 @@ shape = SubResource("RectangleShape2D_qejot")
 position = Vector2(53, 52)
 scale = Vector2(0.05, 0.05)
 texture = ExtResource("2_ybhs3")
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+offset_left = -153.0
+offset_top = 49.0
+offset_right = 47.0
+offset_bottom = 79.0
+scale = Vector2(2.12, 2.12)
+show_percentage = false
 
 [connection signal="timeout" from="FlowTimer" to="." method="_on_flow_timer_timeout"]

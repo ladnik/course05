@@ -7,6 +7,8 @@
 [node name="PowerPlant" type="Node2D"]
 position = Vector2(794, 549)
 script = ExtResource("1_6tb8a")
+timeframes_to_monitor = 4
+flow_threshold = 5
 
 [node name="Wheel" type="Sprite2D" parent="."]
 position = Vector2(0, -15)
@@ -36,6 +38,15 @@ size_flags_horizontal = 0
 expand_mode = 1
 
 [node name="FlowTimer" type="Timer" parent="."]
+wait_time = 0.25
 autostart = true
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+offset_left = -422.0
+offset_top = -60.0
+offset_right = -222.0
+offset_bottom = -30.0
+scale = Vector2(4.44, 4.44)
+show_percentage = false
 
 [connection signal="timeout" from="FlowTimer" to="." method="_on_flow_timer_timeout"]
