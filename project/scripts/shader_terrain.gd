@@ -108,9 +108,9 @@ func continuous_collision_local(start, end):
 		var rt = pow(B * B - 4 * A * C, .5)
 		var solution_small = (-B - rt) / 2 / A
 		var solution_large = (-B + rt) / 2 / A
-		if solution_small > 0:
+		if solution_small >= 0 and solution_small <= 1:
 			return [true, start + solution_small * delta, Vector2(1, 0)]
-		if solution_large > 0:
+		if solution_large >= 0 and solution_large <= 1:
 			return [true, start + solution_large * delta, Vector2(1, 0)]
 		return [false, Vector2(0, 0), Vector2(1, 0)]
 
