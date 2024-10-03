@@ -42,11 +42,13 @@ wait_time = 0.25
 autostart = true
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
-offset_left = -422.0
-offset_top = -60.0
-offset_right = -222.0
-offset_bottom = -30.0
+visible = false
+offset_left = -166.0
+offset_top = -284.0
+offset_right = -91.0
+offset_bottom = -272.0
 scale = Vector2(4.44, 4.44)
+rounded = true
 show_percentage = false
 
 [connection signal="timeout" from="FlowTimer" to="." method="_on_flow_timer_timeout"]

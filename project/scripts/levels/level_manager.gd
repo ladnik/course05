@@ -72,7 +72,7 @@ func _on_enough_water() -> void:
 	for power_plant in power_plants:
 		if not power_plant.done:
 			return
-	if(name == "Level3"):
+	if(name == "Level5"):
 		TransitionScene.transition_effect("res://scenes/menus_screens/after_final_level.tscn")
 	else:
 		TransitionScene.transition_effect("res://scenes/menus_screens/win_screen.tscn")

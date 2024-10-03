@@ -268,7 +268,8 @@ grow_vertical = 0
 text = "Alex Trimis
 Finn Tobien
 Celia Birle
-Simom Schwär"
+Simon Schwär
+Nicholas Panek"
 label_settings = SubResource("LabelSettings_xu42d")
 horizontal_alignment = 1
 

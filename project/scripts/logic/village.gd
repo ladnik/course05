@@ -11,10 +11,14 @@ var critical_timeframes = 0
 @export var timeframes_to_monitor = 5
 @export var flow_threshold = 5
 
+var sb = StyleBoxFlat.new()
 
 signal village_destroyed
 
 func _ready():
+	$ProgressBar.add_theme_stylebox_override("fill", sb)
+	sb.bg_color = Color("33acbe")
+	sb.set_corner_radius_all(5)
 	var rectangle_shape = collision_shape_2d.shape as RectangleShape2D
 	var extents = rectangle_shape.extents  # Vector2 representing half the size
 	rect = Rect2(collision_shape_2d.global_position, rectangle_shape.size)
@@ -44,6 +48,8 @@ func _process(delta: float) -> void:
 
 
 func _on_flow_timer_timeout() -> void:
+	if flow_count > 0:
+		$ProgressBar.visible = true
 	if progress_bar.value != 100:
 		if flow_count >= flow_threshold:
 			progress_bar.value += progress_bar.step
@@ -55,6 +61,7 @@ func _on_flow_timer_timeout() -> void:
 		#print("critical!")
 		#show_hit_effect()
 	if critical_timeframes >= timeframes_to_monitor:
+		sb.bg_color = Color("91556b")
 		emit_signal("village_destroyed")
 			
 func show_hit_effect():
