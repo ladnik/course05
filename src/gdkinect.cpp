@@ -42,17 +42,21 @@ GDKinect::~GDKinect() {
 }
 
 Vector2 GDKinect::get_position() {
-    std::optional<HandPos> h = get_hand_pos();
-    if(!h) {
+    if(!hand_pos) {
 	return Vector2(0, 0);
     }
-    return Vector2(SCREEN_WIDTH - h->x * (SCREEN_WIDTH / KINECT_WIDTH), h->y * (SCREEN_HEIGHT / KINECT_HEIGHT));
+    return Vector2(SCREEN_WIDTH - hand_pos->x * (SCREEN_WIDTH / KINECT_WIDTH), hand_pos->y * (SCREEN_HEIGHT / KINECT_HEIGHT));
+}
+
+bool GDKinect::is_fist() {
+    return hand_pos && hand_pos->is_fist;
 }
 
 void GDKinect::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_position"), &GDKinect::get_position);
     ClassDB::bind_method(D_METHOD("connected"), &GDKinect::connected);
-	ClassDB::bind_method(D_METHOD("is_fist"), &GDKinect::is_fist);
+    ClassDB::bind_method(D_METHOD("is_fist"), &GDKinect::is_fist);
+    ClassDB::bind_method(D_METHOD("update_hand_pos"), &GDKinect::update_hand_pos);
 }
 
 void GDKinect::analyze_square(int i, int j, HandPos& best_pos) {
@@ -84,7 +88,7 @@ void GDKinect::analyze_square(int i, int j, HandPos& best_pos) {
 
 }
 
-std::optional<HandPos> GDKinect::get_hand_pos() {
+void GDKinect::update_hand_pos() {
     kinect_device->get().get_depth(depthMat.get());
 
     int avg;
@@ -111,9 +115,13 @@ std::optional<HandPos> GDKinect::get_hand_pos() {
 	}
     }
 
-    if (best.x == -1) hand_pos = {};
-    else hand_pos = best;
-    return hand_pos;
+    if (best.x == -1) {
+	hand_pos = {};
+	return;
+    }
+
+    update_fist_status(best);
+    hand_pos = best;
 }
 
 bool GDKinect::connected() {
@@ -121,16 +129,16 @@ bool GDKinect::connected() {
 }
 
 // will use the last calculated hand position and depth avg.
-bool GDKinect::is_fist(){
+void GDKinect::update_fist_status(HandPos& h) {
 	// UtilityFunctions::print("executing is_fist");
 	// if(pos.avg < 800){ //otherwise no hand is recognized/accepted.
 	int half_side{(SQUARE_SIZE - 1)/2};
-	int min_height{hand_pos->y - half_side}; // highest point
-	int max_height{hand_pos->y + half_side}; // lowest point
-	int min_width{hand_pos->x - half_side};
-	int max_width{hand_pos->x + half_side};
-	int depth_far{hand_pos->depth + HAND_DEPTH_FAR};
-	int depth_close{hand_pos->depth - HAND_DEPTH_CLOSE};
+	int min_height{h.y - half_side}; // highest point
+	int max_height{h.y + half_side}; // lowest point
+	int min_width{h.x - half_side};
+	int max_width{h.x + half_side};
+	int depth_far{h.depth + HAND_DEPTH_FAR};
+	int depth_close{h.depth - HAND_DEPTH_CLOSE};
 	int box_up{min_height};
 	int box_down{max_height};
 	int box_left{min_width};
@@ -138,7 +146,7 @@ bool GDKinect::is_fist(){
 	uint16_t cur;
 	bool found{true};
 	//height search
-	for(int i{min_height - 1}; i>=std::max(0, hand_pos->y - 100) && found; i--){
+	for(int i{min_height - 1}; i>=std::max(0, h.y - 100) && found; i--){
 		found = false;
 		for(int j = min_width; j <= max_width; j++){
 			cur = depthMat[i*KINECT_WIDTH + j];
@@ -153,7 +161,7 @@ bool GDKinect::is_fist(){
 		}
 	}
 	found = true;
-	for(int i{max_height + 1}; i<=std::min(KINECT_HEIGHT - 1, hand_pos->y + 100) && found; i++){
+	for(int i{max_height + 1}; i<=std::min(KINECT_HEIGHT - 1, h.y + 100) && found; i++){
 		found = false;
 		for(int j{min_width}; j <= max_width; j++){
 			cur = depthMat[i*KINECT_WIDTH + j];
@@ -168,7 +176,7 @@ bool GDKinect::is_fist(){
 		}
 	}
 	found = true;
-	for(int i{min_width - 1}; i>=std::max(0, hand_pos->x - 100) && found; i--){
+	for(int i{min_width - 1}; i>=std::max(0, h.x - 100) && found; i--){
 		found = false;
 		for(int j{min_height}; j <= max_height; j++){
 			cur = depthMat[j*KINECT_WIDTH + i];
@@ -183,7 +191,7 @@ bool GDKinect::is_fist(){
 		}
 	}
 	found = true;
-	for(int i{max_width + 1}; i<=std::min(KINECT_WIDTH - 1, hand_pos->x + 100) && found; i++){
+	for(int i{max_width + 1}; i<=std::min(KINECT_WIDTH - 1, h.x + 100) && found; i++){
 		found = false;
 		for(int j{min_height}; j <= max_height; j++){
 			cur = depthMat[j*KINECT_WIDTH + i];
@@ -199,7 +207,6 @@ bool GDKinect::is_fist(){
 	}	
 	int area{(box_down - box_up) * (box_right - box_left)};
 
-	if(area < 4000) return true;
-	return false;
+	h.is_fist = area < 4000;
 }
 

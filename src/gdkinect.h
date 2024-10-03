@@ -18,6 +18,7 @@ struct HandPos {
     int x;
     int y;
     int depth;
+    bool is_fist;
 
     HandPos();
 };
@@ -31,14 +32,16 @@ class GDKinect : public Resource {
 
     Vector2 get_position();
     bool connected();
+    void update_hand_pos();
+    bool is_fist();
+
 
     protected:
     static void _bind_methods();
 
     private:
     void analyze_square(int i, int j, HandPos& best_pos);
-    std::optional<HandPos> get_hand_pos();
-    bool is_fist();
+    void update_fist_status(HandPos& h);
 
     Freenect::Freenect freenect;
     std::optional<std::reference_wrapper<CustomFreenectDevice>> kinect_device;
