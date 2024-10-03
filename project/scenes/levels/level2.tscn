@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://bb3bu0admvaml"]
+[gd_scene load_steps=6 format=3 uid="uid://bb3bu0admvaml"]
 
 [ext_resource type="Script" path="res://scripts/levels/level_manager.gd" id="1_1br02"]
+[ext_resource type="Texture2D" uid="uid://nrtc4m8t7ajx" path="res://assets/assets_for_GameEng/bg_sky.png" id="2_rrtms"]
 [ext_resource type="PackedScene" uid="uid://bragutgdm43hq" path="res://scenes/visualisation/terrain_manager.tscn" id="2_t1j0a"]
-[ext_resource type="PackedScene" path="res://scenes/menus_screens/pause_menu.tscn" id="3_jwfv8"]
+[ext_resource type="PackedScene" uid="uid://dm55nq68nldsl" path="res://scenes/menus_screens/pause_menu.tscn" id="3_jwfv8"]
 [ext_resource type="PackedScene" uid="uid://dwu3ihwglguna" path="res://scenes/logic/power_plant.tscn" id="4_a3obw"]
 
 [node name="Level2" type="Node2D"]
@@ -14,6 +15,11 @@ pos_y = 0
 dis_y = 0
 path = "res://assets/levels/level2.lvl"
 do_load_level = true
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = ExtResource("2_rrtms")
 
 [node name="TerrainManager" parent="." instance=ExtResource("2_t1j0a")]
 

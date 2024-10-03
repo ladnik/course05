@@ -1,0 +1,267 @@
+[gd_scene load_steps=15 format=3 uid="uid://dgcdoni1wpx3i"]
+
+[ext_resource type="Script" path="res://scripts/menus_screens/menu.gd" id="1_yhgm5"]
+[ext_resource type="VideoStream" path="res://assets/assets_for_GameEng/menu_bg_anim.ogv.ogv" id="2_2nkq7"]
+[ext_resource type="VideoStream" path="res://assets/assets_for_GameEng/intro_seq_and_bg_anim.ogv" id="2_oj2gs"]
+[ext_resource type="LabelSettings" uid="uid://conwdpenxmpc3" path="res://assets/label_settings/menu_item.tres" id="3_pjixa"]
+[ext_resource type="Script" path="res://scripts/menus_screens/menu_item.gd" id="4_hkcvd"]
+[ext_resource type="FontFile" uid="uid://djjo38unaf1h" path="res://assets/assets_for_GameEng/Futura Light.otf" id="5_ndl83"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_a6ukw"]
+font = ExtResource("5_ndl83")
+font_size = 60
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 10
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(4, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_03i3h"]
+font = ExtResource("5_ndl83")
+font_size = 60
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 10
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(4, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_r7ws6"]
+font = ExtResource("5_ndl83")
+font_size = 60
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 10
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(4, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_os8q4"]
+font = ExtResource("5_ndl83")
+font_size = 60
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 10
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(4, 1)
+
+[sub_resource type="Animation" id="Animation_mg85p"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("IntroScene:paused")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_0o85e"]
+resource_name = "buttons_in"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Start:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-446, 523), Vector2(140, 523)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Exit:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-446, 920), Vector2(140, 920)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Credits:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-446, 830), Vector2(140, 830)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Tutorial:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-446, 720), Vector2(140, 720)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Level:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-446, 620), Vector2(140, 620)]
+}
+
+[sub_resource type="Animation" id="Animation_s6xm5"]
+resource_name = "intro_animation"
+length = 13.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("IntroScene:paused")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 10.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8gjii"]
+_data = {
+"RESET": SubResource("Animation_mg85p"),
+"buttons_in": SubResource("Animation_0o85e"),
+"intro_animation": SubResource("Animation_s6xm5")
+}
+
+[node name="StartMenu" type="CanvasLayer"]
+process_mode = 3
+script = ExtResource("1_yhgm5")
+
+[node name="BackgroundScene" type="VideoStreamPlayer" parent="."]
+offset_right = 1920.0
+offset_bottom = 1088.0
+stream = ExtResource("2_2nkq7")
+loop = true
+
+[node name="IntroScene" type="VideoStreamPlayer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+stream = ExtResource("2_oj2gs")
+autoplay = true
+
+[node name="Start" type="Label" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = -446.0
+offset_top = -557.0
+offset_right = -305.0
+offset_bottom = -474.0
+grow_vertical = 0
+pivot_offset = Vector2(0, 21)
+mouse_filter = 0
+text = "Start"
+label_settings = ExtResource("3_pjixa")
+vertical_alignment = 1
+script = ExtResource("4_hkcvd")
+
+[node name="Exit" type="Label" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = -446.0
+offset_top = -160.0
+offset_right = -334.0
+offset_bottom = -77.0
+grow_vertical = 0
+pivot_offset = Vector2(0, 21)
+mouse_filter = 0
+text = "Exit
+"
+label_settings = SubResource("LabelSettings_a6ukw")
+vertical_alignment = 1
+script = ExtResource("4_hkcvd")
+
+[node name="Level" type="Label" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = -446.0
+offset_top = -460.0
+offset_right = -266.0
+offset_bottom = -377.0
+grow_vertical = 0
+pivot_offset = Vector2(0, 21)
+mouse_filter = 0
+text = "Levels
+"
+label_settings = SubResource("LabelSettings_03i3h")
+vertical_alignment = 1
+script = ExtResource("4_hkcvd")
+
+[node name="Credits" type="Label" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = -446.0
+offset_top = -250.0
+offset_right = -241.0
+offset_bottom = -167.0
+grow_vertical = 0
+pivot_offset = Vector2(0, 21)
+mouse_filter = 0
+text = "Credits
+"
+label_settings = SubResource("LabelSettings_r7ws6")
+script = ExtResource("4_hkcvd")
+
+[node name="Tutorial" type="Label" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = -446.0
+offset_top = -360.0
+offset_right = -93.0
+offset_bottom = -277.0
+grow_vertical = 0
+pivot_offset = Vector2(0, 21)
+mouse_filter = 0
+text = "How To Play
+"
+label_settings = SubResource("LabelSettings_os8q4")
+vertical_alignment = 1
+script = ExtResource("4_hkcvd")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_8gjii")
+}
+autoplay = "intro_animation"
+
+[connection signal="gui_input" from="IntroScene" to="." method="_on_intro_scene_click"]
+[connection signal="gui_input" from="Start" to="." method="start_gui_event"]
+[connection signal="mouse_entered" from="Start" to="Start" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Start" to="Start" method="_on_mouse_exited"]
+[connection signal="gui_input" from="Exit" to="." method="exit_gui_event"]
+[connection signal="mouse_entered" from="Exit" to="Exit" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Exit" to="Exit" method="_on_mouse_exited"]
+[connection signal="gui_input" from="Level" to="." method="level_gui"]
+[connection signal="mouse_entered" from="Level" to="Level" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Level" to="Level" method="_on_mouse_exited"]
+[connection signal="gui_input" from="Credits" to="." method="_on_credits_gui_input"]
+[connection signal="mouse_entered" from="Credits" to="Credits" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Credits" to="Credits" method="_on_mouse_exited"]
+[connection signal="gui_input" from="Tutorial" to="." method="tutorial_gui"]
+[connection signal="mouse_entered" from="Tutorial" to="Tutorial" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Tutorial" to="Tutorial" method="_on_mouse_exited"]

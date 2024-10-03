@@ -2,18 +2,12 @@
 
 [ext_resource type="Script" path="res://scripts/menus_screens/menu.gd" id="1_tvu83"]
 [ext_resource type="Script" path="res://scripts/menus_screens/menu_item.gd" id="2_81w3j"]
-[ext_resource type="Texture2D" uid="uid://b2nanxuajo0mq" path="res://assets/background_dummy.png" id="2_mtjmp"]
+[ext_resource type="VideoStream" path="res://assets/assets_for_GameEng/menu_bg_anim.ogv.ogv" id="2_rcu8a"]
 [ext_resource type="LabelSettings" uid="uid://conwdpenxmpc3" path="res://assets/label_settings/menu_item.tres" id="3_p483l"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_blv0q"]
-font_size = 85
-outline_size = 11
-outline_color = Color(0, 0, 0, 1)
-shadow_size = 12
-shadow_color = Color(0, 0, 0, 1)
-shadow_offset = Vector2(4, 1)
+[ext_resource type="FontFile" uid="uid://djjo38unaf1h" path="res://assets/assets_for_GameEng/Futura Light.otf" id="6_8m3p7"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_a6ukw"]
+font = ExtResource("6_8m3p7")
 font_size = 60
 outline_size = 3
 outline_color = Color(0, 0, 0, 1)
@@ -22,6 +16,7 @@ shadow_color = Color(0, 0, 0, 1)
 shadow_offset = Vector2(4, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_03i3h"]
+font = ExtResource("6_8m3p7")
 font_size = 60
 outline_size = 3
 outline_color = Color(0, 0, 0, 1)
@@ -30,6 +25,7 @@ shadow_color = Color(0, 0, 0, 1)
 shadow_offset = Vector2(4, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_r7ws6"]
+font = ExtResource("6_8m3p7")
 font_size = 60
 outline_size = 3
 outline_color = Color(0, 0, 0, 1)
@@ -38,6 +34,7 @@ shadow_color = Color(0, 0, 0, 1)
 shadow_offset = Vector2(4, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_os8q4"]
+font = ExtResource("6_8m3p7")
 font_size = 60
 outline_size = 3
 outline_color = Color(0, 0, 0, 1)
@@ -49,39 +46,21 @@ shadow_offset = Vector2(4, 1)
 process_mode = 3
 script = ExtResource("1_tvu83")
 
-[node name="Background" type="TextureRect" parent="."]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("2_mtjmp")
-
-[node name="Title" type="Label" parent="."]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -575.5
-offset_top = -318.0
-offset_right = 575.5
-offset_bottom = -83.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "Sarntal Super Swirl
-Prototype"
-label_settings = SubResource("LabelSettings_blv0q")
-horizontal_alignment = 1
+[node name="BackgroundScene" type="VideoStreamPlayer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+stream = ExtResource("2_rcu8a")
+autoplay = true
+loop = true
 
 [node name="Start" type="Label" parent="."]
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 200.0
-offset_top = -550.0
-offset_right = 341.0
-offset_bottom = -467.0
+offset_left = 140.0
+offset_top = -562.0
+offset_right = 281.0
+offset_bottom = -479.0
 grow_vertical = 0
 pivot_offset = Vector2(0, 21)
 mouse_filter = 0
@@ -94,10 +73,10 @@ script = ExtResource("2_81w3j")
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 200.0
-offset_top = -150.0
-offset_right = 312.0
-offset_bottom = -67.0
+offset_left = 140.0
+offset_top = -165.0
+offset_right = 252.0
+offset_bottom = -82.0
 grow_vertical = 0
 pivot_offset = Vector2(0, 21)
 mouse_filter = 0
@@ -111,10 +90,10 @@ script = ExtResource("2_81w3j")
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 200.0
-offset_top = -450.0
-offset_right = 380.0
-offset_bottom = -367.0
+offset_left = 140.0
+offset_top = -465.0
+offset_right = 320.0
+offset_bottom = -382.0
 grow_vertical = 0
 pivot_offset = Vector2(0, 21)
 mouse_filter = 0
@@ -128,10 +107,10 @@ script = ExtResource("2_81w3j")
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 200.0
-offset_top = -250.0
-offset_right = 405.0
-offset_bottom = -167.0
+offset_left = 140.0
+offset_top = -253.0
+offset_right = 345.0
+offset_bottom = -170.0
 grow_vertical = 0
 pivot_offset = Vector2(0, 21)
 mouse_filter = 0
@@ -144,10 +123,10 @@ script = ExtResource("2_81w3j")
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 200.0
-offset_top = -350.0
-offset_right = 553.0
-offset_bottom = -267.0
+offset_left = 140.0
+offset_top = -362.0
+offset_right = 493.0
+offset_bottom = -279.0
 grow_vertical = 0
 pivot_offset = Vector2(0, 21)
 mouse_filter = 0
@@ -157,6 +136,7 @@ label_settings = SubResource("LabelSettings_os8q4")
 vertical_alignment = 1
 script = ExtResource("2_81w3j")
 
+[connection signal="gui_input" from="BackgroundScene" to="." method="_on_intro_scene_click"]
 [connection signal="gui_input" from="Start" to="." method="start_gui_event"]
 [connection signal="mouse_entered" from="Start" to="Start" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="Start" to="Start" method="_on_mouse_exited"]
