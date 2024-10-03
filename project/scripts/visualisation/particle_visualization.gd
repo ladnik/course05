@@ -51,7 +51,7 @@ func _ready() -> void:
 	var cell_height = (1080.0 / noise_cells_height)
 
 	# first and last percents are excluded
-	var rel_offset = 0.1
+	var rel_offset = 0.09
 
 	voronoi_points.resize(noise_cells_width * noise_cells_height)
 	voronoi_center_colors.resize(noise_cells_width * noise_cells_height)
