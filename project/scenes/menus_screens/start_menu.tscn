@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dgcdoni1wpx3i"]
+[gd_scene load_steps=16 format=3 uid="uid://pdq8t14f6hch"]
 
 [ext_resource type="Script" path="res://scripts/menus_screens/menu.gd" id="1_yhgm5"]
 [ext_resource type="VideoStream" path="res://assets/assets_for_GameEng/menu_bg_anim.ogv.ogv" id="2_2nkq7"]
@@ -144,6 +144,14 @@ _data = {
 "intro_animation": SubResource("Animation_s6xm5")
 }
 
+[sub_resource type="LabelSettings" id="LabelSettings_hbetp"]
+font = ExtResource("5_ndl83")
+font_size = 64
+font_color = Color(1, 1, 1, 0)
+outline_size = 5
+outline_color = Color(0, 0, 0, 0)
+shadow_size = 15
+
 [node name="StartMenu" type="CanvasLayer"]
 process_mode = 3
 script = ExtResource("1_yhgm5")
@@ -248,6 +256,15 @@ libraries = {
 "": SubResource("AnimationLibrary_8gjii")
 }
 autoplay = "intro_animation"
+
+[node name="ClickToStart" type="Label" parent="."]
+z_index = 1
+offset_top = 859.0
+offset_right = 1920.0
+offset_bottom = 1072.0
+text = "Click to start"
+label_settings = SubResource("LabelSettings_hbetp")
+horizontal_alignment = 1
 
 [connection signal="gui_input" from="IntroScene" to="." method="_on_intro_scene_click"]
 [connection signal="gui_input" from="Start" to="." method="start_gui_event"]
