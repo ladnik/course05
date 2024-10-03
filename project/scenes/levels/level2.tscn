@@ -9,7 +9,8 @@
 [node name="Level2" type="Node2D"]
 script = ExtResource("1_t34yn")
 
-[node name="KinectMenu" parent="." instance=ExtResource("2_650vb")]
+[node name="KinectMenu" parent="." node_paths=PackedStringArray("terrain_manager") instance=ExtResource("2_650vb")]
+terrain_manager = NodePath("../TerrainManager")
 
 [node name="TerrainManager" parent="." instance=ExtResource("2_t1j0a")]
 

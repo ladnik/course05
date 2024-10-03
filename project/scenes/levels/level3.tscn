@@ -5,12 +5,13 @@
 [ext_resource type="PackedScene" uid="uid://dwu3ihwglguna" path="res://scenes/logic/power_plant.tscn" id="2_ictpf"]
 [ext_resource type="PackedScene" uid="uid://bragutgdm43hq" path="res://scenes/visualisation/terrain_manager.tscn" id="3_2mdqc"]
 [ext_resource type="PackedScene" uid="uid://dm55nq68nldsl" path="res://scenes/menus_screens/pause_menu.tscn" id="4_85y4n"]
-[ext_resource type="PackedScene" path="res://scenes/logic/village.tscn" id="4_y5vkv"]
+[ext_resource type="PackedScene" uid="uid://brhqwc6q0a0qm" path="res://scenes/logic/village.tscn" id="4_y5vkv"]
 
 [node name="Level3" type="Node2D"]
 script = ExtResource("1_rxruw")
 
-[node name="KinectMenu" parent="." instance=ExtResource("2_ap3iv")]
+[node name="KinectMenu" parent="." node_paths=PackedStringArray("terrain_manager") instance=ExtResource("2_ap3iv")]
+terrain_manager = NodePath("../TerrainManager")
 
 [node name="PowerPlant" parent="." instance=ExtResource("2_ictpf")]
 position = Vector2(418, 370)
