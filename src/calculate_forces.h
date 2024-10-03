@@ -20,7 +20,7 @@ class Simulator : public Node2D {
 		PackedVector2Array get_particle_velocities();
 		PackedVector2Array get_particle_forces();
 		void _init(Dictionary constants, float pos_x, float dis_x, float pos_y, float dis_y);
-		void delete_particle(int index);
+		void delete_particles(PackedInt32Array indices);
 		void set_mesh_generator(MeshInstance2D *mesh_instance) { mesh_generator = mesh_instance; }
 
 	private:
