@@ -259,7 +259,10 @@ offset_top = -246.0
 offset_bottom = -31.0
 grow_horizontal = 2
 grow_vertical = 0
-text = "names"
+text = "Alex Trimis
+Finn Tobien
+Celia Birle
+Simom Schwär"
 label_settings = SubResource("LabelSettings_xu42d")
 horizontal_alignment = 1
 

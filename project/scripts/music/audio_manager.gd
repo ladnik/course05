@@ -19,6 +19,7 @@ var dig_music_4: AudioStreamPlayer = null
 var dig_music_5: AudioStreamPlayer = null
 var gong_music: AudioStreamPlayer = null
 var village_music: AudioStreamPlayer = null
+var credits_music: AudioStreamPlayer = null
 
 var click_sound_path : String = "res://assets/music/click_music.mp3"
 var main_menu_music_path : String = "res://assets/music/menu_music.mp3"
@@ -36,6 +37,7 @@ var dig_music_3_path : String = "res://assets/music/dig_music_3.mp3"
 var dig_music_4_path : String = "res://assets/music/dig_music_4.mp3"
 var dig_music_5_path : String = "res://assets/music/dig_music_5.mp3"
 var village_music_path : String = "res://assets/music/village_music.mp3"
+var credits_music_path : String = "res://assets/music/credits_music.mp3"
 
 var is_digging: bool = false  # Track if the RMB is pressed
 var is_building: bool = false  # Track if the RMB is pressed
@@ -62,6 +64,7 @@ func _ready() -> void:
 	dig_music_4 = AudioStreamPlayer.new()
 	dig_music_5 = AudioStreamPlayer.new()
 	village_music = AudioStreamPlayer.new()
+	credits_music = AudioStreamPlayer.new()
 	
 	# Assign the audio buses
 	click_sound.bus = "sfx"  # Set to 'sfx' bus
@@ -80,6 +83,7 @@ func _ready() -> void:
 	dig_music_4.bus = "sfx"
 	dig_music_5.bus = "sfx"
 	village_music.bus = "sfx"
+	credits_music.bus = "sfx"
 	
 	# Load the audio files
 	click_sound.stream = load(click_sound_path)
@@ -98,6 +102,7 @@ func _ready() -> void:
 	dig_music_4.stream = load(dig_music_4_path)
 	dig_music_5.stream = load(dig_music_5_path)
 	village_music.stream = load(village_music_path)
+	credits_music.stream = load(credits_music_path)
 	
 	dig_music.stream.loop = false  # Ensure loop is disabled
 	build_music.stream.loop = false  # Ensure loop is disabled
@@ -113,9 +118,10 @@ func _ready() -> void:
 	dig_music.volume_db = -5
 	water_music.volume_db = -15
 	build_music.volume_db = 0
-	elec_music.volume_db = 0
+	elec_music.volume_db = -5
 	gong_music.volume_db = 0
-	village_music.volume_db = 0
+	village_music.volume_db = -18
+	credits_music.volume_db = -80
 
 	# Add them to the scene tree
 	add_child(click_sound)
@@ -134,6 +140,7 @@ func _ready() -> void:
 	add_child(dig_music_5)
 	add_child(gong_music)
 	add_child(village_music)
+	add_child(credits_music)
 	
 	dig_sounds = [dig_music_1, dig_music_2, dig_music_3, dig_music_4, dig_music_5]
 
@@ -153,6 +160,28 @@ func stop_water_sound() -> void:
 		water_music.stop()
 		
 		
+		
+
+
+
+func play_credits_sound() -> void:
+	if credits_music:
+		credits_music.play()
+		var tween: Tween = create_tween()
+		tween.tween_property(credits_music, "volume_db",5, 0.5).set_trans(Tween.TRANS_QUAD)
+		tween.tween_property(main_menu_music, "volume_db", -80, 0.2).set_trans(Tween.TRANS_QUAD)
+		await tween.finished
+		
+		
+
+func stop_credits_sound() -> void:
+	if credits_music and credits_music.playing:
+		
+		var tween: Tween = create_tween()
+		tween.tween_property(credits_music, "volume_db",-80, 0.5).set_trans(Tween.TRANS_QUAD)
+		tween.tween_property(main_menu_music, "volume_db", 0, 0.2).set_trans(Tween.TRANS_QUAD)
+		await tween.finished
+		credits_music.stop()
 		
 
 func play_gong_sound() -> void:
@@ -307,6 +336,12 @@ func force_stop_all_sounds() -> void:
 	if elec_music.playing:
 		elec_music.stop()
 	is_elec = false
+	
+	if village_music.playing:
+		village_music.stop()
+	is_village = false
+	
+	
 	
 	
 	

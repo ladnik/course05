@@ -4,7 +4,9 @@ extends CanvasLayer
 @export var stream: AudioStream
 
 func _ready() -> void:
+	#AudioManager.play_gong_sound()
 	AudioManager.play_main_menu_music()
+	
 
 func start_gui_event(event: InputEvent) -> void:
 	if (event is InputEventMouseButton && event.pressed && event.button_index == 1):
@@ -20,6 +22,7 @@ func exit_gui_event(event: InputEvent) -> void:
 
 func _on_credits_gui_input(event: InputEvent) -> void:
 	if (event is InputEventMouseButton && event.pressed && event.button_index == 1):
+		#AudioManager.play_credits_sound()
 		TransitionScene.transition_effect("res://scenes/menus_screens/credits.tscn")
 
 func tutorial_gui(event: InputEvent) -> void:
