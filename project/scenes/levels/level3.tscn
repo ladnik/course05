@@ -1,36 +1,28 @@
-[gd_scene load_steps=7 format=3 uid="uid://cevdiem5xnvb5"]
+[gd_scene load_steps=6 format=3 uid="uid://cevdiem5xnvb5"]
 
-[ext_resource type="Script" path="res://scripts/levels/level3.gd" id="1_rxruw"]
-[ext_resource type="PackedScene" uid="uid://csrsaejaxme0m" path="res://scenes/menus_screens/kinect_menu.tscn" id="2_ap3iv"]
+[ext_resource type="Script" path="res://scripts/levels/level_manager.gd" id="1_ve6wh"]
 [ext_resource type="PackedScene" uid="uid://dwu3ihwglguna" path="res://scenes/logic/power_plant.tscn" id="2_ictpf"]
 [ext_resource type="PackedScene" uid="uid://bragutgdm43hq" path="res://scenes/visualisation/terrain_manager.tscn" id="3_2mdqc"]
 [ext_resource type="PackedScene" uid="uid://dm55nq68nldsl" path="res://scenes/menus_screens/pause_menu.tscn" id="4_85y4n"]
 [ext_resource type="PackedScene" uid="uid://brhqwc6q0a0qm" path="res://scenes/logic/village.tscn" id="4_y5vkv"]
 
 [node name="Level3" type="Node2D"]
-script = ExtResource("1_rxruw")
-
-[node name="KinectMenu" parent="." node_paths=PackedStringArray("terrain_manager") instance=ExtResource("2_ap3iv")]
-terrain_manager = NodePath("../TerrainManager")
-
-[node name="PowerPlant" parent="." instance=ExtResource("2_ictpf")]
-position = Vector2(418, 370)
-scale = Vector2(0.2, 0.2)
-timeframes_to_monitor = 2
-flow_threshold = 5
+script = ExtResource("1_ve6wh")
+seed = 3
+pos_x = 300
+dis_x = 50
+pos_y = 0
+dis_y = 0
+path = "res://assets/levels/level3.lvl"
 
 [node name="TerrainManager" parent="." instance=ExtResource("3_2mdqc")]
-
-[node name="Village" parent="." instance=ExtResource("4_y5vkv")]
-position = Vector2(1572, 684)
-timeframes_to_monitor = 3
-flow_threshold = 10
 
 [node name="Pause_Scene" parent="." node_paths=PackedStringArray("terrain_manager") instance=ExtResource("4_85y4n")]
 visible = false
 terrain_manager = NodePath("../TerrainManager")
 
 [node name="ImmovableZones" type="Node2D" parent="."]
+z_index = 3
 
 [node name="ColorRect" type="ColorRect" parent="ImmovableZones"]
 offset_left = 13.0
@@ -47,3 +39,20 @@ offset_right = 325.0
 offset_bottom = 871.0
 scale = Vector2(6, 4)
 color = Color(1, 0, 0, 0.392157)
+
+[node name="Villages" type="Node2D" parent="."]
+z_index = 2
+
+[node name="Village1" parent="Villages" instance=ExtResource("4_y5vkv")]
+position = Vector2(1065, 423)
+timeframes_to_monitor = 3
+flow_threshold = 10
+
+[node name="PowerPlants" type="Node2D" parent="."]
+z_index = 2
+
+[node name="PowerPlant1" parent="PowerPlants" instance=ExtResource("2_ictpf")]
+position = Vector2(1617, 579)
+scale = Vector2(0.2, 0.2)
+timeframes_to_monitor = 2
+flow_threshold = 5

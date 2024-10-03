@@ -15,4 +15,5 @@ script = ExtResource("2_38nxe")
 script = ExtResource("3_vi5fo")
 
 [node name="MeshGenerator" parent="." instance=ExtResource("4_h7kxc")]
+z_index = 1
 scale = Vector2(15, 15)

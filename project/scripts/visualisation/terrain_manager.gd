@@ -26,6 +26,11 @@ func _ready():
 	kinect = GDKinect.new()
 	kinect_enabled = kinect.connected()
 
+func load_terrain(grid, immovable_rects: Array):
+	editor.loadGrid(grid, immovable_rects)
+	renderer.initialize(editor.grid, mesh_generator.scale)
+	mesh_generator.visualize(editor.grid)
+
 func _process(_delta):
 	var mouse_pos = kinect.get_position() if kinect_enabled else get_global_mouse_position()
 	var mouse_pos_grid = renderer.to_grid_pos(mouse_pos)

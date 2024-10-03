@@ -20,6 +20,7 @@ func _process(delta: float) -> void:
 
 func resume_gui_event(event: InputEvent) -> void:
 	if (event is InputEventMouseButton && event.pressed && event.button_index == 1):
+		AudioManager.play_click_sound()
 		visible = false
 		get_tree().paused = not get_tree().paused
 		await get_tree().create_timer(0.1).timeout
@@ -27,6 +28,7 @@ func resume_gui_event(event: InputEvent) -> void:
 
 func exit_gui_event(event: InputEvent) -> void:
 	if (event is InputEventMouseButton && event.pressed && event.button_index == 1):
+		AudioManager.play_click_sound()
 		get_tree().quit()
 
 func menu_gui_event(event: InputEvent) -> void:

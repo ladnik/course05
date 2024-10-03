@@ -19,7 +19,7 @@ variables:
   PROJECT_PATH: project
   EXPORT_NAME: export
   # [editor, template_debug, template_release]
-  TEMPLATE: template_debug
+  TEMPLATE: template_release
 
 before_script:
   - export SCONS_CACHE="./cache"
@@ -101,47 +101,47 @@ linux:
     paths:
       - $PROJECT_PATH/$EXPORT_PATH/*
 
-windows:
-  stage: export
-  variables:
-    EXPORT_PATH: build/$CI_JOB_NAME
-  script:
-    - section_start "SCONS_COMPILE_LIBS" "Compile C++ libraries"
-    - scons platform=windows target=$TEMPLATE
-    - section_end "SCONS_COMPILE_LIBS"
+# windows:
+#   stage: export
+#   variables:
+#     EXPORT_PATH: build/$CI_JOB_NAME
+#   script:
+#     - section_start "SCONS_COMPILE_LIBS" "Compile C++ libraries"
+#     - scons platform=windows target=$TEMPLATE
+#     - section_end "SCONS_COMPILE_LIBS"
 
-    - cd $PROJECT_PATH
-    - mkdir -v -p $EXPORT_PATH
+#     - cd $PROJECT_PATH
+#     - mkdir -v -p $EXPORT_PATH
 
-    - section_start "GODOT_EXPORT" "Export Godot project with $TEMPLATE"
-    - export_godot "Windows Desktop" $EXPORT_PATH/$EXPORT_NAME.exe
-    - section_end "GODOT_EXPORT"
-  needs: ["unit-test", "integration-test"]
-  allow_failure: true
-  artifacts:
-    name: $EXPORT_NAME-$CI_JOB_NAME
-    paths:
-      - $PROJECT_PATH/$EXPORT_PATH/*
+#     - section_start "GODOT_EXPORT" "Export Godot project with $TEMPLATE"
+#     - export_godot "Windows Desktop" $EXPORT_PATH/$EXPORT_NAME.exe
+#     - section_end "GODOT_EXPORT"
+#   needs: ["unit-test", "integration-test"]
+#   allow_failure: true
+#   artifacts:
+#     name: $EXPORT_NAME-$CI_JOB_NAME
+#     paths:
+#       - $PROJECT_PATH/$EXPORT_PATH/*
 
-# Would fail for Godot 4.2 Mono
-web:
-  stage: export
-  variables:
-    EXPORT_PATH: build/$CI_JOB_NAME
-  script:
-    - section_start "SCONS_COMPILE_LIBS" "Compile C++ libraries"
-    - scons platform=web target=$TEMPLATE
-    - section_end "SCONS_COMPILE_LIBS"
+# # Would fail for Godot 4.2 Mono
+# web:
+#   stage: export
+#   variables:
+#     EXPORT_PATH: build/$CI_JOB_NAME
+#   script:
+#     - section_start "SCONS_COMPILE_LIBS" "Compile C++ libraries"
+#     - scons platform=web target=$TEMPLATE
+#     - section_end "SCONS_COMPILE_LIBS"
 
-    - cd $PROJECT_PATH
-    - mkdir -v -p $EXPORT_PATH
+#     - cd $PROJECT_PATH
+#     - mkdir -v -p $EXPORT_PATH
 
-    - section_start "GODOT_EXPORT" "Export Godot project with $TEMPLATE"
-    - export_godot "Web" $EXPORT_PATH/index.html
-    - section_end "GODOT_EXPORT"
-  needs: ["unit-test", "integration-test"]
-  allow_failure: true
-  artifacts:
-    name: $EXPORT_NAME-$CI_JOB_NAME
-    paths:
-      - $PROJECT_PATH/$EXPORT_PATH/*
+#     - section_start "GODOT_EXPORT" "Export Godot project with $TEMPLATE"
+#     - export_godot "Web" $EXPORT_PATH/index.html
+#     - section_end "GODOT_EXPORT"
+#   needs: ["unit-test", "integration-test"]
+#   allow_failure: true
+#   artifacts:
+#     name: $EXPORT_NAME-$CI_JOB_NAME
+#     paths:
+#       - $PROJECT_PATH/$EXPORT_PATH/*

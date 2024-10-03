@@ -144,7 +144,7 @@ func triangleMesh():
 
 	# Create the Mesh.
 	arr_mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
-	mesh = arr_mesh
+	#mesh = arr_mesh
 
 func get_triangles_per_chunk(chunk_idx_x, chunk_idx_y, grid: Array):
 
