@@ -33,6 +33,11 @@ func transition_effect(scene: String) -> void:
 	if scene != "res://scenes/menus_screens/win_screen.tscn" and scene != "res://scenes/menus_screens/lose_screen.tscn" and scene != "res://scenes/menus_screens/after_final_level.tscn":
 		AudioManager.play_click_sound()
 		
+	if scene == "res://scenes/menus_screens/credits.tscn":
+		AudioManager.play_credits_sound()
+	elif scene != "res://scenes/menus_screens/credits.tscn":
+		AudioManager.stop_credits_sound()
+		
 	# Perform the fade to black, change scene, and fade to normal
 	await fade_to_black()
 	get_tree().change_scene_to_file(scene)
