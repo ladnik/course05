@@ -19,7 +19,7 @@ variables:
   PROJECT_PATH: project
   EXPORT_NAME: export
   # [editor, template_debug, template_release]
-  TEMPLATE: template_release
+  TEMPLATE: template_debug
 
 before_script:
   - export SCONS_CACHE="./cache"
