@@ -18,7 +18,6 @@ config/icon="res://icon.svg"
 [autoload]
 
 TransitionScene="*res://scenes/logic/transition.tscn"
-;MenuMusic="*res://scenes/music/menu_music.tscn"
 AudioManager="*res://scripts/music/audio_manager.gd"
 
 [display]
