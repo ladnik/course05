@@ -15,6 +15,11 @@ run/main_scene="res://scenes/menus_screens/start_menu.tscn"
 config/features=PackedStringArray("4.3")
 config/icon="res://icon.svg"
 
+[audio]
+
+buses/default_bus_layout="res://assets/music/default_bus_layout.tres"
+general/default_playback_type.web=0
+
 [autoload]
 
 TransitionScene="*res://scenes/logic/transition.tscn"

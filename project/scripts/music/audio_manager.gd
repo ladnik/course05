@@ -196,8 +196,8 @@ func play_credits_sound() -> void:
 	if credits_music:
 		credits_music.play()
 		var tween: Tween = create_tween()
-		tween.tween_property(credits_music, "volume_db",5, 0.5).set_trans(Tween.TRANS_QUAD)
-		tween.tween_property(main_menu_music, "volume_db", -80, 0.2).set_trans(Tween.TRANS_QUAD)
+		tween.tween_property(credits_music, "volume_db",5, 0.5)#.set_trans(Tween.TRANS_QUAD)
+		tween.tween_property(main_menu_music, "volume_db", -80, 0.2)#.set_trans(Tween.TRANS_QUAD)
 		await tween.finished
 		
 		
@@ -206,8 +206,8 @@ func stop_credits_sound() -> void:
 	if credits_music and credits_music.playing:
 		
 		var tween: Tween = create_tween()
-		tween.tween_property(credits_music, "volume_db",-80, 0.5).set_trans(Tween.TRANS_QUAD)
-		tween.tween_property(main_menu_music, "volume_db", 0, 0.2).set_trans(Tween.TRANS_QUAD)
+		tween.tween_property(credits_music, "volume_db",-80, 0.5)#.set_trans(Tween.TRANS_QUAD)
+		tween.tween_property(main_menu_music, "volume_db", 0, 0.2)#.set_trans(Tween.TRANS_QUAD)
 		await tween.finished
 		credits_music.stop()
 		
@@ -238,12 +238,12 @@ func stop_main_menu_music() -> void:
 # Function to fade out the main menu music
 func fade_out_main_menu_music() -> void:
 	var tween: Tween = create_tween()
-	tween.tween_property(main_menu_music, "volume_db", -15, 0.2).set_trans(Tween.TRANS_QUAD)
+	tween.tween_property(main_menu_music, "volume_db", -15, 0.2)#.set_trans(Tween.TRANS_QUAD)
 	await tween.finished
 	
 func fade_in_main_menu_music() -> void:
 	var tween: Tween = create_tween()
-	tween.tween_property(main_menu_music, "volume_db", 0, 0.5).set_trans(Tween.TRANS_QUAD)
+	tween.tween_property(main_menu_music, "volume_db", 0, 0.5)#.set_trans(Tween.TRANS_QUAD)
 	await tween.finished
 	
 	

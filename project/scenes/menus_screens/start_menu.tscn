@@ -3,9 +3,9 @@
 [ext_resource type="Script" path="res://scripts/menus_screens/menu.gd" id="1_yhgm5"]
 [ext_resource type="VideoStream" path="res://assets/assets_for_GameEng/menu_bg_anim.ogv.ogv" id="2_2nkq7"]
 [ext_resource type="VideoStream" path="res://assets/assets_for_GameEng/intro_seq_and_bg_anim.ogv" id="2_oj2gs"]
-[ext_resource type="LabelSettings" uid="uid://conwdpenxmpc3" path="res://build/windows/assets/label_settings/menu_item.tres" id="3_pjixa"]
+[ext_resource type="LabelSettings" uid="uid://conwdpenxmpc3" path="res://assets/label_settings/menu_item.tres" id="3_pjixa"]
 [ext_resource type="Script" path="res://scripts/menus_screens/menu_item.gd" id="4_hkcvd"]
-[ext_resource type="FontFile" uid="uid://djjo38unaf1h" path="res://build/windows/assets/assets_for_GameEng/Futura Light.otf" id="5_ndl83"]
+[ext_resource type="FontFile" uid="uid://djjo38unaf1h" path="res://assets/assets_for_GameEng/Futura Light.otf" id="5_ndl83"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_a6ukw"]
 font = ExtResource("5_ndl83")
