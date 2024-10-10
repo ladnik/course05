@@ -91,8 +91,8 @@ text = "Oh no, the lights went out in Sarntal!
 Generate as much electricity as possible by adding and removing terrain to get the water to the turbine.
 Be careful to protect the villages!
 
-Generate terrain: Mouse Left
-Remove terrain: Mouse Right
+Generate terrain: Mouse Left and drag
+Remove terrain: Mouse Right and drag
 Resize brush: Scroll
 
 Press escape to pause the game."

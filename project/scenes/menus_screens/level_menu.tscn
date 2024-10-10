@@ -184,25 +184,6 @@ vertical_alignment = 1
 script = ExtResource("2_f0v4j")
 box = NodePath("../Level3box")
 
-[node name="backtomainmenu" type="Label" parent="."]
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -148.0
-offset_top = -165.0
-offset_right = 152.0
-offset_bottom = -119.0
-grow_horizontal = 2
-grow_vertical = 0
-pivot_offset = Vector2(150, 23)
-mouse_filter = 0
-text = "Back to Main Menu"
-label_settings = SubResource("LabelSettings_pfcbe")
-vertical_alignment = 1
-script = ExtResource("2_f0v4j")
-
 [node name="Level4box" type="ColorRect" parent="."]
 anchors_preset = 8
 anchor_left = 0.5
@@ -238,7 +219,7 @@ label_settings = SubResource("LabelSettings_770dv")
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("2_f0v4j")
-box = NodePath("../Level3box")
+box = NodePath("../Level4box")
 
 [node name="Level5box" type="ColorRect" parent="."]
 anchors_preset = 8
@@ -274,7 +255,26 @@ label_settings = SubResource("LabelSettings_770dv")
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("2_f0v4j")
-box = NodePath("../Level3box")
+box = NodePath("../Level5box")
+
+[node name="backtomainmenu" type="Label" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -225.5
+offset_top = -180.0
+offset_right = 229.5
+offset_bottom = -119.0
+grow_horizontal = 2
+grow_vertical = 0
+pivot_offset = Vector2(150, 23)
+mouse_filter = 0
+text = "Back to Main Menu"
+label_settings = SubResource("LabelSettings_pfcbe")
+vertical_alignment = 1
+script = ExtResource("2_f0v4j")
 
 [connection signal="gui_input" from="Level1" to="." method="_on_level1_gui_input"]
 [connection signal="mouse_entered" from="Level1" to="Level1" method="_on_mouse_entered"]
@@ -285,12 +285,12 @@ box = NodePath("../Level3box")
 [connection signal="gui_input" from="Level3" to="." method="_on_level_3_gui_input"]
 [connection signal="mouse_entered" from="Level3" to="Level3" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="Level3" to="Level3" method="_on_mouse_exited"]
-[connection signal="gui_input" from="backtomainmenu" to="." method="_on_backtomainmenu_gui_input"]
-[connection signal="mouse_entered" from="backtomainmenu" to="backtomainmenu" method="_on_mouse_entered"]
-[connection signal="mouse_exited" from="backtomainmenu" to="backtomainmenu" method="_on_mouse_exited"]
 [connection signal="gui_input" from="Level4" to="." method="_on_level_4_gui_input"]
 [connection signal="mouse_entered" from="Level4" to="Level4" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="Level4" to="Level4" method="_on_mouse_exited"]
 [connection signal="gui_input" from="Level5" to="." method="_on_level_5_gui_input"]
 [connection signal="mouse_entered" from="Level5" to="Level5" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="Level5" to="Level5" method="_on_mouse_exited"]
+[connection signal="gui_input" from="backtomainmenu" to="." method="_on_backtomainmenu_gui_input"]
+[connection signal="mouse_entered" from="backtomainmenu" to="backtomainmenu" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="backtomainmenu" to="backtomainmenu" method="_on_mouse_exited"]

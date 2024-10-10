@@ -4,6 +4,7 @@ class_name PowerPlant
 
 @onready var wheel: Sprite2D = $Wheel
 @onready var progress_bar = $ProgressBar
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 var particle_simulation
 var done : bool = false
@@ -12,6 +13,8 @@ var flow_count : int
 var flow_counts = []
 @export var timeframes_to_monitor = 5
 @export var flow_threshold = 15
+var fill_color : Color = Color("33acbe")
+var filled_color : Color = Color("91556b") ## f3f53c
 
 var sb = StyleBoxFlat.new()
 
@@ -19,7 +22,7 @@ signal enough_water_flow
 
 func _ready() -> void:
 	$ProgressBar.add_theme_stylebox_override("fill", sb)
-	sb.bg_color = Color("33acbe")
+	sb.bg_color = fill_color
 	sb.set_corner_radius_all(5)
 	progress_bar.step = progress_bar.max_value / timeframes_to_monitor
 
@@ -69,6 +72,7 @@ func _on_flow_timer_timeout() -> void:
 	if flow_counts.size() == timeframes_to_monitor:
 		if is_flow_sufficient():
 			done = true
-			sb.bg_color = Color("91556b")
-			
+			sb.bg_color = filled_color
+			AudioManager.play_generator_filled_max_sound()
+			animation_player.play("continued_rotation")
 			emit_signal("enough_water_flow")

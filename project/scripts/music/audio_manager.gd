@@ -22,6 +22,7 @@ var dig_music_4: AudioStreamPlayer = null
 var dig_music_5: AudioStreamPlayer = null
 var gong_music: AudioStreamPlayer = null
 var village_music: AudioStreamPlayer = null
+var generator_filled_max: AudioStreamPlayer = null  
 var credits_music: AudioStreamPlayer = null
 var dig_sounds : Array = [dig_music_1, dig_music_2, dig_music_3, dig_music_4, dig_music_5]
 var elec_sounds : Array = [elec_music_1, elec_music_2, elec_music_3, elec_music_4, elec_music_5]
@@ -46,6 +47,7 @@ var dig_music_3_path : String = "res://assets/music/dig_music_3.mp3"
 var dig_music_4_path : String = "res://assets/music/dig_music_4.mp3"
 var dig_music_5_path : String = "res://assets/music/dig_music_5.mp3"
 var village_music_path : String = "res://assets/music/village_music.mp3"
+var generator_filled_max_path : String = "res://assets/music/generator_filled_max.mp3"  
 var credits_music_path : String = "res://assets/music/credits_music.mp3"
 
 var is_digging: bool = false  # Track if the RMB is pressed
@@ -77,6 +79,7 @@ func _ready() -> void:
 	dig_music_4 = AudioStreamPlayer.new()
 	dig_music_5 = AudioStreamPlayer.new()
 	village_music = AudioStreamPlayer.new()
+	generator_filled_max = AudioStreamPlayer.new()  
 	credits_music = AudioStreamPlayer.new()
 	
 	# Assign the audio buses
@@ -100,6 +103,7 @@ func _ready() -> void:
 	dig_music_4.bus = "sfx"
 	dig_music_5.bus = "sfx"
 	village_music.bus = "sfx"
+	generator_filled_max.bus = "sfx"  
 	credits_music.bus = "sfx"
 	
 	# Load the audio files
@@ -123,6 +127,7 @@ func _ready() -> void:
 	dig_music_4.stream = load(dig_music_4_path)
 	dig_music_5.stream = load(dig_music_5_path)
 	village_music.stream = load(village_music_path)
+	generator_filled_max.stream = load(generator_filled_max_path)  
 	credits_music.stream = load(credits_music_path)
 	
 		
@@ -144,6 +149,7 @@ func _ready() -> void:
 	dig_music.stream.loop = false  # Ensure loop is disabled
 	build_music.stream.loop = false  # Ensure loop is disabled
 	village_music.stream.loop = false
+	generator_filled_max.stream.loop = false  
 	
 	# Set the volume for main menu music
 	main_menu_music.volume_db = 0
@@ -157,6 +163,7 @@ func _ready() -> void:
 	gong_music.volume_db = 0
 	village_music.volume_db = -18
 	credits_music.volume_db = -80
+	generator_filled_max.volume_db = -18  
 
 	# Add them to the scene tree
 	add_child(click_sound)
@@ -170,6 +177,7 @@ func _ready() -> void:
 	add_child(gong_music)
 	add_child(village_music)
 	add_child(credits_music)
+	add_child(generator_filled_max)  
 	
 
 # Function to play click sound
@@ -187,7 +195,11 @@ func stop_water_sound() -> void:
 	if water_music and water_music.playing:
 		water_music.stop()
 		
-		
+# Fuction to play if generator filled  
+func play_generator_filled_max_sound() -> void:
+	if generator_filled_max:
+		generator_filled_max.play() 		
+
 		
 
 
@@ -224,6 +236,7 @@ func stop_gong_sound() -> void:
 
 # Function to play main menu music
 func play_main_menu_music() -> void:
+	
 	if main_menu_music:
 		# Ensure it's not playing multiple times
 		if not main_menu_music.playing:

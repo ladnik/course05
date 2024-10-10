@@ -1,0 +1,43 @@
+[1mdiff --git a/project/scripts/logic/power_plant.gd b/project/scripts/logic/power_plant.gd[m
+[1mindex 1caaba0..f294e3c 100644[m
+[1m--- a/project/scripts/logic/power_plant.gd[m
+[1m+++ b/project/scripts/logic/power_plant.gd[m
+[36m@@ -4,6 +4,7 @@[m [mclass_name PowerPlant[m
+ [m
+ @onready var wheel: Sprite2D = $Wheel[m
+ @onready var progress_bar = $ProgressBar[m
+[32m+[m[32m@onready var animation_player: AnimationPlayer = $AnimationPlayer[m
+ [m
+ var particle_simulation[m
+ var done : bool = false[m
+[36m@@ -12,6 +13,8 @@[m [mvar flow_count : int[m
+ var flow_counts = [][m
+ @export var timeframes_to_monitor = 5[m
+ @export var flow_threshold = 15[m
+[32m+[m[32mvar fill_color : Color = Color("33acbe")[m
+[32m+[m[32mvar filled_color : Color = Color("91556b") ## f3f53c[m
+ [m
+ var sb = StyleBoxFlat.new()[m
+ [m
+[36m@@ -19,7 +22,7 @@[m [msignal enough_water_flow[m
+ [m
+ func _ready() -> void:[m
+ 	$ProgressBar.add_theme_stylebox_override("fill", sb)[m
+[31m-	sb.bg_color = Color("33acbe")[m
+[32m+[m	[32msb.bg_color = fill_color[m
+ 	sb.set_corner_radius_all(5)[m
+ 	progress_bar.step = progress_bar.max_value / timeframes_to_monitor[m
+ [m
+[36m@@ -69,6 +72,10 @@[m [mfunc _on_flow_timer_timeout() -> void:[m
+ 	if flow_counts.size() == timeframes_to_monitor:[m
+ 		if is_flow_sufficient():[m
+ 			done = true[m
+[31m-			sb.bg_color = Color("91556b")[m
+[31m-			[m
+[32m+[m			[32msb.bg_color = filled_color[m
+[32m+[m			[32mAudioManager.play_generator_filled_max_sound()[m
+[32m+[m			[32manimation_player.play("continued_rotation")[m
+ 			emit_signal("enough_water_flow")[m
+[41m+[m
+[41m+[m
+[41m+[m
