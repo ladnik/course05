@@ -2,7 +2,7 @@
 
 
 ## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+Sarntal Super Swirl is a short game that was created as coursework for Ferienakademie 2024 over a two-week period. It was developed by the team of [Course 05](https://ferienakademie.de/en/2024-course-5-lets-play-simulated-physics-for-games/).
 
 ## Project structure
 <pre>
@@ -31,3 +31,5 @@ course05
 └── src
     └── # custom C++ libraries
 </pre>
+
+If you have any questions regarding this project or ideas on improving it, feel free to contact me.
