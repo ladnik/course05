@@ -78,7 +78,7 @@ func _on_enough_water() -> void:
 		TransitionScene.transition_effect("res://scenes/menus_screens/win_screen.tscn")
 
 func _on_village_destroyed() -> void:
-	TransitionScene.transition_effect("res://scenes/menus_screens/lose_screen.tscn")
+		TransitionScene.transition_effect("res://scenes/menus_screens/lose_screen.tscn")
 
 
 func get_immovable_rects() -> Array:

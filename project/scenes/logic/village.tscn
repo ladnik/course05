@@ -1,10 +1,104 @@
-[gd_scene load_steps=4 format=3 uid="uid://brhqwc6q0a0qm"]
+[gd_scene load_steps=16 format=3 uid="uid://brhqwc6q0a0qm"]
 
 [ext_resource type="Script" path="res://scripts/logic/village.gd" id="1_ieecj"]
 [ext_resource type="Texture2D" uid="uid://doyhv31txhlto" path="res://assets/village_hut.png" id="2_ybhs3"]
+[ext_resource type="Texture2D" uid="uid://mtcfc1h0fclq" path="res://assets/village_explosion_frames/village_exposion_01.png" id="3_4fl8q"]
+[ext_resource type="Texture2D" uid="uid://b875t3bdkxkwj" path="res://assets/village_explosion_frames/village_exposion_02.png" id="4_2su53"]
+[ext_resource type="Texture2D" uid="uid://cer1mui8pgjdj" path="res://assets/village_explosion_frames/village_exposion_03.png" id="5_h17n8"]
+[ext_resource type="Texture2D" uid="uid://15620k0wpyof" path="res://assets/village_explosion_frames/village_exposion_04.png" id="6_hjo2h"]
+[ext_resource type="Texture2D" uid="uid://clplosdviyuq7" path="res://assets/village_explosion_frames/village_exposion_05.png" id="7_mrflm"]
+[ext_resource type="Texture2D" uid="uid://h3qfwttmb47v" path="res://assets/village_explosion_frames/village_exposion_06.png" id="8_qjltu"]
+[ext_resource type="Texture2D" uid="uid://ba3led6ewl2sd" path="res://assets/village_explosion_frames/village_exposion_07.png" id="9_0gi20"]
+[ext_resource type="Texture2D" uid="uid://bsqlnk85rkbk8" path="res://assets/village_explosion_frames/village_exposion_08.png" id="10_vh3mu"]
+[ext_resource type="Texture2D" uid="uid://bp4aooo61mwee" path="res://assets/village_explosion_frames/village_exposion_09.png" id="11_6qf31"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qejot"]
 size = Vector2(294, 126)
+
+[sub_resource type="Animation" id="Animation_uy5xm"]
+resource_name = "village_destroyed"
+length = 1.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Explosion:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.0333333, 0.183333, 0.333333, 0.483333, 0.633333, 0.766667, 0.933333, 1.06667, 1.23333, 1.36667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("3_4fl8q"), ExtResource("4_2su53"), ExtResource("5_h17n8"), ExtResource("6_hjo2h"), ExtResource("7_mrflm"), ExtResource("8_qjltu"), ExtResource("9_0gi20"), ExtResource("10_vh3mu"), ExtResource("11_6qf31"), null]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Area2D/VillageHut:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.18),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Explosion:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.0333333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="Animation" id="Animation_6g02r"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Explosion:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("3_4fl8q")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Area2D/VillageHut:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Explosion:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xbooi"]
+_data = {
+"RESET": SubResource("Animation_6g02r"),
+"village_destroyed": SubResource("Animation_uy5xm")
+}
 
 [node name="Village" type="Node2D"]
 script = ExtResource("1_ieecj")
@@ -35,4 +129,15 @@ scale = Vector2(4.44, 4.44)
 rounded = true
 show_percentage = false
 
+[node name="Explosion" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(40, -484)
+texture = ExtResource("3_4fl8q")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_xbooi")
+}
+
 [connection signal="timeout" from="FlowTimer" to="." method="_on_flow_timer_timeout"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
