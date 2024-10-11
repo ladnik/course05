@@ -2,6 +2,7 @@ extends Node2D
 
 @onready var collision_shape_2d: CollisionShape2D = $Area2D/CollisionShape2D
 @onready var progress_bar = $ProgressBar
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 var particle_simulation
 var rect : Rect2
@@ -61,10 +62,15 @@ func _on_flow_timer_timeout() -> void:
 		#print("critical!")
 		#show_hit_effect()
 	if critical_timeframes >= timeframes_to_monitor:
-		sb.bg_color = Color("91556b")
-		emit_signal("village_destroyed")
+		#sb.bg_color = Color("91556b")
+		$ProgressBar.visible = false		
+		animation_player.play("village_destroyed")
 			
 func show_hit_effect():
 	$Area2D/VillageHut.modulate = Color(1, 0.5, 0.5)  # Apply a red tint
 	await get_tree().create_timer(0.75).timeout
 	$Area2D/VillageHut.modulate = Color(1, 1, 1)  # Reset to normal color
+
+
+func _on_animation_player_animation_finished(anim_name:StringName) -> void:
+	emit_signal(anim_name)
