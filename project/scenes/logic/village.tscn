@@ -17,7 +17,7 @@ size = Vector2(294, 126)
 
 [sub_resource type="Animation" id="Animation_uy5xm"]
 resource_name = "village_destroyed"
-length = 1.8
+length = 1.6
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true

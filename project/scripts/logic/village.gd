@@ -63,6 +63,7 @@ func _on_flow_timer_timeout() -> void:
 		#show_hit_effect()
 	if critical_timeframes >= timeframes_to_monitor:
 		#sb.bg_color = Color("91556b")
+		AudioManager.play_lose_music() # possibly change to explosion sfx
 		$ProgressBar.visible = false		
 		animation_player.play("village_destroyed")
 			
