@@ -26,10 +26,20 @@ course05
 │   └── test
 │       ├── integration
 │       └── unit
+├── screenshots
+│   └── # game screenshots for README
 ├── README.md
 ├── SConstruct  # build file for C++
 └── src
     └── # custom C++ libraries
 </pre>
+
+
+## Screenshots
+![Start Menu of Sarntal Super Swirl](screenshots/start_menu.png)
+
+![Level 1 of Sarntal Super Swirl](screenshots/level1.png)
+
+![Level 5 of Sarntal Super Swirl](screenshots/level5.png)
 
 If you have any questions regarding this project or ideas on improving it, feel free to contact me.
